@@ -1,9 +1,3 @@
-@extends('admin.layout')
-
-@section('footer')
-    <h1>GoDimsum</h1>
-@endsection
-
 <footer class="footer-custom">
                 <div class="footer-left">
                     <span class="footer-logo">
