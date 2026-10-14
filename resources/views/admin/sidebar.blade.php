@@ -1,9 +1,3 @@
-@extends('admin.layout')
-
-@section('sidebar')
-    <h1>GoDimsum</h1>
-@endsection
-
 <div class="sidebar-wrapper" id="sidebar">
             <!-- Brand Logo / Identity -->
             <a href="index.html" class="sidebar-brand">
@@ -115,7 +109,7 @@
             <!-- Sidebar Profile Card (Dynamic Footer) -->
             <div class="sidebar-profile">
                 <img
-                    src="{{asset('admin')}}/assets/images/avatar.png"
+                    src="{{ asset('template_admin/assets/images/avatar.png') }}"
                     alt="Administrator"
                     class="sidebar-profile-img"
                     onerror="

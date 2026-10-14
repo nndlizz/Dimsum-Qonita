@@ -1,9 +1,3 @@
-@extends('admin.layout')
-
-@section('navbar')
-    <h1>GoDimsum</h1>
-@endsection
-
 <header class="navbar-custom">
                 <div class="navbar-left">
                     <!-- Desktop sidebar toggle (visible on large screens only) -->
@@ -195,7 +189,7 @@
                             id="profile-dropdown"
                         >
                             <img
-                                src="assets/images/avatar.png"
+                                src="{{ asset('template_admin/assets/images/avatar.png') }}"
                                 alt="Profile Image"
                                 class="navbar-profile-img"
                             />
@@ -234,8 +228,7 @@
                                     class="dropdown-item text-danger"
                                     href="page-login.html"
                                     ><i class="bi bi-box-arrow-right"></i>
-                                    Logout</a
-                                >
+                                    Logout</a>
                             </li>
                         </ul>
                     </div>
