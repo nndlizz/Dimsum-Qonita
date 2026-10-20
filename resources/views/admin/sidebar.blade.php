@@ -2,7 +2,7 @@
             <!-- Brand Logo / Identity -->
             <a href="index.html" class="sidebar-brand">
                 <i class="bi bi-asterisk"></i>
-                <span>Spark Admin</span>
+                <span>Dimsum Qonita - Admin</span>
             </a>
 
             <!-- Navigation Menu -->
@@ -13,8 +13,8 @@
                     <ul class="sidebar-menu-list">
                         <li class="sidebar-menu-item">
                             <a
-                                href="index.html"
-                                class="sidebar-menu-link active"
+                                href="{{ url('/admin/dashboard')}}"
+                                class="sidebar-menu-link {{ request()->is('admin/dashboard*') ? 'active' : '' }}"
                                 id="menu-overview"
                                 title="Overview"
                             >
@@ -22,17 +22,10 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                    </ul>
-                </div>
-
-                <!-- Group: Components -->
-                <div class="sidebar-menu-section">
-                    <div class="sidebar-menu-title">Components</div>
-                    <ul class="sidebar-menu-list">
                         <li class="sidebar-menu-item">
                             <a
-                                href="tables-basic.html"
-                                class="sidebar-menu-link"
+                                href="{{ url('/admin/tables') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/tables*') ? 'active' : '' }}"
                                 id="menu-basictables"
                                 title="Basic Tables"
                             >
@@ -42,37 +35,30 @@
                         </li>
                         <li class="sidebar-menu-item">
                             <a
-                                href="ui-forms.html"
-                                class="sidebar-menu-link"
-                                id="menu-uiforms"
+                                href="{{ url('/admin/kelolasponsor') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/kelolasponsor') ? 'active' : '' }}"
+                                id="menu-kelola-sponsor"
+                                title="Kelola Sponsor"
+                            >
+                                <i class="bi bi-file-earmark-bar-graph"></i>
+                                <span>Kelola Sponsor</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a
+                                href="{{ url('/admin/forms&input') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/forms&input*') ? 'active' : '' }}"
+                                id="menu-forms-input"
                                 title="Forms and Input"
                             >
                                 <i class="bi bi-input-cursor-text"></i>
                                 <span>Forms & Input</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu-item">
+                         <li class="sidebar-menu-item">
                             <a
-                                href="ui-buttons.html"
-                                class="sidebar-menu-link"
-                                id="menu-uibuttons"
-                                title="Buttons"
-                            >
-                                <i class="bi bi-menu-button-wide-fill"></i>
-                                <span>Buttons & Alerts</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Group: Pages -->
-                <div class="sidebar-menu-section">
-                    <div class="sidebar-menu-title">Pages</div>
-                    <ul class="sidebar-menu-list">
-                        <li class="sidebar-menu-item">
-                            <a
-                                href="page-blank.html"
-                                class="sidebar-menu-link"
+                                href="{{ url('/admin/blankpage') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/blankpage*') ? 'active' : '' }}"
                                 id="menu-blankpage"
                                 title="Blank Page"
                             >
@@ -82,8 +68,8 @@
                         </li>
                         <li class="sidebar-menu-item">
                             <a
-                                href="page-login.html"
-                                class="sidebar-menu-link"
+                                href="{{ url('/admin/login') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/login*') ? 'active' : '' }}"
                                 id="menu-loginpage"
                                 title="Login Page"
                             >
@@ -91,35 +77,25 @@
                                 <span>Login Screen</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu-item">
-                            <a
-                                href="page-404.html"
-                                class="sidebar-menu-link"
-                                id="menu-404"
-                                title="404 Page"
-                            >
-                                <i class="bi bi-slash-circle"></i>
-                                <span>Error 404</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
+
+               
             </div>
 
             <!-- Sidebar Profile Card (Dynamic Footer) -->
             <div class="sidebar-profile">
                 <img
-                    src="{{ asset('template_admin/assets/images/avatar.png') }}"
-                    alt="Administrator"
+                    src="{{ !empty($admin?->gambar)
+                            ? asset('storage/' . $admin->gambar)
+                            : asset('template_admin/assets/images/avatar.png') }}"
+                    alt="{{ $admin->nama ?? 'Administrator' }}"
                     class="sidebar-profile-img"
-                    onerror="
-                        this.src =
-                            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'
-                    "
+                   
                 />
                 <div class="sidebar-profile-info">
-                    <div class="sidebar-profile-name">Administrator</div>
-                    <div class="sidebar-profile-email">admin@email.com</div>
+                    <div class="sidebar-profile-name">{{ $admin->nama ?? 'Administrator' }}</div>
+                    <div class="sidebar-profile-email">{{ $admin->email ?? 'admin@email.com' }}</div>
                 </div>
             </div>
         </div>
