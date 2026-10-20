@@ -48,4 +48,12 @@ class AjukanSponsorController extends Controller
         AjukanSponsor::findOrFail($id)->delete();
         return response()->noContent();
     }
+
+    public function halamanKelolaSponsor()
+    {
+        $pengajuans = AjukanSponsor::orderByDesc('tanggal_pengajuan')
+        ->paginate(20);
+
+        return view('admin.kelolasponsor', compact('pengajuans'));
+    }
 }
