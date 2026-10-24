@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjukanSponsorController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -32,6 +33,16 @@ Route::get(
     '/admin/kelolasponsor',
     [AjukanSponsorController::class, 'halamanKelolaSponsor']
 )->name('admin.kelolasponsor');
+
+// Tambah Akun Petugas
+    Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::get('/tambah', [AdminController::class, 'create'])->name('tambah');
+    Route::post('/simpan', [AdminController::class, 'store'])->name('simpan');
+    Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [AdminController::class, 'update'])->name('update');
+    Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
+});
 
 // Halaman Tabel
 Route::get('/admin/tables', function () {
