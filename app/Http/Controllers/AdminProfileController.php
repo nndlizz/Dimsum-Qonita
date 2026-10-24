@@ -28,6 +28,25 @@ class AdminProfileController extends Controller
         return view('admin.profil', compact('admin'));
     }
 
+    public function edit()
+    {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('admin.login');
+        }
+
+        $admin = DB::table('admin')
+            ->where('id_admin', session('admin_id'))
+            ->first();
+
+        if (!$admin) {
+            session()->forget(['admin_id', 'admin_name']);
+
+            return redirect()->route('admin.login');
+        }
+
+        return view('admin.edit-profil', compact('admin'));
+    }
+
     public function update(Request $request)
     {
         if (!session()->has('admin_id')) {
