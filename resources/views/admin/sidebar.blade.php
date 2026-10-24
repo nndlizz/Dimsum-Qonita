@@ -45,6 +45,12 @@
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
+                            <a href="{{ route('admin.akun.index') }}" class="sidebar-menu-link {{ request()->is('admin/akun*') ? 'active' : '' }}">
+                                <i class="bi bi-person-lines-fill"></i> 
+                                <span>Daftar Akun</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
                             <a
                                 href="{{ url('/admin/forms&input') }}"
                                 class="sidebar-menu-link {{ request()->is('admin/forms&input*') ? 'active' : '' }}"
@@ -86,16 +92,13 @@
             <!-- Sidebar Profile Card (Dynamic Footer) -->
             <div class="sidebar-profile">
                 <img
-                    src="{{ !empty($admin?->gambar)
-                            ? asset('storage/' . $admin->gambar)
-                            : asset('template_admin/assets/images/avatar.png') }}"
-                    alt="{{ $admin->nama ?? 'Administrator' }}"
+                    src="{{ asset('template_admin/assets/images/avatar.png') }}"
+                    alt="Administrator"
                     class="sidebar-profile-img"
-                   
                 />
                 <div class="sidebar-profile-info">
-                    <div class="sidebar-profile-name">{{ $admin->nama ?? 'Administrator' }}</div>
-                    <div class="sidebar-profile-email">{{ $admin->email ?? 'admin@email.com' }}</div>
+                    <div class="sidebar-profile-name">{{ session('admin_name', 'Administrator') }}</div>
+                    <div class="sidebar-profile-email">admin@gmail.com</div>
                 </div>
             </div>
         </div>

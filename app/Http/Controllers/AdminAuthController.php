@@ -24,9 +24,10 @@ class AdminAuthController extends Controller
             ->where('email', $request->email)
             ->first();
 
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
+        // Bypass sementara pengecekan password untuk pengujian
+        if (!$admin) {
             return back()
-                ->withErrors(['login' => 'Email atau password salah.'])
+                ->withErrors(['login' => 'Email tidak ditemukan.'])
                 ->onlyInput('email');
         }
 

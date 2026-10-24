@@ -9,7 +9,18 @@ class Admin extends Model
 {
     protected $table = 'admin';
     protected $primaryKey = 'id_admin';
-    protected $fillable = ['nama_admin', 'email', 'password'];
+    
+    protected $fillable = [
+        'nama_admin', 
+        'email', 
+        'password',
+        'status',
+        'jenis_kelamin',
+        'alamat',
+        'gambar',
+        'nomor_hp',
+    ];
+    
     protected $hidden = ['password'];
 
     public function products(): HasMany { return $this->hasMany(Produk::class, 'id_admin', 'id_admin'); }
