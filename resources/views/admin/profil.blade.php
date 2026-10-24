@@ -112,7 +112,7 @@
                 @enderror
             </div>
 
-            <!-- Email -->
+                    <!-- Email -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
 
@@ -124,6 +124,8 @@
                     value="{{ old('email', $admin->email) }}"
                     maxlength="255"
                     required
+                    oninvalid="this.setCustomValidity('Masukkan alamat email dengan format yang benar.')"
+                    oninput="this.setCustomValidity('')"
                 >
 
                 @error('email')
