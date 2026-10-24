@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjukanSponsorController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminProfileController;
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -28,6 +29,13 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard');
 
+// Profil Admin
+Route::get('/admin/profil', [AdminProfileController::class, 'index'])
+    ->name('admin.profil');
+
+Route::put('/admin/profil', [AdminProfileController::class, 'update'])
+    ->name('admin.profil.update');
+
 // Kelola Sponsor
 Route::get(
     '/admin/kelolasponsor',
@@ -35,7 +43,7 @@ Route::get(
 )->name('admin.kelolasponsor');
 
 // Tambah Akun Petugas
-    Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
+Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/tambah', [AdminController::class, 'create'])->name('tambah');
     Route::post('/simpan', [AdminController::class, 'store'])->name('simpan');
