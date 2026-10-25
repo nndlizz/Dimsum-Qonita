@@ -33,6 +33,9 @@ Route::get('/admin', function () {
 Route::get('/admin/profil', [AdminProfileController::class, 'index'])
     ->name('admin.profil');
 
+Route::get('/admin/profil/edit', [AdminProfileController::class, 'edit'])
+    ->name('admin.profil.edit');
+
 Route::put('/admin/profil', [AdminProfileController::class, 'update'])
     ->name('admin.profil.update');
 
