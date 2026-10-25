@@ -55,7 +55,7 @@
     --bs-body-bg: #f4f6f5; /* Canvas background: light, warm grayish-green */
     --bs-body-font-family: "Plus Jakarta Sans", sans-serif;
 
-    --brand-forest-dark: #886128; /* Core sidebar/brand background */
+    --brand-forest-dark: #820000; /* Core sidebar/brand background */
     --brand-forest-medium: #072f1f; /* Alert banner / dark card BG */
     --brand-forest-light: #1a3e30; /* Interactive elements in dark mode */
     --brand-lime: #fefcfa; /* Lime-yellow accent highlight */
@@ -97,8 +97,8 @@
 
 /* Tombol pencarian Kelola Sponsor */
 .btn-search {
-    background-color: #886128;
-    border: 1px solid #886128;
+    background-color: #820000;
+    border: 1px solid #820000;
     color: #fff;
     min-width: 42px;
     height: 42px;
@@ -109,8 +109,8 @@
 }
 
 .btn-search:hover {
-    background-color: #886128;
-    border-color: #886128;
+    background-color: #c31616;
+    border-color: #c31616;
     color: #fff;
 }
 
