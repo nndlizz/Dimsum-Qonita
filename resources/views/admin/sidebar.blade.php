@@ -127,18 +127,5 @@
                 </div>
 
                
-            </div>
-
-            <!-- Sidebar Profile Card (Dynamic Footer) -->
-            <div class="sidebar-profile">
-                <img
-                    src="{{ asset('template_admin/assets/images/avatar.png') }}"
-                    alt="Administrator"
-                    class="sidebar-profile-img"
-                />
-                <div class="sidebar-profile-info">
-                    <div class="sidebar-profile-name">{{ session('admin_name', 'Administrator') }}</div>
-                    <div class="sidebar-profile-email">admin@gmail.com</div>
-                </div>
-            </div>
+            </div>           
         </div>
