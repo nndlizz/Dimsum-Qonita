@@ -45,6 +45,12 @@ Route::get(
     [AjukanSponsorController::class, 'halamanKelolaSponsor']
 )->name('admin.kelolasponsor');
 
+Route::put(
+    '/admin/kelolasponsor/{id}/status',
+    [AjukanSponsorController::class, 'updateStatus']
+)->name('admin.kelolasponsor.status');
+
+
 // Tambah Akun Petugas
 Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
