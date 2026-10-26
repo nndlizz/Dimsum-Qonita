@@ -13,7 +13,7 @@ class NotifikasiController extends Controller
     {
         $data = $request->validate([
             'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
-            'id_pengajuan' => 'nullable|exists:ajukan_sponsor,id_pengajuan',
+            'id_pengajuan' => 'nullable|exists:sponsor,id_pengajuan',
             'judul' => 'required|string|max:150',
             'pesan' => 'required|string',
             'status_baca' => 'sometimes|boolean',
@@ -27,7 +27,7 @@ class NotifikasiController extends Controller
         $record = Notifikasi::findOrFail($id);
         $data = $request->validate([
             'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
-            'id_pengajuan' => 'nullable|exists:ajukan_sponsor,id_pengajuan',
+            'id_pengajuan' => 'nullable|exists:sponsor,id_pengajuan',
             'judul' => 'required|string|max:150',
             'pesan' => 'required|string',
             'status_baca' => 'sometimes|boolean',
