@@ -50,6 +50,46 @@
                                 <span>Daftar Akun</span>
                             </a>
                         </li>
+
+                        <li class="sidebar-menu-item">
+                            <a
+                                href="{{ route('admin.produk.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/produk/tambah') ? 'active' : '' }}"
+                                id="menu-tambah-produk"
+                                title="Tambah Produk"
+                            >
+                                <i class="bi bi-plus-square"></i>
+                                <span>Kelola Produk</span>
+                            </a>
+                        </li>
+
+                        
+<li class="sidebar-menu-item">
+    <a
+        href="{{ route('admin.kategori.index') }}"
+        class="sidebar-menu-link {{ request()->is('admin/kategori*') ? 'active' : '' }}"
+        id="menu-kelola-kategori"
+        title="Kelola Kategori"
+    >
+        <i class="bi bi-tags"></i>
+        <span>Kelola Kategori</span>
+    </a>
+</li>
+
+
+<li class="sidebar-menu-item">
+    <a
+        href="{{ route('admin.cabang.index') }}"
+        class="sidebar-menu-link {{ request()->is('admin/cabang*') ? 'active' : '' }}"
+        id="menu-kelola-cabang"
+        title="Kelola Cabang"
+    >
+        <i class="bi bi-shop"></i>
+        <span>Kelola Cabang</span>
+    </a>
+</li>
+
+
                         <li class="sidebar-menu-item">
                             <a
                                 href="{{ url('/admin/forms&input') }}"

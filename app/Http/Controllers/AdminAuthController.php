@@ -37,6 +37,7 @@ class AdminAuthController extends Controller
             'admin_id' => $admin->id_admin,
             'admin_name' => $admin->nama_admin,
         ]);
+      
 
         return redirect('/admin');
     }
