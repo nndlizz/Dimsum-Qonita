@@ -13,34 +13,37 @@ class AdminAuthController extends Controller
         return view('admin.login');
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
-        $admin = DB::table('admin')
-            ->where('email', $request->email)
-            ->first();
+public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        // Bypass sementara pengecekan password untuk pengujian
-        if (!$admin) {
-            return back()
-                ->withErrors(['login' => 'Email tidak ditemukan.'])
-                ->onlyInput('email');
-        }
+    $admin = DB::table('admin')
+        ->where('email', $request->email)
+        ->first();
 
-        $request->session()->regenerate();
-
-        session([
-            'admin_id' => $admin->id_admin,
-            'admin_name' => $admin->nama_admin,
-        ]);
-      
-
-        return redirect('/admin');
+    // Periksa email dan password
+    if (!$admin || !Hash::check($request->password, $admin->password)) {
+        return back()
+            ->withErrors([
+                'login' => 'Email atau password salah.'
+            ])
+            ->onlyInput('email');
     }
+
+    // Buat ulang session setelah login berhasil
+    $request->session()->regenerate();
+
+    session([
+        'admin_id' => $admin->id_admin,
+        'admin_name' => $admin->nama_admin,
+    ]);
+
+    return redirect('/admin');
+}
 
     public function logout(Request $request)
     {

@@ -10,14 +10,40 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
+public function index(Request $request)
+{
+    $search = $request->input('search');
 
-    public function index()
-    {
-        $produks = Produk::with(['kategori', 'cabangs'])->paginate(5);
+    $produks = Produk::with(['kategori', 'cabangs'])
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                // Cari berdasarkan nama produk
+                $q->where('nama_produk', 'like', '%' . $search . '%')
 
-        return view('admin.produk.index', compact('produks'));
-    }
+                  // Cari berdasarkan kategori
+                  ->orWhereHas('kategori', function ($kategori) use ($search) {
+                      $kategori->where('nama_kategori', 'like', '%' . $search . '%');
+                  })
 
+                  // Cari berdasarkan cabang
+                  ->orWhereHas('cabangs', function ($cabang) use ($search) {
+                      $cabang->where('nama_cabang', 'like', '%' . $search . '%');
+                  })
+
+                  // Cari berdasarkan harga umum produk
+                  ->orWhere('harga', 'like', '%' . $search . '%')
+
+                  // Cari berdasarkan harga per cabang
+                  ->orWhereHas('cabangs', function ($cabang) use ($search) {
+                    $cabang->where('produk_cabang.harga', 'like', '%' . $search . '%');
+                    });
+            });
+        })
+        ->paginate(5)
+        ->withQueryString();
+
+    return view('admin.produk.index', compact('produks', 'search'));
+}
     public function create()
     {
         $kategoris = Kategori::all();
@@ -26,44 +52,48 @@ class ProdukController extends Controller
         return view('admin.produk.create', compact('kategoris', 'cabangs'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_produk' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'harga' => 'required|numeric|min:0',
-            'id_kategori' => 'required|exists:kategoris,id_kategori',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'cabang' => 'required|array|min:1',
-            'cabang.*.id_cabang' => 'required|exists:cabangs,id_cabang',
-            'cabang.*.harga' => 'required|numeric|min:0',
-        ]);
 
-        $gambar = null;
+public function store(Request $request)
+{
+    $request->validate([
+        'nama_produk' => 'required|string|max:255',
+        'deskripsi' => 'nullable|string',
+        'id_kategori' => 'required|exists:kategoris,id_kategori',
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'cabang' => 'required|array|min:1',
+        'cabang.*.id_cabang' => 'required|exists:cabangs,id_cabang',
+        'cabang.*.harga' => 'required|numeric|min:0',
+    ]);
 
-        if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar')->store('produk', 'public');
-        }
+    $gambar = null;
 
-        $produk = Produk::create([
-            'nama_produk' => $request->nama_produk,
-            'deskripsi' => $request->deskripsi,
-            'harga' => $request->harga,
-            'gambar' => $gambar,
-            'id_admin' => session('admin_id'),
-            'id_kategori' => $request->id_kategori,
-        ]);
-
-        foreach ($request->cabang as $cabang) {
-            $produk->cabangs()->attach($cabang['id_cabang'], [
-                'harga' => $cabang['harga'],
-            ]);
-        }
-
-        return redirect()
-            ->route('admin.produk.create')
-            ->with('success', 'Produk berhasil ditambahkan!');
+    if ($request->hasFile('gambar')) {
+        $gambar = $request->file('gambar')->store('produk', 'public');
     }
+
+    $produk = Produk::create([
+        'nama_produk' => $request->nama_produk,
+        'deskripsi' => $request->deskripsi,
+        // Harga umum sementara diisi 0 untuk kompatibilitas database.
+        'harga' => 0,
+        'gambar' => $gambar,
+        'id_admin' => session('admin_id'),
+        'id_kategori' => $request->id_kategori,
+    ]);
+
+    foreach ($request->cabang as $cabang) {
+        $produk->cabangs()->attach($cabang['id_cabang'], [
+            'harga' => $cabang['harga'],
+        ]);
+    }
+
+    
+    return redirect()
+        ->route('admin.produk.index')
+        ->with('success', 'Produk berhasil ditambahkan!');
+
+}
+
     public function edit($id_produk)
 {
     $produk = Produk::with('cabangs')->findOrFail($id_produk);
@@ -78,16 +108,17 @@ class ProdukController extends Controller
 }
 
 
+
 public function update(Request $request, $id_produk)
 {
     $request->validate([
         'nama_produk' => 'required|string|max:255',
         'deskripsi' => 'nullable|string',
-        'harga' => 'required|numeric|min:0',
         'id_kategori' => 'required|exists:kategoris,id_kategori',
         'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'cabangs' => 'required|array|min:1',
-        'cabangs.*' => 'exists:cabangs,id_cabang',
+        'cabang' => 'required|array|min:1',
+        'cabang.*.id_cabang' => 'required|exists:cabangs,id_cabang',
+        'cabang.*.harga' => 'required|numeric|min:0',
     ]);
 
     $produk = Produk::findOrFail($id_produk);
@@ -95,7 +126,6 @@ public function update(Request $request, $id_produk)
     $data = [
         'nama_produk' => $request->nama_produk,
         'deskripsi' => $request->deskripsi,
-        'harga' => $request->harga,
         'id_kategori' => $request->id_kategori,
     ];
 
@@ -110,12 +140,22 @@ public function update(Request $request, $id_produk)
     }
 
     $produk->update($data);
-    $produk->cabangs()->sync($request->cabangs);
+
+    $dataCabang = [];
+
+    foreach ($request->cabang as $cabang) {
+        $dataCabang[$cabang['id_cabang']] = [
+            'harga' => $cabang['harga'],
+        ];
+    }
+
+    $produk->cabangs()->sync($dataCabang);
 
     return redirect()
         ->route('admin.produk.index')
         ->with('success', 'Produk berhasil diperbarui!');
 }
+
 
 public function destroy($id_produk)
 {

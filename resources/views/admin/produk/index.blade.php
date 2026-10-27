@@ -57,9 +57,40 @@
     @endif
 
     <div class="card border-0 shadow-sm">
-        <div class="card-body">
+        
+<div class="card-body">
 
-            <div class="table-responsive">
+    {{-- Form Pencarian Produk --}}
+    <form action="{{ route('admin.produk.index') }}" method="GET" class="mb-4">
+        <div class="row g-2">
+            <div class="col-md-5">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Cari nama produk..."
+                    value="{{ $search ?? request('search') }}"
+                >
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-danger">
+                    Cari
+                </button>
+            </div>
+
+            @if (request('search'))
+                <div class="col-auto">
+                    <a href="{{ route('admin.produk.index') }}" class="btn btn-outline-secondary">
+                        Reset
+                    </a>
+                </div>
+            @endif
+        </div>
+    </form>
+
+    <div class="table-responsive">
+
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
@@ -67,8 +98,8 @@
                             <th>Gambar</th>
                             <th>Nama Produk</th>
                             <th>Kategori</th>
-                            <th>Harga</th>
                             <th>Cabang</th>
+                            <th>Harga</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -96,16 +127,44 @@
 
                                 <td>{{ $produk->kategori->nama_kategori ?? '-' }}</td>
 
-                                <td>Rp{{ number_format($produk->harga, 0, ',', '.') }}</td>
+                                
+                                <td>
+                                    @if ($produk->cabangs->isEmpty())
+                                        <span class="text-muted">Belum ada cabang</span>
+                                    @else
+                                        @php
+                                            $hargaCabang = $produk->cabangs
+                                                ->pluck('pivot.harga')
+                                                ->unique()
+                                                ->values();
+                                        @endphp
+
+                                        @if ($hargaCabang->count() === 1)
+                                            {{ $produk->cabangs->pluck('nama_cabang')->implode(', ') }}
+                                        @else
+                                            <ul class="mb-0 ps-3">
+                                                @foreach ($produk->cabangs as $cabang)
+                                                    <li>{{ $cabang->nama_cabang }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    @endif
+                                </td>
 
                                 <td>
-                                    @forelse ($produk->cabangs as $cabang)
-                                        <span class="badge bg-light text-dark border">
-                                            {{ $cabang->nama_cabang }}
-                                        </span>
-                                    @empty
-                                        <span class="text-muted">Belum ada cabang</span>
-                                    @endforelse
+                                    @if ($produk->cabangs->isEmpty())
+                                        Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                                    @elseif ($hargaCabang->count() === 1)
+                                        Rp{{ number_format($hargaCabang->first(), 0, ',', '.') }}
+                                    @else
+                                        <ul class="mb-0 ps-3">
+                                            @foreach ($produk->cabangs as $cabang)
+                                                <li>
+                                                    Rp{{ number_format($cabang->pivot->harga, 0, ',', '.') }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
                                 </td>
 
                                 <td>
