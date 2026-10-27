@@ -1,7 +1,20 @@
-
 @extends('admin.layout')
 
 @section('content')
+
+<style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+</style>
+
 <div class="container-fluid py-4">
 
     <div class="mb-4">
@@ -11,6 +24,16 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <form action="{{ route('admin.produk.update', $produk->id_produk) }}"
                   method="POST"
@@ -38,8 +61,12 @@
 
                 <div class="mb-3">
                     <label for="id_kategori" class="form-label">Kategori</label>
-                    <select name="id_kategori" id="id_kategori" class="form-select" required>
+                    <select name="id_kategori"
+                            id="id_kategori"
+                            class="form-select"
+                            required>
                         <option value="">-- Pilih Kategori --</option>
+
                         @foreach ($kategoris as $kategori)
                             <option value="{{ $kategori->id_kategori }}"
                                 {{ old('id_kategori', $produk->id_kategori) == $kategori->id_kategori ? 'selected' : '' }}>
@@ -49,35 +76,74 @@
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label for="harga" class="form-label">Harga (Rp)</label>
-                    <input type="number"
-                           name="harga"
-                           id="harga"
-                           class="form-control"
-                           min="0"
-                           value="{{ old('harga', $produk->harga) }}"
-                           required>
-                </div>
+                <hr>
 
-                <div class="mb-3">
-                    <label class="form-label">Cabang</label>
-                    @foreach ($cabangs as $cabang)
-                        <div class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   name="cabangs[]"
-                                   id="cabang_{{ $cabang->id_cabang }}"
-                                   value="{{ $cabang->id_cabang }}"
-                                   {{ in_array($cabang->id_cabang, old('cabangs', $produk->cabangs->pluck('id_cabang')->toArray())) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="cabang_{{ $cabang->id_cabang }}">
-                                {{ $cabang->nama_cabang }}
-                            </label>
+                <h5 class="mb-3">Harga per Cabang</h5>
+                <p class="text-muted small">
+                    Centang cabang yang menjual produk ini, lalu masukkan harga jualnya.
+                </p>
+
+                @forelse ($cabangs as $cabang)
+                    @php
+                        $cabangTerpilih = old(
+                            'cabang.' . $cabang->id_cabang . '.id_cabang',
+                            $produk->cabangs->contains('id_cabang', $cabang->id_cabang)
+                                ? $cabang->id_cabang
+                                : null
+                        );
+
+                        $cabangProduk = $produk->cabangs->firstWhere(
+                            'id_cabang',
+                            $cabang->id_cabang
+                        );
+
+                        $hargaTersimpan = $cabangProduk
+                            ? $cabangProduk->pivot->harga
+                            : '';
+                    @endphp
+
+                    <div class="row align-items-center mb-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="cabang_{{ $cabang->id_cabang }}"
+                                    name="cabang[{{ $cabang->id_cabang }}][id_cabang]"
+                                    value="{{ $cabang->id_cabang }}"
+                                    {{ $cabangTerpilih ? 'checked' : '' }}
+                                    onchange="toggleHarga({{ $cabang->id_cabang }})"
+                                >
+
+                                <label class="form-check-label"
+                                       for="cabang_{{ $cabang->id_cabang }}">
+                                    {{ $cabang->nama_cabang }}
+                                </label>
+                            </div>
                         </div>
-                    @endforeach
-                </div>
 
-                <div class="mb-3">
+                        <div class="col-md-6">
+                            <input
+                                type="number"
+                                name="cabang[{{ $cabang->id_cabang }}][harga]"
+                                id="harga_cabang_{{ $cabang->id_cabang }}"
+                                class="form-control"
+                                min="0"
+                                step="1"
+                                placeholder="Harga di cabang ini"
+                                value="{{ old('cabang.' . $cabang->id_cabang . '.harga', $hargaTersimpan) }}"
+                                {{ $cabangTerpilih ? 'required' : 'disabled' }}
+                                onwheel="this.blur()"
+                            >
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-muted">
+                        Belum ada data cabang. Tambahkan cabang terlebih dahulu.
+                    </p>
+                @endforelse
+
+                <div class="mb-3 mt-4">
                     <label class="form-label">Gambar Produk</label>
 
                     @if ($produk->gambar)
@@ -93,14 +159,23 @@
                            name="gambar"
                            id="gambar"
                            class="form-control"
-                           accept="image/*">
+                           accept=".jpg,.jpeg,.png,.webp">
 
-                    <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar.</small>
+                    <small class="text-muted">
+                        Kosongkan jika tidak ingin mengganti gambar.
+                        Format JPG, JPEG, PNG, atau WEBP, maksimal 2 MB.
+                    </small>
                 </div>
 
                 <div class="d-flex gap-2 mt-4">
-                    <button type="submit" class="btn btn-danger">Simpan Perubahan</button>
-                    <a href="{{ route('admin.produk.index') }}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-danger">
+                        Simpan Perubahan
+                    </button>
+
+                    <a href="{{ route('admin.produk.index') }}"
+                       class="btn btn-secondary">
+                        Batal
+                    </a>
                 </div>
 
             </form>
@@ -108,4 +183,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    function toggleHarga(idCabang) {
+        const checkbox = document.getElementById('cabang_' + idCabang);
+        const inputHarga = document.getElementById('harga_cabang_' + idCabang);
+
+        inputHarga.disabled = !checkbox.checked;
+        inputHarga.required = checkbox.checked;
+
+        if (!checkbox.checked) {
+            inputHarga.value = '';
+        }
+    }
+</script>
+
 @endsection
