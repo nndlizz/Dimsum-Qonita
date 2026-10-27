@@ -1,12 +1,26 @@
-
 @extends('admin.layout')
+<style>
+    /* Hilangkan tombol naik-turun pada input harga cabang */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+</style>
+
 
 @section('content')
+
 
 <div class="page-header">
     <div>
         <h1 class="page-title">Tambah Produk</h1>
-        <p class="page-subtitle">
+        <p class="page-subtitle" style="color: #6c757d;">
             Tambahkan produk baru ke dalam sistem GoDimsum.
         </p>
     </div>
@@ -78,21 +92,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="harga" class="form-label">
-                Harga Produk (Rp)
-            </label>
-            <input type="number"
-                   name="harga"
-                   id="harga"
-                   class="form-control"
-                   value="{{ old('harga') }}"
-                   min="0"
-                   step="0.01"
-                   placeholder="Contoh: 15000"
-                   required>
-        </div>
-
-        <div class="mb-3">
             <label for="id_kategori" class="form-label">
                 Kategori Produk
             </label>
@@ -124,40 +123,68 @@
             </small>
         </div>
 
-        <hr>
+        
+<hr>
 
-        <h6 class="mb-3">Harga per Cabang</h6>
+<h6 class="mb-3">Harga per Cabang</h6>
 
-        @forelse ($cabangs as $cabang)
-            <div class="row align-items-center mb-3">
-                <div class="col-md-6">
-                    <div class="form-check">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               id="cabang_{{ $cabang->id_cabang }}"
-                               name="cabang[{{ $loop->index }}][id_cabang]"
-                               value="{{ $cabang->id_cabang }}">
-                        <label class="form-check-label"
-                               for="cabang_{{ $cabang->id_cabang }}">
-                            {{ $cabang->nama_cabang }}
-                        </label>
-                    </div>
-                </div>
+@forelse ($cabangs as $cabang)
+    <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="cabang_{{ $cabang->id_cabang }}"
+                    name="cabang[{{ $cabang->id_cabang }}][id_cabang]"
+                    value="{{ $cabang->id_cabang }}"
+                    {{ old('cabang.' . $cabang->id_cabang . '.id_cabang') ? 'checked' : '' }}
+                    onchange="toggleHarga({{ $cabang->id_cabang }})"
+                >
 
-                <div class="col-md-6">
-                    <input type="number"
-                           name="cabang[{{ $loop->index }}][harga]"
-                           class="form-control"
-                           min="0"
-                           step="0.01"
-                           placeholder="Harga di cabang ini">
-                </div>
+                <label
+                    class="form-check-label"
+                    for="cabang_{{ $cabang->id_cabang }}"
+                >
+                    {{ $cabang->nama_cabang }}
+                </label>
             </div>
-        @empty
-            <p class="text-muted">
-                Belum ada data cabang. Tambahkan cabang terlebih dahulu.
-            </p>
-        @endforelse
+        </div>
+
+        <div class="col-md-6">
+            <input
+                type="number"
+                name="cabang[{{ $cabang->id_cabang }}][harga]"
+                id="harga_cabang_{{ $cabang->id_cabang }}"
+                class="form-control"
+                min="0"
+                step="1"
+                placeholder="Harga di cabang ini"
+                value="{{ old('cabang.' . $cabang->id_cabang . '.harga') }}"
+                {{ old('cabang.' . $cabang->id_cabang . '.id_cabang') ? 'required' : 'disabled' }}
+                onwheel="this.blur()"
+            >
+        </div>
+    </div>
+@empty
+    <p class="text-muted">
+        Belum ada data cabang. Tambahkan cabang terlebih dahulu.
+    </p>
+@endforelse
+
+<script>
+    function toggleHarga(idCabang) {
+        const checkbox = document.getElementById('cabang_' + idCabang);
+        const inputHarga = document.getElementById('harga_cabang_' + idCabang);
+
+        inputHarga.disabled = !checkbox.checked;
+        inputHarga.required = checkbox.checked;
+
+        if (!checkbox.checked) {
+            inputHarga.value = '';
+        }
+    }
+</script>
 
         <div class="d-flex justify-content-end gap-2 mt-4">
             <a href="{{ url('/admin') }}"
