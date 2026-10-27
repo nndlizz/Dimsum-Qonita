@@ -4,16 +4,13 @@
 @section('title', 'Kelola Sponsor')
 
 @section('content')
-
 <div class="page-heading">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-2">
         <h3 class="mb-0">Kelola Sponsor</h3>
 
-        <form action="{{ route('admin.kelolasponsor') }}"
-              method="GET"
+        <form action="{{ route('admin.kelolasponsor') }}" method="GET"
               class="d-flex align-items-center"
               style="max-width: 400px; width: 100%;">
-
             <input
                 type="text"
                 name="search"
@@ -21,22 +18,9 @@
                 placeholder="Cari pengajuan sponsor..."
                 value="{{ request('search') }}"
             >
-
-            
-            <button type="submit" class="btn btn-search ms-2" aria-label="Cari">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    width="20" height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
+            <button type="submit" class="btn btn-primary ms-2">
+                Cari
             </button>
-
         </form>
     </div>
 
@@ -44,6 +28,24 @@
 </div>
 
 <div class="page-content">
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Terjadi kesalahan:</strong>
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header">
             <h4>Daftar Pengajuan Sponsor</h4>
@@ -58,11 +60,12 @@
                             <th>ID Pelanggan</th>
                             <th>Nama Kegiatan</th>
                             <th>Penyelenggara</th>
-                            <th>Tanggal</th>
+                            <th>Tanggal Kegiatan</th>
                             <th>Lokasi</th>
                             <th>Deskripsi</th>
-                            <th>File</th>
+                            <th>File Proposal</th>
                             <th>Status</th>
+                            <th>Catatan Admin</th>
                             <th>Tanggal Pengajuan</th>
                             <th>Aksi</th>
                         </tr>
@@ -75,15 +78,19 @@
                                 <td>{{ $pengajuan->id_pelanggan }}</td>
                                 <td>{{ $pengajuan->nama_kegiatan }}</td>
                                 <td>{{ $pengajuan->nama_penyelenggara }}</td>
-                                <td>{{ $pengajuan->tanggal_kegiatan }}</td>
+                                <td>
+                                    {{ $pengajuan->tanggal_kegiatan?->format('d-m-Y') ?? '-' }}
+                                </td>
                                 <td>{{ $pengajuan->lokasi_kegiatan }}</td>
                                 <td>{{ $pengajuan->deskripsi }}</td>
 
                                 <td>
                                     @if ($pengajuan->file_proposal)
-                                        <a href="{{ asset('storage/' . $pengajuan->file_proposal) }}"
-                                        target="_blank"
-                                        rel="noopener noreferrer">
+                                        <a
+                                            href="{{ asset('storage/' . $pengajuan->file_proposal) }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             Lihat Proposal
                                         </a>
                                     @else
@@ -91,46 +98,113 @@
                                     @endif
                                 </td>
 
-                                <td>{{ $pengajuan->status }}</td>
-                                <td>{{ $pengajuan->tanggal_pengajuan }}</td>
-                            
-                                <td>
-                                    @if (strtolower($pengajuan->status ?? '') === 'menunggu')
-                                        <form action="{{ route('admin.kelola-sponsor.keputusan', $pengajuan->id_pengajuan) }}"
-                                            method="POST"
-                                            class="mb-2">
-                                            @csrf
-                                            <input type="hidden" name="status" value="disetujui">
-                                            <button type="submit" class="btn btn-success btn-sm">
-                                                ACC
-                                            </button>
-                                        </form>
+                                <td class="text-center">
+                                    @php
+                                        $badgeClass = match ($pengajuan->status) {
+                                            'diajukan' => 'bg-info',
+                                            'diproses' => 'bg-warning text-dark',
+                                            'diterima' => 'bg-success',
+                                            'ditolak' => 'bg-danger',
+                                            'selesai' => 'bg-primary',
+                                            default => 'bg-secondary',
+                                        };
+                                    @endphp
 
-                                        <form action="{{ route('admin.kelola-sponsor.keputusan', $pengajuan->id_pengajuan) }}"
-                                            method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="ditolak">
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                Tolak
-                                            </button>
-                                        </form>
-                                    @else
-                                        <span class="text-muted">Sudah diproses</span>
-                                    @endif
+                                    <span class="badge {{ $badgeClass }}">
+                                        {{ ucfirst($pengajuan->status) }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{ $pengajuan->catatan_admin ?: '-' }}
+                                </td>
+
+                                <td>
+                                    {{ $pengajuan->tanggal_pengajuan
+                                        ? \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->format('d-m-Y H:i')
+                                        : '-' }}
+                                </td>
+
+                                <td style="min-width: 280px;">
+                                    <form
+                                        action="{{ route('admin.kelolasponsor.status', $pengajuan->id_pengajuan) }}"
+                                        method="POST"
+                                    >
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="mb-2">
+                                            <label
+                                                for="status-{{ $pengajuan->id_pengajuan }}"
+                                                class="form-label"
+                                            >
+                                                Ubah Status
+                                            </label>
+
+                                            <select
+                                                name="status"
+                                                id="status-{{ $pengajuan->id_pengajuan }}"
+                                                class="form-select"
+                                                required
+                                            >
+                                                @foreach ([
+                                                    'diajukan',
+                                                    'diproses',
+                                                    'diterima',
+                                                    'ditolak',
+                                                    'selesai'
+                                                ] as $status)
+                                                    <option
+                                                        value="{{ $status }}"
+                                                        @selected($pengajuan->status === $status)
+                                                    >
+                                                        {{ ucfirst($status) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label
+                                                for="catatan-{{ $pengajuan->id_pengajuan }}"
+                                                class="form-label"
+                                            >
+                                                Catatan Admin
+                                            </label>
+
+                                            <textarea
+                                                name="catatan_admin"
+                                                id="catatan-{{ $pengajuan->id_pengajuan }}"
+                                                class="form-control"
+                                                rows="3"
+                                                maxlength="5000"
+                                                placeholder="Tulis catatan untuk pelanggan..."
+                                            >{{ $pengajuan->catatan_admin }}</textarea>
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary btn-sm"
+                                        >
+                                            Simpan Perubahan
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
-                                @empty
+                        @empty
                             <tr>
-                                <td colspan="13" class="text-center">
+                                <td colspan="12" class="text-center">
                                     Belum ada pengajuan sponsor.
                                 </td>
                             </tr>
-                            @endforelse
+                        @endforelse
                     </tbody>
                 </table>
             </div>
-        <div class="mt-3">
-            {{ $pengajuans->links() }}
+
+            <div class="mt-3">
+                {{ $pengajuans->links() }}
+            </div>
         </div>
     </div>
 </div>

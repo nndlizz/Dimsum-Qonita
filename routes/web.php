@@ -45,6 +45,7 @@ Route::put('/admin/kategori/{id_kategori}', [KategoriController::class, 'update'
 
 Route::delete('/admin/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
     ->name('admin.kategori.destroy');
+use App\Http\Controllers\AdminProfileController;
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -88,14 +89,30 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard');
 
+// Profil Admin
+Route::get('/admin/profil', [AdminProfileController::class, 'index'])
+    ->name('admin.profil');
+
+Route::get('/admin/profil/edit', [AdminProfileController::class, 'edit'])
+    ->name('admin.profil.edit');
+
+Route::put('/admin/profil', [AdminProfileController::class, 'update'])
+    ->name('admin.profil.update');
+
 // Kelola Sponsor
 Route::get(
     '/admin/kelolasponsor',
     [AjukanSponsorController::class, 'halamanKelolaSponsor']
 )->name('admin.kelolasponsor');
 
+Route::put(
+    '/admin/kelolasponsor/{id}/status',
+    [AjukanSponsorController::class, 'updateStatus']
+)->name('admin.kelolasponsor.status');
+
+
 // Tambah Akun Petugas
-    Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
+Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/tambah', [AdminController::class, 'create'])->name('tambah');
     Route::post('/simpan', [AdminController::class, 'store'])->name('simpan');
