@@ -23,14 +23,42 @@
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
+                            <a href="{{ route('admin.akun.index') }}" class="sidebar-menu-link {{ request()->is('admin/akun*') ? 'active' : '' }}">
+                                <i class="bi bi-person-lines-fill"></i> 
+                                <span>Daftar Akun</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
                             <a
-                                href="{{ url('/admin/tables') }}"
-                                class="sidebar-menu-link {{ request()->is('admin/tables*') ? 'active' : '' }}"
-                                id="menu-basictables"
-                                title="Basic Tables"
+                                href="{{ route('admin.kategori.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/kategori*') ? 'active' : '' }}"
+                                id="menu-kelola-kategori"
+                                title="Kelola Kategori"
                             >
-                                <i class="bi bi-table"></i>
-                                <span>Basic Tables</span>
+                                <i class="bi bi-tags"></i>
+                                <span>Kelola Kategori</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a
+                                href="{{ route('admin.cabang.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/cabang*') ? 'active' : '' }}"
+                                id="menu-kelola-cabang"
+                                title="Kelola Cabang"
+                            >
+                                <i class="bi bi-shop"></i>
+                                <span>Kelola Cabang</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a
+                                href="{{ route('admin.produk.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/produk/tambah') ? 'active' : '' }}"
+                                id="menu-tambah-produk"
+                                title="Tambah Produk"
+                            >
+                                <i class="bi bi-plus-square"></i>
+                                <span>Kelola Produk</span>
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
@@ -44,88 +72,7 @@
                                 <span>Kelola Sponsor</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu-item">
-                            <a href="{{ route('admin.akun.index') }}" class="sidebar-menu-link {{ request()->is('admin/akun*') ? 'active' : '' }}">
-                                <i class="bi bi-person-lines-fill"></i> 
-                                <span>Daftar Akun</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-menu-item">
-                            <a
-                                href="{{ route('admin.produk.index') }}"
-                                class="sidebar-menu-link {{ request()->is('admin/produk/tambah') ? 'active' : '' }}"
-                                id="menu-tambah-produk"
-                                title="Tambah Produk"
-                            >
-                                <i class="bi bi-plus-square"></i>
-                                <span>Kelola Produk</span>
-                            </a>
-                        </li>
-
-                        
-<li class="sidebar-menu-item">
-    <a
-        href="{{ route('admin.kategori.index') }}"
-        class="sidebar-menu-link {{ request()->is('admin/kategori*') ? 'active' : '' }}"
-        id="menu-kelola-kategori"
-        title="Kelola Kategori"
-    >
-        <i class="bi bi-tags"></i>
-        <span>Kelola Kategori</span>
-    </a>
-</li>
-
-
-<li class="sidebar-menu-item">
-    <a
-        href="{{ route('admin.cabang.index') }}"
-        class="sidebar-menu-link {{ request()->is('admin/cabang*') ? 'active' : '' }}"
-        id="menu-kelola-cabang"
-        title="Kelola Cabang"
-    >
-        <i class="bi bi-shop"></i>
-        <span>Kelola Cabang</span>
-    </a>
-</li>
-
-
-                        <li class="sidebar-menu-item">
-                            <a
-                                href="{{ url('/admin/forms&input') }}"
-                                class="sidebar-menu-link {{ request()->is('admin/forms&input*') ? 'active' : '' }}"
-                                id="menu-forms-input"
-                                title="Forms and Input"
-                            >
-                                <i class="bi bi-input-cursor-text"></i>
-                                <span>Forms & Input</span>
-                            </a>
-                        </li>
-                         <li class="sidebar-menu-item">
-                            <a
-                                href="{{ url('/admin/blankpage') }}"
-                                class="sidebar-menu-link {{ request()->is('admin/blankpage*') ? 'active' : '' }}"
-                                id="menu-blankpage"
-                                title="Blank Page"
-                            >
-                                <i class="bi bi-file-earmark"></i>
-                                <span>Blank Page</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a
-                                href="{{ url('/admin/login') }}"
-                                class="sidebar-menu-link {{ request()->is('admin/login*') ? 'active' : '' }}"
-                                id="menu-loginpage"
-                                title="Login Page"
-                            >
-                                <i class="bi bi-box-arrow-in-right"></i>
-                                <span>Login Screen</span>
-                            </a>
-                        </li>
                     </ul>
-                </div>
-
-               
+                </div>              
             </div>           
         </div>
