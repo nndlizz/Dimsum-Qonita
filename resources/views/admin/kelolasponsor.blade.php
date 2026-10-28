@@ -18,8 +18,8 @@
                 placeholder="Cari pengajuan sponsor..."
                 value="{{ request('search') }}"
             >
-            <button type="submit" class="btn btn-primary ms-2">
-                Cari
+            <button type="submit" class="btn-search btn-primary ms-2">
+                <i class="bi bi-search"></i>
             </button>
         </form>
     </div>
