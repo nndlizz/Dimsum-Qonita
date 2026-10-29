@@ -31,6 +31,9 @@
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
+                            <a href="{{ route('admin.akun.index') }}" class="sidebar-menu-link {{ request()->is('admin/akun*') ? 'active' : '' }}">
+                                <i class="bi bi-person-lines-fill"></i> 
+                                <span>Daftar Akun</span>
                             <a
                                 href="{{ route('admin.kategori.index') }}"
                                 class="sidebar-menu-link {{ request()->is('admin/kategori*') ? 'active' : '' }}"
@@ -39,6 +42,24 @@
                             >
                                 <i class="bi bi-tags"></i>
                                 <span>Kelola Kategori</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a
+                                href="{{ route('admin.kategori.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/kategori*') ? 'active' : '' }}"
+                                id="menu-kelola-kategori"
+                                title="Kelola Kategori"
+                            >
+                                <i class="bi bi-tags"></i>
+                                <span>Kelola Kategori</span>
+                                href="{{ route('admin.cabang.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/cabang*') ? 'active' : '' }}"
+                                id="menu-kelola-cabang"
+                                title="Kelola Cabang"
+                            >
+                                <i class="bi bi-shop"></i>
+                                <span>Kelola Cabang</span>
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
@@ -54,6 +75,11 @@
                         </li>
                         <li class="sidebar-menu-item">
                             <a
+                                href="{{ route('admin.produk.index') }}"
+                                class="sidebar-menu-link {{ request()->is('admin/produk/tambah') ? 'active' : '' }}"
+                                id="menu-tambah-produk"
+                                title="Tambah Produk"
+                            >
                                 href="{{ route('admin.produk.index') }}"
                                 class="sidebar-menu-link {{ request()->is('admin/produk/tambah') ? 'active' : '' }}"
                                 id="menu-tambah-produk"
