@@ -11,17 +11,19 @@
                 <div class="sidebar-menu-section">
                     <div class="sidebar-menu-title">Menu</div>
                     <ul class="sidebar-menu-list">
-                        <li class="sidebar-menu-item">
-                            <a
-                                href="{{ url('/admin/dashboard')}}"
-                                class="sidebar-menu-link {{ request()->is('admin/dashboard*') ? 'active' : '' }}"
-                                id="menu-overview"
-                                title="Overview"
-                            >
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
+      <ul class="sidebar-menu-list">
+            <li class="sidebar-menu-item">
+                <a
+                    href="{{ route('admin.dashboard') }}"
+                    class="sidebar-menu-link {{ request()->is('admin') ? 'active' : '' }}"
+                    id="menu-overview"
+                    title="Dashboard"
+                >
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+</ul>
                         <li class="sidebar-menu-item">
                             <a href="{{ route('admin.akun.index') }}" class="sidebar-menu-link {{ request()->is('admin/akun*') ? 'active' : '' }}">
                                 <i class="bi bi-person-lines-fill"></i> 
@@ -72,6 +74,21 @@
                                 <span>Kelola Sponsor</span>
                             </a>
                         </li>
+                        
+                        {{-- Tombol Logout --}}
+                        <div class="mt-auto pt-3">
+                            <form action="{{ route('admin.logout') }}" method="POST">
+                                @csrf
+
+                                <button type="submit"
+                                    class="sidebar-menu-link w-100 border-0 text-start"
+                                    style="background: transparent; color: white;">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </div>
+
                     </ul>
                 </div>              
             </div>           
