@@ -3259,3 +3259,24 @@ span.flatpickr-weekday {
 .text-lime {
     color: var(--brand-lime) !important;
 }
+
+/* Tombol Buka di Google Maps */
+.btn-maps-custom {
+    color: #000000 !important;
+    border-color: #820000;
+    background-color: #fff4e5;
+    transition: all 0.2s ease;
+}
+
+.btn-maps-custom:hover,
+.btn-maps-custom:focus {
+    color: #fff4e5 !important;
+    background-color: #820000;
+    border-color: #820000;
+}
+
+.btn-maps-custom:active {
+    color: #fff4e5 !important;
+    background-color: #604113 !important;
+    border-color: #604113 !important;
+}
