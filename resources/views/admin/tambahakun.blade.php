@@ -70,9 +70,11 @@
                     <textarea name="alamat" class="form-control" rows="3">{{ old('alamat') }}</textarea>
                 </div>
 
-                <button type="submit" class="btn text-white w-100 py-2 font-weight-bold" style="background-color: #2d6a4f; border: none;">
-                    Simpan Akun Petugas
-                </button>
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn text-white px-4" style="background-color: #800000; border-color: #800000;">
+                        Simpan
+                    </button>
+                </div>
             </form>
         </div>
     </div>

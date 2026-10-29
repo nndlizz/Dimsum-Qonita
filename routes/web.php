@@ -118,7 +118,9 @@ Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
     Route::post('/simpan', [AdminController::class, 'store'])->name('simpan');
     Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [AdminController::class, 'update'])->name('update');
+    Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
     });  
+
 // Halaman Tabel
 Route::get('/admin/tables', function () {
     return view('admin.tables');
