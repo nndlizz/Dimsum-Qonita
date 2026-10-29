@@ -5,9 +5,9 @@
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h1 class="page-title">Dashboard GoDimsum</h1>
+            <h1 class="page-title">Dashboard Dimsum Qonita</h1>
                 <p class="page-subtitle text-secondary">
-                    Selamat datang di halaman admin GoDimsum.
+                    Selamat datang di halaman admin Dimsum Qonita.
                 </p>
         </div>
 
