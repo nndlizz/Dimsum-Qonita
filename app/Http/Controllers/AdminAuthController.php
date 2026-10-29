@@ -47,6 +47,7 @@ public function login(Request $request)
 
     public function logout(Request $request)
     {
+        $request->session()->forget(['admin_id', 'admin_name']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
