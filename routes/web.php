@@ -116,13 +116,14 @@ Route::middleware(AdminAuth::class)->group(function () {
         'updateStatus'
     ])->name('admin.kelolasponsor.status');
 
-    // Kelola Akun Petugas
+    // Kelola Akun Petugas (Lengkap dengan rute Hapus/Destroy)
     Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
         Route::get('/tambah', [AdminController::class, 'create'])->name('tambah');
         Route::post('/simpan', [AdminController::class, 'store'])->name('simpan');
         Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [AdminController::class, 'update'])->name('update');
+        Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
     });
 
     // Halaman Tabel

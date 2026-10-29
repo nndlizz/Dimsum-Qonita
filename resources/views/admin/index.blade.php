@@ -7,8 +7,8 @@
             <p class="text-muted small mb-0">Kelola daftar akun petugas Dimsum Qonita.</p>
         </div>
         
-        <a href="{{ route('admin.akun.tambah') }}" class="btn btn-success">
-            <span style="font-weight: bold; font-size: 1.1em; margin-right: 4px;">+</span> Tambah Akun
+        <a href="{{ route('admin.akun.tambah') }}" class="btn text-white" style="background-color: #800000; border-color: #800000;">
+            <i class="fas fa-plus"></i> + Tambah Akun
         </a>
     </div>
 
