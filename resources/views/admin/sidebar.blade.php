@@ -76,7 +76,7 @@
                         </li>
                         
                         {{-- Tombol Logout --}}
-                        <div class="mt-auto pt-3">
+                        <!-- <div class="mt-auto pt-3">
                             <form action="{{ route('admin.logout') }}" method="POST">
                                 @csrf
 
@@ -87,7 +87,7 @@
                                     <span>Logout</span>
                                 </button>
                             </form>
-                        </div>
+                        </div> -->
 
                     </ul>
                 </div>              
