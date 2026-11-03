@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
 
-
 Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->name('admin.produk.index');
 
@@ -50,9 +49,12 @@ Route::delete('/admin/kategori/{id_kategori}', [KategoriController::class, 'dest
 use App\Http\Middleware\AdminAuth;
 
 // Halaman utama
+// Route::get('/', function () {
+//     return redirect()->route('admin.dashboard');
+// });
 Route::get('/', function () {
-    return redirect()->route('admin.dashboard');
-});
+    return view('pelanggan.layout.landing_page');
+})->name('home');
 
 
 Route::get('/admin/cabang', [CabangController::class, 'index'])
@@ -129,6 +131,7 @@ Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
 Route::get('/admin/tables', function () {
     return view('admin.tables');
 })->name('admin.tables');
+
 // Semua halaman admin wajib login
 Route::middleware(AdminAuth::class)->group(function () {
 
@@ -240,3 +243,8 @@ Route::middleware(AdminAuth::class)->group(function () {
     })->name('admin.blankpage');
 
 });
+
+// Halaman Landing Pelanggan
+// Route::get('/pelanggan', function () {
+//     return view('pelanggan.layout.landing_page');
+// })->name('pelanggan.index');
