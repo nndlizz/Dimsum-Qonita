@@ -10,17 +10,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Guards
-    |--------------------------------------------------------------------------
-    */
-
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -31,50 +20,28 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | User Providers
-    |--------------------------------------------------------------------------
-    */
+        // Tambahkan guard pelanggan di sini
+        'pelanggan' => [
+            'driver' => 'session',
+            'provider' => 'pelanggans',
+        ],
+    ],
 
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\Admin::class, // Sesuai model admin kamu
         ],
-    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Resetting Passwords
-    |--------------------------------------------------------------------------
-    */
-
-    'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => env(
-                'AUTH_PASSWORD_RESET_TOKEN_TABLE',
-                'password_reset_tokens'
-            ),
-            'expire' => 60,
-            'throttle' => 60,
+        // Tambahkan provider pelanggan di sini
+        'pelanggans' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pelanggan::class, // Pastikan Model Pelanggan ada
         ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Password Confirmation Timeout
-    |--------------------------------------------------------------------------
-    */
-
-    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
-
-];
+    ]];

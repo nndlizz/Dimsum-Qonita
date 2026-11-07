@@ -221,7 +221,7 @@
                 <li>
                     <form
                         id="logout-form"
-                        action="{{ route('admin.logout') }}"
+                        action="{{ route('logout') }}"
                         method="POST"
                     >
                         @csrf

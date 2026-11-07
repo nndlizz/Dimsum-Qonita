@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
+use App\Http\Controllers\Pelanggan\PelangganAuthController;
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->name('admin.produk.index');
@@ -76,17 +77,20 @@ Route::delete('/admin/cabang/{id_cabang}', [CabangController::class, 'destroy'])
     ->name('admin.cabang.destroy');
 
 
-// Route Login Admin
-// Login dan logout: tidak dimasukkan ke middleware AdminAuth
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])
-    ->name('admin.login');
+// Route Login Satu Pintu (Memakai view dan controller admin yang sudah ada)
+Route::get('/login', [AdminAuthController::class, 'showLogin'])
+    ->name('login');
+Route::post('/login', [AdminAuthController::class, 'login'])
+    ->name('login.proses');
+Route::post('/logout', [AdminAuthController::class, 'logout'])
+    ->name('logout');
 
-Route::post('/admin/login', [AdminAuthController::class, 'login'])
-    ->name('admin.login.process');
-
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
-    ->name('admin.logout');
-
+// Route Register Khusus Pelanggan
+Route::get('/register', [PelangganAuthController::class, 'showRegister'])
+    ->name('register');
+Route::post('/register', [PelangganAuthController::class, 'register'])
+    ->name('pelanggan.register.proses');
+    
 // Dashboard Admin
 Route::get('/admin', function () {
     if (!session()->has('admin_id')) {
