@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin | Dimsum Qonita</title>
+    <title>Login Admin | Qonita Food Store</title>
 
     <style>
         * {
@@ -164,7 +164,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.login.process') }}" method="POST">
+            <form action="{{ url('/login') }}" method="POST">
                 @csrf
 
                 <label for="email">Email Admin</label>
@@ -189,6 +189,13 @@
                 >
 
                 <button type="submit">Login Sekarang</button>
+            <!-- Tambahkan jarak dengan mt-3 atau mt-4 di sini -->
+            <div class="text-center" style="margin-top: 20px;">
+                <span style="font-size: 14px; color: #666;">Belum punya akun?</span>
+                <a href="{{ route('register') }}" style="color: #800000; font-weight: bold; text-decoration: underline; margin-left: 5px;">
+                    Daftar Akun
+                </a>
+            </div>
             </form>
 
         </section>
@@ -198,14 +205,14 @@
 
             <div class="emoji">🥟</div>
 
-            <h3>Dimsum Qonita</h3>
+            <h3>Qonita Food Store</h3>
 
             <p class="subtitle">
-                Sistem Pengelolaan Dimsum Qonita
+                Sistem Pengelolaan Qonita Food Store
             </p>
 
             <p>
-                Kelola produk dan aktivitas Dimsum Qonita
+                Kelola produk dan aktivitas Qonita Food Store
                 melalui satu sistem yang praktis.
             </p>
 
