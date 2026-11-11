@@ -145,6 +145,15 @@ Route::middleware(AdminAuth::class)->group(function () {
             'jumlahCabang' => DB::table('cabangs')->count(),
             'jumlahProduk' => DB::table('produk')->count(),
             'jumlahKategori' => DB::table('kategoris')->count(),
+            'sponsorDiterima' => DB::table('ajukan_sponsor')
+            ->where('status', 'diterima')
+            ->count(),
+
+        'sponsorDitolak' => DB::table('ajukan_sponsor')
+            ->where('status', 'ditolak')
+            ->count(),
+
+        'totalAdmin' => DB::table('admin')->count(),
         ]);
     })->name('admin.dashboard');
 
