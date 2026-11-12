@@ -20,12 +20,12 @@ class PelangganAuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:pelanggans', // pastikan nama tabel sesuai
+            'email' => 'required|string|email|max:255|unique:pelanggan', // pastikan nama tabel sesuai
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         // Simpan ke database tabel pelanggan
-        DB::table('pelanggans')->insert([
+        DB::table('pelanggan')->insert([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
