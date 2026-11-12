@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Pelanggan\PelangganAuthController;
 
+
 Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->name('admin.produk.index');
 
@@ -226,6 +227,11 @@ Route::middleware(AdminAuth::class)->group(function () {
         'updateStatus'
     ])->name('admin.kelolasponsor.status');
 
+    Route::get('/admin/riwayat_sponsor', [
+        AjukanSponsorController::class,
+        'halamanriwayatsponsor'
+    ])->name('admin.riwayat_sponsor');
+
     // Kelola Akun Petugas
     Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
@@ -245,6 +251,15 @@ Route::middleware(AdminAuth::class)->group(function () {
     Route::get('/admin/blankpage', function () {
         return view('admin.blankpage');
     })->name('admin.blankpage');
+
+    // Halaman Ajukan Sponsor
+    Route::get('/pelanggan/ajukan-sponsor',
+    [AjukanSponsorController::class, 'create']
+    )->name('pelanggan.sponsor.create');
+
+    Route::post('/pelanggan/ajukan-sponsor',
+        [AjukanSponsorController::class, 'store']
+    )->name('pelanggan.sponsor.store');
 
 });
 
