@@ -91,6 +91,11 @@ Route::get('/register', [PelangganAuthController::class, 'showRegister'])
     ->name('register');
 Route::post('/register', [PelangganAuthController::class, 'register'])
     ->name('pelanggan.register.proses');
+
+// Route Notifikasi Pelanggan
+Route::get('/notifikasi', function () {
+    return view('pelanggan.notifikasi');
+})->name('pelanggan.notifikasi');
     
 // Dashboard Admin
 Route::get('/admin', function () {
