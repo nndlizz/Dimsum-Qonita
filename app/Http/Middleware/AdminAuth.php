@@ -10,8 +10,9 @@ class AdminAuth
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->session()->has('admin_id')) {
-            return redirect()->route('login');
+        if (!session()->has('admin_id')) {
+            return redirect()->guest(route('login'))
+                ->with('error', 'Silakan login terlebih dahulu untuk mengakses halaman ini.');
         }
 
         return $next($request);

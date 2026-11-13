@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Pelanggan\PelangganAuthController;
+use App\Http\Middleware\PelangganAuth;
 
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
@@ -92,6 +93,26 @@ Route::get('/register', [PelangganAuthController::class, 'showRegister'])
 Route::post('/register', [PelangganAuthController::class, 'register'])
     ->name('pelanggan.register.proses');
     
+// (KHUSUS PELANGGAN)
+Route::middleware(PelangganAuth::class)->group(function () {
+    
+    // Halaman Ajukan Sponsor
+    Route::get('/pelanggan/ajukan-sponsor', [AjukanSponsorController::class, 'create'])
+        ->name('pelanggan.sponsor.create');
+        
+    Route::post('/pelanggan/ajukan-sponsor', [AjukanSponsorController::class, 'store'])
+        ->name('pelanggan.sponsor.store');
+    
+    // 2. Riwayat Sponsor (Cek status sponsor diproses/belum)
+    // Route::get('/pelanggan/riwayat-sponsor', [AjukanSponsorController::class, 'riwayat'])->name('pelanggan.riwayat');
+
+    // 3. Notifikasi Pelanggan
+    // Route::get('/pelanggan/notifikasi', [NotifikasiController::class, 'index'])->name('pelanggan.notifikasi');
+
+    // 4. Profil Pelanggan
+    // Route::get('/pelanggan/profil', [PelangganProfileController::class, 'index'])->name('pelanggan.profil');
+});
+
 // Dashboard Admin
 Route::get('/admin', function () {
     if (!session()->has('admin_id')) {

@@ -19,9 +19,13 @@ class AdminAuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
         ]);
 
-        // 1. Cek ke tabel 'admin' (menggunakan pengecekan manual yang sesuai dengan struktur database asli)
+        // 1. Cek ke tabel 'admin' terlebih dahulu
         $admin = DB::table('admin')->where('email', $request->email)->first();
 
         if ($admin && Hash::check($request->password, $admin->password)) {
@@ -36,29 +40,32 @@ class AdminAuthController extends Controller
             return redirect()->intended('/admin')->with('success', 'Selamat datang, Admin!');
         }
 
-        // 2. Cek ke tabel 'pelanggan' (jika nanti sudah ada, bisa dilewati dulu atau disesuaikan)
-        // $pelanggan = DB::table('pelanggans')->where('email', $request->email)->first();
-        // if ($pelanggan && Hash::check($request->password, $pelanggan->password)) {
-        //     $request->session()->regenerate();
-        //     session([
-        //         'pelanggan_id' => $pelanggan->id,
-        //         'pelanggan_name' => $pelanggan->nama,
-        //     ]);
-        //     return redirect()->intended('/pelanggan/dashboard');
-        // }
+        // 2. Cek ke tabel 'pelanggan' (diaktifkan & disesuaikan dengan kolom asli)
+        $pelanggan = DB::table('pelanggan')->where('email', $request->email)->first();
 
-        // 3. Jika gagal / password salah
+        if ($pelanggan && Hash::check($request->password, $pelanggan->password)) {
+            $request->session()->regenerate();
+            
+            // Set session khusus pelanggan sesuai middleware PelangganAuth
+            session([
+                'id_pelanggan' => $pelanggan->id_pelanggan,
+                'pelanggan_name' => $pelanggan->nama_pelanggan,
+            ]);
+
+            return redirect()->intended(route('home'))->with('success', 'Selamat datang, ' . $pelanggan->nama_pelanggan . '!');
+        }
+
+        // 3. Jika gagal login di kedua tabel, kembalikan ke halaman login dengan pesan error
         return back()
             ->withErrors([
-                'login' => 'Email atau kata sandi salah.'
+                'email' => 'Email atau kata sandi salah.'
             ])
             ->onlyInput('email');
     }
 
     public function logout(Request $request)
     {
-        // Hapus session admin & pelanggan
-        $request->session()->forget(['admin_id', 'admin_name', 'pelanggan_id', 'pelanggan_name']);
+        $request->session()->forget(['admin_id', 'admin_name', 'id_pelanggan', 'pelanggan_name']);
         
         Auth::guard('admin')->logout();
         Auth::guard('pelanggan')->logout();
