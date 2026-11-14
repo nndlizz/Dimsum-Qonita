@@ -274,7 +274,11 @@ Route::middleware(AdminAuth::class)->group(function () {
         return view('admin.blankpage');
     })->name('admin.blankpage');
 
-    
+    // lokasi di bagian pelanggan
+    Route::get('/', function () {
+    $cabangs = \DB::table('cabangs')->get();
+    return view('pelanggan.layout.landing_page', compact('cabangs'));
+    })->name('home');
 
 });
 
