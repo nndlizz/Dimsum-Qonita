@@ -78,6 +78,18 @@
                         <span>Kelola Sponsor</span>
                     </a>
                 </li>
+
+                <li class="sidebar-menu-item">
+                    <a
+                        href="{{ url('/admin/riwayat_sponsor') }}"
+                        class="sidebar-menu-link {{ request()->is('admin/riwayat_sponsor') ? 'active' : '' }}"
+                        id="menu-riwayat-sponsor"
+                        title="Riwayat Sponsor"
+                    >
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+                        <span>Riwayat Sponsor</span>
+                    </a>
+                </li>
                 
             </ul>
         </div>           

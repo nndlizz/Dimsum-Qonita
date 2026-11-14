@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 @stack('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@yield('scripts')
 
 </body>
 </html>
