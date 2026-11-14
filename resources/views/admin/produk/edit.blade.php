@@ -35,9 +35,11 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.produk.update', $produk->id_produk) }}"
-                  method="POST"
-                  enctype="multipart/form-data">
+            <form 
+            id="formEditProduk"
+            action="{{ route('admin.produk.update', $produk->id_produk) }}"
+            method="POST"
+            enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -197,5 +199,35 @@
         }
     }
 </script>
+
+
+@push('scripts')
+<script>
+    const formEditProduk = document.getElementById('formEditProduk');
+
+    if (formEditProduk) {
+        formEditProduk.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+
+            Swal.fire({
+                title: 'Simpan Perubahan?',
+                text: 'Apakah kamu yakin ingin mengubah data produk ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#820000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Simpan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    }
+</script>
+@endpush
 
 @endsection

@@ -174,11 +174,10 @@
                                     </a>
 
                                     <form
-                                        action="{{ route('admin.produk.destroy', $produk->id_produk) }}"
-                                        method="POST"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus produk ini?')"
-                                    >
+    action="{{ route('admin.produk.destroy', $produk->id_produk) }}"
+    method="POST"
+    class="d-inline formHapusProduk"
+>
                                         @csrf
                                         @method('DELETE')
 
@@ -211,4 +210,33 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.querySelectorAll('.formHapusProduk').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+
+            Swal.fire({
+                title: 'Hapus Produk?',
+                text: 'Apakah kamu yakin ingin menghapus produk ini? Data yang dihapus tidak dapat dikembalikan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#820000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+@endpush
+
 @endsection
+

@@ -1,4 +1,6 @@
 @extends('admin.layout')
+
+@push('styles')
 <style>
     /* Hilangkan tombol naik-turun pada input harga cabang */
     input[type="number"]::-webkit-inner-spin-button,
@@ -12,7 +14,7 @@
         appearance: textfield;
     }
 </style>
-
+@endpush
 
 @section('content')
 
@@ -61,9 +63,10 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.produk.store') }}"
-          method="POST"
-          enctype="multipart/form-data">
+    <form id="formProduk"
+      action="{{ route('admin.produk.store') }}"
+      method="POST"
+      enctype="multipart/form-data">
 
         @csrf
 
@@ -201,4 +204,33 @@
     </form>
 </div>
 
+
+@push('scripts')
+<script>
+    const formProduk = document.getElementById('formProduk');
+
+    if (formProduk) {
+        formProduk.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+
+            Swal.fire({
+                title: 'Simpan Produk?',
+                text: 'Apakah kamu yakin ingin menambahkan produk ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#820000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Simpan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    }
+</script>
+@endpush
 @endsection

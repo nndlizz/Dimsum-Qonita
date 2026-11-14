@@ -1,4 +1,3 @@
-
 @extends('admin.layout')
 
 @section('content')
@@ -14,7 +13,7 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
 
-            <form action="{{ route('admin.kategori.update', $kategori->id_kategori) }}"
+            <form id="formKategori" action="{{ route('admin.kategori.update', $kategori->id_kategori) }}"
                   method="POST">
                 @csrf
                 @method('PUT')
@@ -58,4 +57,29 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.getElementById('formKategori').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+
+        Swal.fire({
+            title: 'Simpan Perubahan?',
+            text: 'Apakah kamu yakin ingin memperbarui kategori ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#820000',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Perbarui',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
 @endsection
