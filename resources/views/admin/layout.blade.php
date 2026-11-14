@@ -47,6 +47,11 @@
     <!-- Bootstrap JS -->
     <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- ApexCharts JS -->
     <script src="{{ asset('template_admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
@@ -80,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
+@stack('scripts')
 
 </body>
 </html>
