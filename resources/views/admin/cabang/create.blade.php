@@ -14,6 +14,7 @@
         <div class="card-body p-4">
 
             <form
+                id="formCabang"
                 action="{{ route('admin.cabang.store') }}"
                 method="POST"
                 enctype="multipart/form-data"
@@ -102,4 +103,26 @@
     </div>
 
 </div>
+<script>
+    document.getElementById('formCabang').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+
+        Swal.fire({
+            title: 'Simpan Cabang?',
+            text: 'Apakah kamu yakin ingin menambahkan cabang ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#820000',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Simpan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
 @endsection

@@ -13,7 +13,7 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
 
-            <form action="{{ route('admin.kategori.store') }}" method="POST">
+            <form id="formKategori" action="{{ route('admin.kategori.store') }}" method="POST">
                 @csrf
 
                 <div class="mb-3">
@@ -56,4 +56,28 @@
     </div>
 
 </div>
+
+
+<script>
+    document.getElementById('formKategori').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+
+        Swal.fire({
+            title: 'Simpan Kategori?',
+            text: 'Apakah kamu yakin ingin menambahkan kategori ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#820000',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Simpan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
 @endsection

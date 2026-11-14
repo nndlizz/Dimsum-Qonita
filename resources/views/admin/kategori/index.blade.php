@@ -69,8 +69,7 @@
 
                                     <form action="{{ route('admin.kategori.destroy', $kategori->id_kategori) }}"
                                           method="POST"
-                                          class="d-inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
+                                          class="d-inline form-hapus-kategori">
                                         @csrf
                                         @method('DELETE')
 
@@ -99,4 +98,31 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.querySelectorAll('.form-hapus-kategori').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const currentForm = this;
+
+            Swal.fire({
+                title: 'Hapus Kategori?',
+                text: 'Kategori yang dihapus tidak dapat dikembalikan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#820000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    currentForm.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection

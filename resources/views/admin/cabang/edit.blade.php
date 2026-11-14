@@ -14,6 +14,7 @@
         <div class="card-body p-4">
 
             <form
+                id="formEditCabang"
                 action="{{ route('admin.cabang.update', $cabang->id_cabang) }}"
                 method="POST"
                 enctype="multipart/form-data"
@@ -121,4 +122,26 @@
     </div>
 
 </div>
+<script>
+    document.getElementById('formEditCabang').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+
+        Swal.fire({
+            title: 'Simpan Perubahan?',
+            text: 'Apakah kamu yakin ingin memperbarui data cabang ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#820000',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Perbarui',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
 @endsection
