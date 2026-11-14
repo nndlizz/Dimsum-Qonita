@@ -248,9 +248,10 @@ Route::middleware(AdminAuth::class)->group(function () {
         'updateStatus'
     ])->name('admin.kelolasponsor.status');
 
+    // Riwayat Sponsor
     Route::get('/admin/riwayat_sponsor', [
         AjukanSponsorController::class,
-        'halamanriwayatsponsor'
+        'halamanRiwayatSponsor'
     ])->name('admin.riwayat_sponsor');
 
     // Kelola Akun Petugas
@@ -273,14 +274,7 @@ Route::middleware(AdminAuth::class)->group(function () {
         return view('admin.blankpage');
     })->name('admin.blankpage');
 
-    // Halaman Ajukan Sponsor
-    Route::get('/pelanggan/ajukan-sponsor',
-    [AjukanSponsorController::class, 'create']
-    )->name('pelanggan.sponsor.create');
-
-    Route::post('/pelanggan/ajukan-sponsor',
-        [AjukanSponsorController::class, 'store']
-    )->name('pelanggan.sponsor.store');
+    
 
 });
 
