@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Pelanggan\PelangganAuthController;
 use App\Http\Middleware\PelangganAuth;
+use App\Http\Controllers\NotifikasiController;
 
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
@@ -92,6 +93,10 @@ Route::get('/register', [PelangganAuthController::class, 'showRegister'])
     ->name('register');
 Route::post('/register', [PelangganAuthController::class, 'register'])
     ->name('pelanggan.register.proses');
+
+Route::get('/notifikasi', [NotifikasiController::class, 'index'])
+    ->middleware(PelangganAuth::class)
+    ->name('pelanggan.notifikasi');
     
 // (KHUSUS PELANGGAN)
 Route::middleware(PelangganAuth::class)->group(function () {
@@ -167,6 +172,15 @@ Route::middleware(AdminAuth::class)->group(function () {
             'jumlahCabang' => DB::table('cabangs')->count(),
             'jumlahProduk' => DB::table('produk')->count(),
             'jumlahKategori' => DB::table('kategoris')->count(),
+            'sponsorDiterima' => DB::table('ajukan_sponsor')
+            ->where('status', 'diterima')
+            ->count(),
+
+        'sponsorDitolak' => DB::table('ajukan_sponsor')
+            ->where('status', 'ditolak')
+            ->count(),
+
+        'totalAdmin' => DB::table('admin')->count(),
         ]);
     })->name('admin.dashboard');
 
