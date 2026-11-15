@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="id">
 <head>
@@ -25,7 +24,7 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('template_admin/assets/css/main.css') }}">
-
+    
     @stack('styles')
 </head>
 
@@ -45,46 +44,51 @@
 
     </div>
 
-    <!-- Bootstrap JS: CUKUP SATU KALI -->
+    <!-- Bootstrap JS -->
     <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- SweetAlert2: CUKUP SATU KALI -->
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- ApexCharts -->
+    <!-- ApexCharts JS -->
     <script src="{{ asset('template_admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-    <!-- Flatpickr -->
+    <!-- Flatpickr JS -->
     <script src="{{ asset('template_admin/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 
     <!-- Dashboard JS -->
     <script src="{{ asset('template_admin/assets/js/dashboard.js') }}"></script>
 
-    <!-- Sidebar Toggle -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
 
-            const sidebar = document.getElementById('sidebar');
-            const desktopToggle = document.getElementById('desktop-sidebar-toggle');
-            const mobileToggle = document.getElementById('sidebar-toggle');
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.getElementById('sidebar');
+    const desktopToggle = document.getElementById('desktop-sidebar-toggle');
+    const mobileToggle = document.getElementById('sidebar-toggle');
 
-            if (desktopToggle) {
-                desktopToggle.addEventListener('click', function () {
-                    document.body.classList.toggle('sidebar-collapsed');
-                });
-            }
+    if (!sidebar) return;
 
-            if (mobileToggle) {
-                mobileToggle.addEventListener('click', function () {
-                    document.body.classList.toggle('sidebar-mobile-open');
-                });
-            }
-
+    // Toggle sidebar desktop
+    if (desktopToggle) {
+        desktopToggle.addEventListener('click', function () {
+            document.body.classList.toggle('sidebar-collapsed');
         });
-    </script>
+    }
 
-    @stack('scripts')
-    @yield('scripts')
+    // Toggle sidebar mobile
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', function () {
+            document.body.classList.toggle('sidebar-mobile-open');
+        });
+    }
+});
+</script>
+
+@stack('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@yield('scripts')
 
 </body>
 </html>

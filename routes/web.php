@@ -1,9 +1,7 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-
 use App\Http\Controllers\AjukanSponsorController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
@@ -12,123 +10,222 @@ use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Pelanggan\PelangganAuthController;
-use App\Http\Controllers\NotifikasiController;
-
-use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\PelangganAuth;
 
-/*
-|--------------------------------------------------------------------------
-| LANDING PAGE
-|--------------------------------------------------------------------------
-*/
 
+Route::get('/admin/produk', [ProdukController::class, 'index'])
+    ->name('admin.produk.index');
+
+Route::get('/admin/produk/tambah', [ProdukController::class, 'create'])
+    ->name('admin.produk.create');
+
+Route::post('/admin/produk/simpan', [ProdukController::class, 'store'])
+    ->name('admin.produk.store');
+
+Route::get('/admin/produk/{id_produk}/edit', [ProdukController::class, 'edit'])
+    ->name('admin.produk.edit');
+
+Route::put('/admin/produk/{id_produk}', [ProdukController::class, 'update'])
+    ->name('admin.produk.update');
+
+Route::delete('/admin/produk/{id_produk}', [ProdukController::class, 'destroy'])
+    ->name('admin.produk.destroy');
+
+// Kelola Kategori
+Route::get('/admin/kategori', [KategoriController::class, 'index'])
+    ->name('admin.kategori.index');
+
+Route::get('/admin/kategori/tambah', [KategoriController::class, 'create'])
+    ->name('admin.kategori.create');
+
+Route::post('/admin/kategori/simpan', [KategoriController::class, 'store'])
+    ->name('admin.kategori.store');
+
+Route::get('/admin/kategori/{id_kategori}/edit', [KategoriController::class, 'edit'])
+    ->name('admin.kategori.edit');
+
+Route::put('/admin/kategori/{id_kategori}', [KategoriController::class, 'update'])
+    ->name('admin.kategori.update');
+
+Route::delete('/admin/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
+    ->name('admin.kategori.destroy');
+use App\Http\Middleware\AdminAuth;
+
+// Halaman utama
+// Route::get('/', function () {
+//     return redirect()->route('admin.dashboard');
+// });
 Route::get('/', function () {
-    $cabangs = DB::table('cabangs')->get();
-
-    return view('pelanggan.layout.landing_page', compact('cabangs'));
+    return view('pelanggan.layout.landing_page');
 })->name('home');
 
 
-/*
-|--------------------------------------------------------------------------
-| LOGIN & REGISTER
-|--------------------------------------------------------------------------
-*/
+Route::get('/admin/cabang', [CabangController::class, 'index'])
+    ->name('admin.cabang.index');
 
+Route::get('/admin/cabang/tambah', [CabangController::class, 'create'])
+    ->name('admin.cabang.create');
+
+Route::post('/admin/cabang/simpan', [CabangController::class, 'store'])
+    ->name('admin.cabang.store');
+
+Route::get('/admin/cabang/{id_cabang}/edit', [CabangController::class, 'edit'])
+    ->name('admin.cabang.edit');
+
+Route::put('/admin/cabang/{id_cabang}', [CabangController::class, 'update'])
+    ->name('admin.cabang.update');
+
+Route::delete('/admin/cabang/{id_cabang}', [CabangController::class, 'destroy'])
+    ->name('admin.cabang.destroy');
+
+
+// Route Login Satu Pintu (Memakai view dan controller admin yang sudah ada)
 Route::get('/login', [AdminAuthController::class, 'showLogin'])
     ->name('login');
-
 Route::post('/login', [AdminAuthController::class, 'login'])
     ->name('login.proses');
-
 Route::post('/logout', [AdminAuthController::class, 'logout'])
     ->name('logout');
 
+// Route Register Khusus Pelanggan
 Route::get('/register', [PelangganAuthController::class, 'showRegister'])
     ->name('register');
-
 Route::post('/register', [PelangganAuthController::class, 'register'])
     ->name('pelanggan.register.proses');
-
-
-/*
-|--------------------------------------------------------------------------
-| ROUTE PELANGGAN
-|--------------------------------------------------------------------------
-*/
-
+    
+// (KHUSUS PELANGGAN)
 Route::middleware(PelangganAuth::class)->group(function () {
+    
+    // Halaman Ajukan Sponsor
+    Route::get('/pelanggan/ajukan-sponsor', [AjukanSponsorController::class, 'create'])
+        ->name('pelanggan.sponsor.create');
+        
+    Route::post('/pelanggan/ajukan-sponsor', [AjukanSponsorController::class, 'store'])
+        ->name('pelanggan.sponsor.store');
+    
+    // 2. Riwayat Sponsor (Cek status sponsor diproses/belum)
+    // Route::get('/pelanggan/riwayat-sponsor', [AjukanSponsorController::class, 'riwayat'])->name('pelanggan.riwayat');
 
-    Route::get('/pelanggan/ajukan-sponsor', [
-        AjukanSponsorController::class,
-        'create'
-    ])->name('pelanggan.sponsor.create');
+    // 3. Notifikasi Pelanggan
+    // Route::get('/pelanggan/notifikasi', [NotifikasiController::class, 'index'])->name('pelanggan.notifikasi');
 
-    Route::post('/pelanggan/ajukan-sponsor', [
-        AjukanSponsorController::class,
-        'store'
-    ])->name('pelanggan.sponsor.store');
-
-    Route::get('/notifikasi', [
-        NotifikasiController::class,
-        'index'
-    ])->name('pelanggan.notifikasi');
-
+    // 4. Profil Pelanggan
+    // Route::get('/pelanggan/profil', [PelangganProfileController::class, 'index'])->name('pelanggan.profil');
 });
 
+// Dashboard Admin
+Route::get('/admin', function () {
+    if (!session()->has('admin_id')) {
+        return redirect()->route('admin.login');
+    }
+    return view('admin.dashboard');
+})->name('admin.dashboard');
 
-/*
-|--------------------------------------------------------------------------
-| ROUTE ADMIN (WAJIB LOGIN)
-|--------------------------------------------------------------------------
-*/
+// Profil Admin
+Route::get('/admin/profil', [AdminProfileController::class, 'index'])
+    ->name('admin.profil');
 
+Route::get('/admin/profil/edit', [AdminProfileController::class, 'edit'])
+    ->name('admin.profil.edit');
+
+Route::put('/admin/profil', [AdminProfileController::class, 'update'])
+    ->name('admin.profil.update');
+
+// Kelola Sponsor
+Route::get(
+    '/admin/kelolasponsor',
+    [AjukanSponsorController::class, 'halamanKelolaSponsor']
+)->name('admin.kelolasponsor');
+
+Route::put(
+    '/admin/kelolasponsor/{id}/status',
+    [AjukanSponsorController::class, 'updateStatus']
+)->name('admin.kelolasponsor.status');
+
+
+// Tambah Akun Petugas
+Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::get('/tambah', [AdminController::class, 'create'])->name('tambah');
+    Route::post('/simpan', [AdminController::class, 'store'])->name('simpan');
+    Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [AdminController::class, 'update'])->name('update');
+    Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
+    });  
+
+// Halaman Tabel
+Route::get('/admin/tables', function () {
+    return view('admin.tables');
+})->name('admin.tables');
+
+// Semua halaman admin wajib login
 Route::middleware(AdminAuth::class)->group(function () {
 
-    // Dashboard
+    // Dashboard Admin
     Route::get('/admin', function () {
         return view('admin.dashboard', [
             'jumlahCabang' => DB::table('cabangs')->count(),
             'jumlahProduk' => DB::table('produk')->count(),
             'jumlahKategori' => DB::table('kategoris')->count(),
-            'totalAdmin' => DB::table('admin')->count(),
         ]);
     })->name('admin.dashboard');
 
-
     // Kelola Produk
-    Route::prefix('admin/produk')->name('admin.produk.')->group(function () {
-        Route::get('/', [ProdukController::class, 'index'])->name('index');
-        Route::get('/tambah', [ProdukController::class, 'create'])->name('create');
-        Route::post('/simpan', [ProdukController::class, 'store'])->name('store');
-        Route::get('/{id_produk}/edit', [ProdukController::class, 'edit'])->name('edit');
-        Route::put('/{id_produk}', [ProdukController::class, 'update'])->name('update');
-        Route::delete('/{id_produk}', [ProdukController::class, 'destroy'])->name('destroy');
-    });
+    Route::get('/admin/produk', [ProdukController::class, 'index'])
+        ->name('admin.produk.index');
 
+    Route::get('/admin/produk/tambah', [ProdukController::class, 'create'])
+        ->name('admin.produk.create');
+
+    Route::post('/admin/produk/simpan', [ProdukController::class, 'store'])
+        ->name('admin.produk.store');
+
+    Route::get('/admin/produk/{id_produk}/edit', [ProdukController::class, 'edit'])
+        ->name('admin.produk.edit');
+
+    Route::put('/admin/produk/{id_produk}', [ProdukController::class, 'update'])
+        ->name('admin.produk.update');
+
+    Route::delete('/admin/produk/{id_produk}', [ProdukController::class, 'destroy'])
+        ->name('admin.produk.destroy');
 
     // Kelola Kategori
-    Route::prefix('admin/kategori')->name('admin.kategori.')->group(function () {
-        Route::get('/', [KategoriController::class, 'index'])->name('index');
-        Route::get('/tambah', [KategoriController::class, 'create'])->name('create');
-        Route::post('/simpan', [KategoriController::class, 'store'])->name('store');
-        Route::get('/{id_kategori}/edit', [KategoriController::class, 'edit'])->name('edit');
-        Route::put('/{id_kategori}', [KategoriController::class, 'update'])->name('update');
-        Route::delete('/{id_kategori}', [KategoriController::class, 'destroy'])->name('destroy');
-    });
+    Route::get('/admin/kategori', [KategoriController::class, 'index'])
+        ->name('admin.kategori.index');
 
+    Route::get('/admin/kategori/tambah', [KategoriController::class, 'create'])
+        ->name('admin.kategori.create');
+
+    Route::post('/admin/kategori/simpan', [KategoriController::class, 'store'])
+        ->name('admin.kategori.store');
+
+    Route::get('/admin/kategori/{id_kategori}/edit', [KategoriController::class, 'edit'])
+        ->name('admin.kategori.edit');
+
+    Route::put('/admin/kategori/{id_kategori}', [KategoriController::class, 'update'])
+        ->name('admin.kategori.update');
+
+    Route::delete('/admin/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
+        ->name('admin.kategori.destroy');
 
     // Kelola Cabang
-    Route::prefix('admin/cabang')->name('admin.cabang.')->group(function () {
-        Route::get('/', [CabangController::class, 'index'])->name('index');
-        Route::get('/tambah', [CabangController::class, 'create'])->name('create');
-        Route::post('/simpan', [CabangController::class, 'store'])->name('store');
-        Route::get('/{id_cabang}/edit', [CabangController::class, 'edit'])->name('edit');
-        Route::put('/{id_cabang}', [CabangController::class, 'update'])->name('update');
-        Route::delete('/{id_cabang}', [CabangController::class, 'destroy'])->name('destroy');
-    });
+    Route::get('/admin/cabang', [CabangController::class, 'index'])
+        ->name('admin.cabang.index');
 
+    Route::get('/admin/cabang/tambah', [CabangController::class, 'create'])
+        ->name('admin.cabang.create');
+
+    Route::post('/admin/cabang/simpan', [CabangController::class, 'store'])
+        ->name('admin.cabang.store');
+
+    Route::get('/admin/cabang/{id_cabang}/edit', [CabangController::class, 'edit'])
+        ->name('admin.cabang.edit');
+
+    Route::put('/admin/cabang/{id_cabang}', [CabangController::class, 'update'])
+        ->name('admin.cabang.update');
+
+    Route::delete('/admin/cabang/{id_cabang}', [CabangController::class, 'destroy'])
+        ->name('admin.cabang.destroy');
 
     // Profil Admin
     Route::get('/admin/profil', [AdminProfileController::class, 'index'])
@@ -139,7 +236,6 @@ Route::middleware(AdminAuth::class)->group(function () {
 
     Route::put('/admin/profil', [AdminProfileController::class, 'update'])
         ->name('admin.profil.update');
-
 
     // Kelola Sponsor
     Route::get('/admin/kelolasponsor', [
@@ -152,13 +248,11 @@ Route::middleware(AdminAuth::class)->group(function () {
         'updateStatus'
     ])->name('admin.kelolasponsor.status');
 
-
     // Riwayat Sponsor
     Route::get('/admin/riwayat_sponsor', [
         AjukanSponsorController::class,
         'halamanRiwayatSponsor'
     ])->name('admin.riwayat_sponsor');
-
 
     // Kelola Akun Petugas
     Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
@@ -170,16 +264,21 @@ Route::middleware(AdminAuth::class)->group(function () {
         Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
     });
 
-
     // Halaman Tabel
     Route::get('/admin/tables', function () {
         return view('admin.tables');
     })->name('admin.tables');
 
-
-    // Halaman Blank
+    // Halaman Kosong
     Route::get('/admin/blankpage', function () {
         return view('admin.blankpage');
     })->name('admin.blankpage');
 
+    
+
 });
+
+// Halaman Landing Pelanggan
+// Route::get('/pelanggan', function () {
+//     return view('pelanggan.layout.landing_page');
+// })->name('pelanggan.index');

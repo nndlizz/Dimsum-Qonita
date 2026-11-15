@@ -53,36 +53,35 @@
       <section id="hero">
          <div class="hs hs1"></div>
          <div class="hs hs2"></div>
-         <div class="hbgtxt">Qonita</div>
+         <div class="hbgtxt">FOOD</div>
          <div class="container">
             <div class="row align-items-center g-5" style="min-height:88vh;">
                <div class="col-lg-6">
                   <div class="hbadge">
                      <div class="hbi"><i class="fas fa-star"></i></div>
-                     <span>#1 Jajanan Terfavorit di Purwakarta</span>
+                     <span>#1 Rated Fast Food Restaurant in New York</span>
                   </div>
-                  <h1 class="htitle">Lezat <span class="hl">Terjangkau</span><br/>Untuk setiap momen terbaikmu!</h1>
-                  <p class="hdesc">Rasakan cita rasa berani yang dibuat dari bahan-bahan premium. Mulai dari kelembutan tiap gigitan - setiap gigitsn adalah petualangan yang layak dinikmati.</p>
-                  <!-- <div class="d-flex flex-wrap gap-3 mb-2">
-                     <a href="#menu" class="btn-red"><i class="fas fa-utensils"></i>Explore Menu</a> -->
+                  <h1 class="htitle">Delicious <span class="hl">Fast Food</span><br/>for Every Moment</h1>
+                  <p class="hdesc">Experience bold flavors crafted from premium ingredients. From crispy burgers to gourmet pizzas - every bite is an adventure worth savoring.</p>
+                  <div class="d-flex flex-wrap gap-3 mb-2">
+                     <a href="#menu" class="btn-red"><i class="fas fa-utensils"></i>Explore Menu</a>
                      <!-- FIX 2: Magnific popup video trigger -->
-                  <a href="https://www.youtube.com/watch?v=RXv_uIN6e-Y" class="magnific_popup btn-play popup-youtube">
-                     <div class="pico"><i class="fas fa-play"></i></div>
-                     <span>Watch Our Story</span>
-                  </a>
-
+					 <a href="https://www.youtube.com/watch?v=RXv_uIN6e-Y" class="magnific_popup btn-play popup-youtube">
+						<div class="pico"><i class="fas fa-play"></i></div>
+						<span>Watch Our Story</span>
+					 </a>
                   </div>
                   <div class="hstats d-flex gap-3 flex-wrap mt-4">
-                     <div class="hstat"><span class="snum">100<em>+</em></span><small>Pelanggan Senang</small></div>
+                     <div class="hstat"><span class="snum">850<em>+</em></span><small>Happy Customers</small></div>
                      <div class="sdiv"></div>
-                     <div class="hstat"><span class="snum">15<em>+</em></span><small>Pilihan Menu</small></div>
+                     <div class="hstat"><span class="snum">120<em>+</em></span><small>Menu Items</small></div>
                      <div class="sdiv"></div>
-                     <div class="hstat"><span class="snum">10<em>+</em></span><small>Ahli dalam Bidangnya</small></div>
+                     <div class="hstat"><span class="snum">15<em>+</em></span><small>Expert Chefs</small></div>
                      <div class="sdiv"></div>
-                     <div class="hstat"><span class="snum">2<em>th +</em></span><small>Pengalaman</small></div>
+                     <div class="hstat"><span class="snum">12<em>yr</em></span><small>Experience</small></div>
                   </div>
                </div>
-               <!-- <div class="col-lg-6">
+               <div class="col-lg-6">
                   <div style="position:relative;text-align:center;">
                      <div class="hcircle">
                         <img src="img/banner-img.jpg" alt="Burger"/>
@@ -100,27 +99,27 @@
                         <div><span class="fcnum">20 min</span><span class="fcsm">Fast delivery</span></div>
                      </div>
                   </div>
-               </div> -->
+               </div>
             </div>
          </div>
       </section>
       <!-- MARQUEE -->
       <div class="mqsec">
          <div class="mqtrack">
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Original</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Kukus</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Goreng</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Goreng Keju</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Mentai</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Kuah</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Cake</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Dimsum Platter</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Tahu Bakso</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Wonton Chili Oil</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Gyoza</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Cireng Chili Oil</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Hakau</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Berbagai Minuman</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Crispy Fried Chicken</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Gourmet Burgers</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Artisan Pizzas</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Fresh Wraps &amp; Rolls</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Loaded Fries</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Ice Cream Shakes</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Grilled Sandwiches</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Crispy Fried Chicken</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Gourmet Burgers</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Artisan Pizzas</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Fresh Wraps &amp; Rolls</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Loaded Fries</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Ice Cream Shakes</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Grilled Sandwiches</div>
          </div>
       </div>
       <!-- CATEGORY -->
