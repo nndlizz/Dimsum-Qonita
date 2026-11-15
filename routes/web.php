@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Pelanggan\PelangganAuthController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Middleware\PelangganAuth;
-use App\Http\Controllers\NotifikasiController;
+use App\Http\Middleware\AdminAuth;
 
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
@@ -29,8 +29,7 @@ Route::post('/admin/produk/simpan', [ProdukController::class, 'store'])
 Route::get('/admin/produk/{id_produk}/edit', [ProdukController::class, 'edit'])
     ->name('admin.produk.edit');
 
-use App\Http\Middleware\AdminAuth;
-use App\Http\Middleware\PelangganAuth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -212,13 +211,7 @@ Route::middleware(AdminAuth::class)->group(function () {
     })->name('admin.blankpage');
 
 });
-    // lokasi di bagian pelanggan
-    Route::get('/', function () {
-    $cabangs = \DB::table('cabangs')->get();
-    return view('pelanggan.layout.landing_page', compact('cabangs'));
-    })->name('home');
-
-});
+    
 
 // Halaman Landing Pelanggan
 // Route::get('/pelanggan', function () {
