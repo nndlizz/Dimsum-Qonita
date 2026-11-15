@@ -18,7 +18,7 @@
             <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
             <li class="nav-item"><a class="nav-link" href="#chefs">Chefs</a></li>
-            <li class="nav-item"><a class="nav-link" href="#reservation">Reservation</a></li>
+            <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
             <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact-section">Contact</a></li>
          </ul>
