@@ -60,7 +60,7 @@
     <div class="col-6 col-lg-auto">
         <button class="btn btn-dark">Terapkan</button>
         @if (request()->hasAny(['q', 'status', 'dari', 'sampai']))
-            <a href="{{ route('riwayat.index') }}" class="btn btn-link">Reset</a>
+            <a href="{{ route('admin.riwayat_sponsor') }}" class="btn btn-link">Reset</a>
         @endif
     </div>
 </form>
@@ -103,12 +103,12 @@
                 </span>
             </td>
 
-            <td class="text-end">
+            <!-- <td class="text-end">
                 <a href="{{ route('monitoring.show', $r) }}"
                    class="btn btn-outline-primary btn-sm">
                     Detail
                 </a>
-            </td>
+            </td> -->
         </tr>
     @empty
         <tr>

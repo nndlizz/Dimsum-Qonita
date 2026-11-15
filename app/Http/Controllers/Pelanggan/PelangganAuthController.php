@@ -54,6 +54,7 @@ class PelangganAuthController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        // Contoh di method register / store pelanggan pada Controller kamu:
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login menggunakan akun yang baru dibuat.');
     }
 }
