@@ -13,6 +13,21 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Pelanggan\PelangganAuthController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Middleware\PelangganAuth;
+use App\Http\Controllers\NotifikasiController;
+
+
+Route::get('/admin/produk', [ProdukController::class, 'index'])
+    ->name('admin.produk.index');
+
+Route::get('/admin/produk/tambah', [ProdukController::class, 'create'])
+    ->name('admin.produk.create');
+
+Route::post('/admin/produk/simpan', [ProdukController::class, 'store'])
+    ->name('admin.produk.store');
+
+Route::get('/admin/produk/{id_produk}/edit', [ProdukController::class, 'edit'])
+    ->name('admin.produk.edit');
 
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\PelangganAuth;
@@ -58,6 +73,11 @@ Route::post('/register', [PelangganAuthController::class, 'register'])
 |--------------------------------------------------------------------------
 */
 
+Route::get('/notifikasi', [NotifikasiController::class, 'index'])
+    ->middleware(PelangganAuth::class)
+    ->name('pelanggan.notifikasi');
+    
+// (KHUSUS PELANGGAN)
 Route::middleware(PelangganAuth::class)->group(function () {
 
     Route::get('/pelanggan/ajukan-sponsor', [
@@ -93,6 +113,15 @@ Route::middleware(AdminAuth::class)->group(function () {
             'jumlahProduk' => DB::table('produk')->count(),
             'jumlahKategori' => DB::table('kategoris')->count(),
             'totalAdmin' => DB::table('admin')->count(),
+            'sponsorDiterima' => DB::table('ajukan_sponsor')
+            ->where('status', 'diterima')
+            ->count(),
+
+        'sponsorDitolak' => DB::table('ajukan_sponsor')
+            ->where('status', 'ditolak')
+            ->count(),
+
+        'totalAdmin' => DB::table('admin')->count(),
         ]);
     })->name('admin.dashboard');
 
@@ -183,3 +212,15 @@ Route::middleware(AdminAuth::class)->group(function () {
     })->name('admin.blankpage');
 
 });
+    // lokasi di bagian pelanggan
+    Route::get('/', function () {
+    $cabangs = \DB::table('cabangs')->get();
+    return view('pelanggan.layout.landing_page', compact('cabangs'));
+    })->name('home');
+
+});
+
+// Halaman Landing Pelanggan
+// Route::get('/pelanggan', function () {
+//     return view('pelanggan.layout.landing_page');
+// })->name('pelanggan.index');
