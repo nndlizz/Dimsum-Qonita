@@ -32,6 +32,11 @@
         box-shadow: 0 3px 12px rgba(0,0,0,0.05);
     }
 
+    .notification-card.unread {
+        background: #FFFCF7;
+        border-left-color: #820000;
+    }
+
     .notification-card h6 {
         color: #820000;
         font-weight: 600;
@@ -57,48 +62,14 @@
         border-radius: 20px;
     }
 
-    .status-diajukan {
+    .status-unread {
         background: #FFF0D5;
         color: #A66A00;
     }
 
-    .status-diproses {
-        background: #E5EEFF;
-        color: #2856A5;
-    }
-
-    .status-diterima {
+    .status-read {
         background: #E1F5E8;
         color: #237A43;
-    }
-
-    .status-ditolak {
-        background: #FCE4E4;
-        color: #B42318;
-    }
-
-    .status-selesai {
-        background: #EDE5F7;
-        color: #6941A5;
-    }
-
-    .notification-note {
-        background: #FFF4E5;
-        border-radius: 10px;
-        padding: 14px 16px;
-        margin-bottom: 15px;
-    }
-
-    .notification-note h6 {
-        font-size: 13px;
-        margin-bottom: 6px;
-    }
-
-    .notification-note p {
-        color: #666;
-        font-size: 13px;
-        line-height: 1.6;
-        margin-bottom: 0;
     }
 
     .notification-empty {
@@ -107,6 +78,13 @@
         padding: 45px 20px;
         text-align: center;
         color: #888;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    .notification-empty h5 {
+        color: #820000;
+        font-weight: 600;
+        margin-bottom: 8px;
     }
 
     @media (max-width: 576px) {
@@ -130,75 +108,49 @@
             </p>
         </div>
 
-        {{-- Contoh notifikasi sementara --}}
+        @forelse ($notifikasi as $item)
 
-        <div class="notification-card">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                <h6>Pengajuan Sponsor</h6>
-                <span class="notification-status status-diterima">
-                    Diterima
+            <div class="notification-card {{ !$item->status_baca ? 'unread' : '' }}">
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+
+                    <h6>{{ $item->judul }}</h6>
+
+                    @if ($item->status_baca)
+                        <span class="notification-status status-read">
+                            Sudah dibaca
+                        </span>
+                    @else
+                        <span class="notification-status status-unread">
+                            Belum dibaca
+                        </span>
+                    @endif
+
+                </div>
+
+                <p class="notification-message">
+                    {{ $item->pesan }}
+                </p>
+
+                <span class="notification-date">
+                    {{ $item->created_at
+                        ? \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y, H:i')
+                        : '-' }}
                 </span>
+
             </div>
 
-            <p class="notification-message">
-                Pengajuan sponsor kegiatan kamu telah disetujui oleh admin.
-            </p>
+        @empty
 
-            <div class="notification-note">
-                <h6>Catatan Admin</h6>
-                <p>
-                    Selamat! Pengajuan sponsor kamu telah disetujui.
-                    Silakan hubungi Ibu Rina untuk koordinasi lebih lanjut.
+            <div class="notification-empty">
+                <h5>Belum Ada Notifikasi</h5>
+                <p class="mb-0">
+                    Notifikasi perkembangan pengajuan sponsor kamu
+                    akan muncul di sini.
                 </p>
             </div>
 
-            <span class="notification-date">
-                11 November 2026
-            </span>
-        </div>
-
-        <div class="notification-card">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                <h6>Pengajuan Sponsor</h6>
-                <span class="notification-status status-diproses">
-                    Diproses
-                </span>
-            </div>
-
-            <p class="notification-message">
-                Pengajuan sponsor kegiatan kamu sedang ditinjau oleh admin.
-                Silakan tunggu informasi selanjutnya.
-            </p>
-
-            <span class="notification-date">
-                10 November 2026
-            </span>
-        </div>
-
-        <div class="notification-card">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                <h6>Pengajuan Sponsor</h6>
-                <span class="notification-status status-ditolak">
-                    Ditolak
-                </span>
-            </div>
-
-            <p class="notification-message">
-                Pengajuan sponsor kegiatan kamu belum dapat disetujui.
-            </p>
-
-            <div class="notification-note">
-                <h6>Catatan Admin</h6>
-                <p>
-                    Mohon maaf, pengajuan belum sesuai dengan kriteria
-                    kerja sama yang berlaku.
-                </p>
-            </div>
-
-            <span class="notification-date">
-                9 November 2026
-            </span>
-        </div>
+        @endforelse
 
     </div>
 </section>

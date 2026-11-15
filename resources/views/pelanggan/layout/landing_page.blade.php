@@ -122,105 +122,319 @@
             <div class="mqitem"><i class="fas fa-circle"></i>Grilled Sandwiches</div>
          </div>
       </div>
-      <!-- CATEGORY -->
-      <section id="category">
-         <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-               <span class="slbl">What We Offer</span>
-               <h2 class="stitle">Browse by <span>Category</span></h2>
-               <div class="sline"></div>
-               <p class="sdesc mx-auto" style="max-width:480px;">From sizzling burgers to exotic world cuisines - find your favourite in our menu</p>
+     
+
+<!-- GALLERY KEGIATAN -->
+<section id="category" style="background-color: #FFF4E5; padding: 70px 0;">
+
+    <style>
+        #category .gallery-slider {
+            position: relative;
+        }
+
+        #category .gallery-wrapper {
+            display: flex;
+            gap: 22px;
+            overflow-x: auto;
+            padding: 10px 5px 25px;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: #820000 #eadfd2;
+        }
+
+        #category .gallery-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        #category .gallery-wrapper::-webkit-scrollbar-thumb {
+            background: #820000;
+            border-radius: 10px;
+        }
+
+        #category .gallery-card {
+            flex: 0 0 260px;
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+            scroll-snap-align: start;
+            transition: .3s ease;
+        }
+
+        #category .gallery-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 22px rgba(130,0,0,.13);
+        }
+
+        #category .gallery-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #category .gallery-content {
+            padding: 18px;
+            min-height: 145px;
+        }
+
+        #category .gallery-content h5 {
+            color: #820000;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        #category .gallery-content p {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        #category .gallery-number {
+            color: #b99a7b;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        #category .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: #820000;
+            color: #fff;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,.2);
+            transition: .3s ease;
+        }
+
+        #category .gallery-arrow:hover {
+            background: #a50000;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        #category .gallery-arrow.prev {
+            left: -18px;
+        }
+
+        #category .gallery-arrow.next {
+            right: -18px;
+        }
+
+        @media (max-width: 576px) {
+            #category .gallery-card {
+                flex-basis: 240px;
+            }
+
+            #category .gallery-arrow.prev {
+                left: 0;
+            }
+
+            #category .gallery-arrow.next {
+                right: 0;
+            }
+        }
+    </style>
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <span class="slbl">Dokumentasi Kegiatan</span>
+
+            <h2 class="stitle">
+                Gallery Kegiatan <span>Dimsum Qonita</span>
+            </h2>
+
+            <div class="sline"></div>
+
+            <p class="sdesc mx-auto" style="max-width: 550px;">
+                Berbagai momen kegiatan, produksi, kolaborasi,
+                dan perjalanan Dimsum Qonita.
+            </p>
+        </div>
+
+        <div class="gallery-slider">
+
+            <!-- TOMBOL KIRI -->
+            <button class="gallery-arrow prev"
+                type="button"
+                onclick="document.getElementById('galleryScroll').scrollBy({left: -282, behavior: 'smooth'})">
+                ‹
+            </button>
+
+            <!-- DAFTAR FOTO -->
+            <div class="gallery-wrapper" id="galleryScroll">
+
+                <!-- FOTO 1 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/collab1.jpeg') }}"
+                         alt="Kegiatan bazar Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 01</div>
+                        <h5>Partisipasi Acara</h5>
+                        <p>
+                            Partisipasi Dimsum Qonita dalam kegiatan
+                            dengan menjadi sponsor dan membuka stan penjualan di Event Kampus UPI Purwakarta
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FOTO 2 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/collab2.jpeg') }}"
+                         alt="Stan penjualan Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 02</div>
+                        <h5>Kegiatan Bazar</h5>
+                        <p>
+                           Keikutsertaan Dimsum Qonita dalam kegiatan
+                            bazar melalui pembukaan stan makanan disalah satu Sekolah di Purwakarta.
+                    </div>
+                </div>
+
+                <!-- FOTO 3 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/collab3.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 03</div>
+                        <h5>Stan Penjualan</h5>
+                        <p>
+                            Kegiatan penjualan produk Dimsum Qonita
+                            di area acara indoor dengan berbagai pilihan menu.
+                        </p>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FOTO 4 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/collab4.jpeg') }}"
+                         alt="Aktivitas penjualan Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 04</div>
+                        <h5>Aktivitas Penjualan</h5>
+                        <p>
+                            Aktivitas tim dalam melayani pelanggan
+                            dan memperkenalkan produk Dimsum Qonita.
+                        </p>
+                    </div>
+                </div>
+                <!-- FOTO 5 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/produksi1.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 05</div>
+                        <h5>Proses Pencetakan Dimsum</h5>
+                        <p>
+                            Proses pencetakan dimsum yang dilakukan oleh Tim atau Pekerja.
+                        </p>
+                    </div>
+                </div>
+                <!-- FOTO 6 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/produksi2.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 06</div>
+                        <h5>Pemotongan Toping</h5>
+                        <p>
+                            Proses pemotongan untuk toping dibagian atas dimsum yang dilakukan oleh Pekerja.
+                        </p>
+                    </div>
+                </div>
+                <!-- FOTO 7 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/review1.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 07</div>
+                        <h5>Review Menu</h5>
+                        <p>
+                            Review yang dilakukan oleh salah satu Selegram di Purwakarta "Mas Blangkon" yang mereview menu andalan dan semua jenis dimsum yang diproduksi oleh Dimsum Qonita.
+                        </p>
+                    </div>
+                </div>
+                <!-- FOTO 8 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/review2.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 08</div>
+                        <h5>Review Menu</h5>
+                        <p>
+                            Review yang dilakukan oleh salah satu Selegram sekaligus Food Vlogger di Purwakarta "Mila" yang mereview menu andalan dan semua jenis dimsum yang diproduksi oleh Dimsum Qonita.
+                        </p>
+                    </div>
+                </div>
+                <!-- FOTO 9 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/bestproduk.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 09</div>
+                        <h5>Best Produk</h5>
+                        <p>
+                            Menu andalan atau Menu favorit yang banyak diminati oleh konsumen DImsum Qonita.
+                        </p>
+                    </div>
+                </div>
+                <!-- FOTO 10 -->
+                <div class="gallery-card">
+                    <img src="{{ asset('uploads/gallery/berbagi.jpeg') }}"
+                         alt="Partisipasi acara Dimsum Qonita">
+
+                    <div class="gallery-content">
+                        <div class="gallery-number">KEGIATAN 10</div>
+                        <h5>Berbagi Dimsum Qonita</h5>
+                        <p>
+                            Kegiatan berbagi dimsum gratis yang dilakukan oleh Dimsum Qonita pada Bulan Ramadhan. 
+                        </p>
+                    </div>
+                </div>
+
             </div>
-            <div class="row g-3 justify-content-center">
-               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="0">
-                  <div class="catcard active" data-filter="all">
-                     <img class="catimg" src="img/category/1.jpg" alt=""/>
-                     <div class="catnm">All Items</div>
-                     <div class="catct">99 items</div>
-                  </div>
-               </div>
-               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="70">
-                  <div class="catcard" data-filter="burgers">
-                     <img class="catimg" src="img/category/2.jpg" alt=""/>
-                     <div class="catnm">Burgers</div>
-                     <div class="catct">24 items</div>
-                  </div>
-               </div>
-               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="140">
-                  <div class="catcard" data-filter="pizza">
-                     <img class="catimg" src="img/category/3.jpg" alt=""/>
-                     <div class="catnm">Pizza</div>
-                     <div class="catct">18 items</div>
-                  </div>
-               </div>
-               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="210">
-                  <div class="catcard" data-filter="chicken">
-                     <img class="catimg" src="img/category/4.jpg" alt=""/>
-                     <div class="catnm">Fried Chicken</div>
-                     <div class="catct">15 items</div>
-                  </div>
-               </div>
-               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="280">
-                  <div class="catcard" data-filter="wraps">
-                     <img class="catimg" src="img/category/5.jpg" alt=""/>
-                     <div class="catnm">Wraps</div>
-                     <div class="catct">12 items</div>
-                  </div>
-               </div>
-               <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="350">
-                  <div class="catcard" data-filter="desserts">
-                     <img class="catimg" src="img/category/6.jpg" alt=""/>
-                     <div class="catnm">Desserts</div>
-                     <div class="catct">20 items</div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
-      <!-- ABOUT -->
-      <section id="about">
-         <div class="container">
-            <div class="row align-items-center g-5">
-               <div class="col-lg-5" data-aos="fade-right">
-                  <div class="astack">
-                     <div class="aexp"><span class="anum">12+</span><small>Years of<br/>Excellence</small></div>
-                     <div class="amain"><img src="img/about1.jpg" alt="Restaurant"/></div>
-                     <div class="asm"><img src="img/about2.jpg" alt=""/></div>
-                  </div>
-               </div>
-               <div class="col-lg-7" data-aos="fade-left">
-                  <span class="slbl">Our Story</span>
-                  <h2 class="stitle text-start">We Invite You to Visit<br/>Our <span>Food Restaurant</span></h2>
-                  <div class="sline lft"></div>
-                  <p class="sdesc mb-4">Founded in 2012, Sarab began as a small corner joint with a big dream - to serve food that brings people together. Today we're proud to serve thousands of happy customers every week with the same passion that started it all.</p>
-                  <div class="mb-4">
-                     <div class="fti">
-                        <div class="ftico r"><i class="fas fa-leaf"></i></div>
-                        <div>
-                           <h6>100% Fresh Ingredients</h6>
-                           <p>We source locally and sustainably. Every ingredient is hand-picked daily for maximum freshness.</p>
-                        </div>
-                     </div>
-                     <div class="fti">
-                        <div class="ftico y"><i class="fas fa-award"></i></div>
-                        <div>
-                           <h6>Award-Winning Recipes</h6>
-                           <p>Our signature recipes have won national culinary awards 5 years in a row.</p>
-                        </div>
-                     </div>
-                     <div class="fti">
-                        <div class="ftico g"><i class="fas fa-shipping-fast"></i></div>
-                        <div>
-                           <h6>Lightning-Fast Delivery</h6>
-                           <p>Order online and get hot, fresh food at your door in under 25 minutes, guaranteed.</p>
-                        </div>
-                     </div>
-                  </div>
-                  <a href="#menu" class="btn-red"><i class="fas fa-book-open"></i>View Full Menu</a>
-               </div>
-            </div>
-         </div>
-      </section>
+
+            <!-- TOMBOL KANAN -->
+            <button class="gallery-arrow next"
+                type="button"
+                onclick="document.getElementById('galleryScroll').scrollBy({left: 282, behavior: 'smooth'})">
+                ›
+            </button>
+
+        </div>
+
+        <div class="text-center mt-3">
+            <small style="color: #999;">
+                <i class="fas fa-arrows-left-right me-1"></i>
+                Klik tombol panah atau geser untuk melihat foto lainnya
+            </small>
+        </div>
+
+    </div>
+</section>
+
+
       <!-- ============================================================
          MENU � FIX 3 (filter works) + FIX 4 (plus opens popup)
          ============================================================ -->
