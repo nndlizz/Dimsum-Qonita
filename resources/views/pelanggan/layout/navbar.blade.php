@@ -5,8 +5,8 @@
          <div class="blogo">
             <div class="bico"><i class="fas fa-utensils"></i></div>
             <div>
-               <div class="bname">Sar<span>ab</span></div>
-               <div class="bsub">Fast Food & Restaurant</div>
+               <div class="bname">Qoni<span>ta</span></div>
+               <div class="bsub">Food Store</div>
             </div>
          </div>
       </a>
@@ -49,55 +49,50 @@
                <i class="fas fa-handshake me-1"></i>Ajukan Sponsor
             </a>
 
-            <div class="d-flex align-items-center gap-2">
-               @if(Auth::guard('pelanggan')->check())
+           
+<div class="d-flex align-items-center gap-2">
 
-                  <!-- Jika Pelanggan Sudah Login -->
-                  <div class="dropdown">
-                     <button class="btn text-white rounded-pill px-3 py-2 dropdown-toggle d-flex align-items-center gap-2"
-                        type="button" data-bs-toggle="dropdown"
-                        style="background-color: #800000;">
-                        <i class="fas fa-user-circle fa-lg"></i>
-                        <span>{{ Auth::guard('pelanggan')->user()->nama }}</span>
-                     </button>
+    @if(session()->has('pelanggan_id'))
 
-                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
-                        <li>
-                           <a class="dropdown-item py-2" href="{{ route('pelanggan.profil') }}">
-                              <i class="fas fa-user me-2 text-muted"></i> Profil Saya
-                           </a>
-                        </li>
-                        <li>
-                           <a class="dropdown-item py-2" href="{{ route('pelanggan.riwayat') }}">
-                              <i class="fas fa-history me-2 text-muted"></i> Riwayat Pesanan
-                           </a>
-                        </li>
-                        <li>
-                           <a class="dropdown-item py-2" href="{{ route('pelanggan.sponsor') }}">
-                              <i class="fas fa-handshake me-2 text-muted"></i> Ajukan Sponsor
-                           </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                           <form action="{{ route('logout') }}" method="POST">
-                              @csrf
-                              <button type="submit" class="dropdown-item py-2 text-danger">
-                                 <i class="fas fa-sign-out-alt me-2"></i> Logout
-                              </button>
-                           </form>
-                        </li>
-                     </ul>
-                  </div>
+        <div class="dropdown">
+            <button class="btn text-white rounded-pill px-3 py-2 dropdown-toggle d-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="background-color: var(--primary);">
 
-               @else
+                <i class="fas fa-user-circle fa-lg"></i>
+                <span>{{ session('nama_pelanggan') }}</span>
+            </button>
 
-                  <!-- Jika Belum Login -->
-                  <a href="{{ route('login') }}" class="btn btn-outline-danger rounded-pill px-4">
-                     Login
-                  </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
+               
 
-               @endif
-            </div>
+                
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item py-2 text-danger">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+    @else
+
+        <a href="{{ route('login') }}" class="btn btn-outline-danger rounded-pill px-4">
+            Login
+        </a>
+
+    @endif
+
+</div>
+
          </div>
       </div>
    </div>
