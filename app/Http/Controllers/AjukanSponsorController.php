@@ -21,7 +21,7 @@ class AjukanSponsorController extends Controller
     public function store(Request $request)
     {
     // Ambil ID pelanggan dari session login
-    $idPelanggan = session('id_pelanggan');
+    $idPelanggan = session('pelanggan_id');
 
     if (!$idPelanggan) {
         return redirect()->route('login')
@@ -52,7 +52,7 @@ class AjukanSponsorController extends Controller
     AjukanSponsor::create($data);
 
     return redirect()
-        ->route('pelanggan.sponsor.create')
+        ->route('home')
         ->with('success', 'Pengajuan sponsor berhasil dikirim!');
 }
 

@@ -85,23 +85,34 @@
 <style>
     
 /* NAVBAR */
-.navbar-modern {
-    background: #fff;
-    min-height: 70px;
-    width: 100%;
+header.navbar-custom.navbar-modern {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+
+    /* Full area dashboard */
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
     box-sizing: border-box;
+
+    /* Mengimbangi padding main-wrapper */
+    margin-top: -2rem;
+    margin-left: -2.5rem;
+    margin-right: -2.5rem;
+    margin-bottom: 2rem;
+
+    height: 70px;
     padding: 0 28px;
+
+    background: #fff;
+    border-bottom: 1px solid #eef0f4;
+    box-shadow: 0 3px 15px rgba(30,35,90,.04);
 
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
-    border-bottom: 1px solid #eef0f4;
-    box-shadow: 0 3px 15px rgba(30,35,90,.04);
-
-    position: relative;
-    z-index: 1050;
-    overflow: visible !important;
+    overflow: visible;
 }
 
 /* SESSION ADMIN */
@@ -131,6 +142,7 @@
     border-color: #edf0f7;
 }
 
+/* FOTO */
 .navbar-profile-img {
     width: 42px;
     height: 42px;
@@ -139,6 +151,7 @@
     border: 2px solid #e8ecfa;
 }
 
+/* NAMA */
 .profile-info {
     display: flex;
     flex-direction: column;
@@ -200,9 +213,6 @@
 .profile-dropdown-header strong {
     font-size: 13px;
     color: #25396f;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .profile-dropdown-header small {
@@ -210,7 +220,7 @@
     font-size: 11px;
 }
 
-/* MENU ITEM */
+/* MENU */
 .profile-item {
     display: flex;
     align-items: center;
@@ -259,6 +269,7 @@
         height: 38px;
     }
 }
+
 
 </style>
 

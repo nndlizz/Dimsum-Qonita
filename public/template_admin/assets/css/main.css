@@ -457,15 +457,21 @@ body.sidebar-minimized .sidebar-profile {
 .navbar-custom {
     position: sticky;
     top: 0;
-    z-index: 1000;
-    background-color: rgba(244, 246, 245, 0.85);
+    z-index: 1050;
+
+    background-color: rgba(244, 246, 245, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 
+    /* Full area main-wrapper */
     margin-top: -2rem;
     margin-left: -2.5rem;
     margin-right: -2.5rem;
-    padding: 1.25rem 2.5rem;
+
+    padding: 0 2.5rem;
+    height: 70px;
+    box-sizing: border-box;
+    width: auto;
 
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
