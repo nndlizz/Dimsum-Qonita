@@ -58,26 +58,7 @@
                                 </td>
                                 <td>{{ $admin->jenis_kelamin ?? '-' }}</td>
                                 <td>{{ $admin->alamat ?? '-' }}</td>
-                                <tbody>
-                                    @foreach($cabangs as $index => $cabang)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>
-                                            <!-- TARUH DI SINI (UNTUK TABEL ADMIN) -->
-                                            @if(!empty($cabang->foto))
-                                                <img src="{{ asset('storage/' . $cabang->foto) }}" alt="{{ $cabang->nama_cabang }}" width="60" style="border-radius: 8px; object-fit: cover; height: 60px;">
-                                            @else
-                                                <span class="text-muted small">Tidak ada foto</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ $cabang->nama_cabang }}</td>
-                                        <td>{{ $cabang->alamat }}</td>
-                                        <td>
-                                            <!-- Tombol Edit / Hapus -->
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
+                        
                                 <!-- Kolom Aksi -->
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center gap-1">
