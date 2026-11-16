@@ -95,6 +95,45 @@
     --shadow-lg: 0 20px 50px rgba(11, 19, 15, 0.08);
 }
 
+/* Tombol GoDimsum */
+.btn-godimsum {
+    background-color: #8b0000 !important;
+    border-color: #8b0000 !important;
+    color: #fff !important;
+}
+
+.btn-godimsum:hover,
+.btn-godimsum:focus,
+.btn-godimsum:active {
+    background-color: #700000 !important;
+    border-color: #700000 !important;
+    color: #fff !important;
+}
+
+/* Pagination GoDimsum */
+.pagination .page-link {
+    color: #8b0000 !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #8b0000 !important;
+    border-color: #8b0000 !important;
+    color: #fff !important;
+}
+
+.pagination .page-link:hover {
+    background-color: #700000 !important;
+    border-color: #700000 !important;
+    color: #fff !important;
+}
+
+/* Tabel rata tengah */
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
 /* Tombol pencarian Kelola Sponsor */
 .btn-search {
     background-color: #820000;
