@@ -44,6 +44,11 @@
                <i class="fas fa-bell"></i>
             </a>
 
+            <!-- Tombol Riwayat Sponsor -->
+            <a href="{{ url('/pelanggan/riwayat-sponsor') }}" class="btn btn-outline-danger rounded-pill px-3 py-2 me-2 d-flex align-items-center gap-1">
+               <i class="fas fa-history"></i> Riwayat Sponsor
+            </a>
+
             <!-- Ajukan Sponsor -->
             <a href="{{ route('pelanggan.sponsor.create') }}" class="nav-link nav-cta">
                <i class="fas fa-handshake me-1"></i>Ajukan Sponsor

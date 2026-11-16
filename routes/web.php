@@ -204,6 +204,10 @@ Route::middleware(AdminAuth::class)->group(function () {
         return view('admin.tables');
     })->name('admin.tables');
 
+    // Tambahkan route ini di routes/web.php
+    Route::get('/pelanggan/riwayat-sponsor', 
+    [AjukanSponsorController::class, 'halamanRiwayatSponsor'])
+    ->name('pelanggan.riwayat_pelanggan');
 
     // Halaman Blank
     Route::get('/admin/blankpage', function () {

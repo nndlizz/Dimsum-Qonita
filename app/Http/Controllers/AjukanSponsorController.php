@@ -52,7 +52,7 @@ class AjukanSponsorController extends Controller
     AjukanSponsor::create($data);
 
     return redirect()
-        ->route('home')
+        ->route('pelanggan.riwayat_pelanggan')
         ->with('success', 'Pengajuan sponsor berhasil dikirim!');
 }
 

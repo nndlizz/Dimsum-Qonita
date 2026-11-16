@@ -1065,7 +1065,6 @@
             <section id="lokasi" class="py-5" style="background-color: #FFF4E5;">
                <div class="container">
                   <!-- Judul & Kartu Peta Usman & Cipaisan -->
-                  ...
                </div>
             </section>
             <div class="text-center mb-5" data-aos="fade-up">
@@ -1091,10 +1090,10 @@
                         <div class="card-body">
                            <!-- Keterangan Status: Pabrik atau Outlet -->
                                  <div class="mb-2">
-                                    @if(stripos($cabang->nama_cabang, 'usman') !== false)
-                                          <span class="badge bg-danger" style="background-color: #820000 !important;">Pabrik Frozen Food</span>
+                                    @if($cabang->id_cabang == 2) <!-- Sesuaikan angka ID pabrik di database kamu -->
+                                       <span class="badge bg-warning text-dark" style="background-color: #886128 !important; color: white !important;">Pusat Produksi</span>
                                     @else
-                                          <span class="badge bg-warning text-dark" style="background-color: #886128 !important; color: white !important;">Outlet Dimsum Qonita</span>
+                                       <span class="badge bg-warning text-dark" style="background-color: #886128 !important; color: white !important;">Outlet Dimsum Qonita</span>
                                     @endif
                                  </div>
                            <h4 class="card-title fw-bold">{{ $cabang->nama_cabang }}</h4>
