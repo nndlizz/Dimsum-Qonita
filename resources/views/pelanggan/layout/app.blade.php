@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Sarab">
         <meta name="description" content="Sarab - Fast Food & Restaurant HTML Template">
-        <title>Sarab - Fast Food & Restaurant HTML Template</title>
+        <title>Qonita - Food Store</title>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
         <!-- Bootstrap 5.3 -->
         <link href="{{ asset('template_pelanggan/sarab/css/bootstrap.min.css') }}" rel="stylesheet">

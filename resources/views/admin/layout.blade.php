@@ -37,7 +37,7 @@
 
         @include('admin.navbar')
 
-        <main class="flex-fill mt-4">
+        <main class="flex-fill">
             @yield('content')
         </main>
 
