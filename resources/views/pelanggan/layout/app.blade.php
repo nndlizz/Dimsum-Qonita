@@ -70,6 +70,8 @@
       <!-- Back to top -->
       <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
     
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
 	<!-- jQuery -->
     <script src="{{ asset('template_pelanggan/sarab/js/jquery-3.7.1.min.js') }}"></script>
 

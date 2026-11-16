@@ -25,7 +25,11 @@
          <div class="d-flex align-items-center gap-2">
          
             <button id="navSearchBtn" title="Search"><i class="fas fa-search"></i></button>
-            <a href="#menu" class="nav-link nav-cta"><i class="fas fa-shopping-bag me-1"></i>Order Now</a>
+            
+         <a href="{{ route('pelanggan.sponsor.create') }}" class="nav-link nav-cta">
+            <i class="fas fa-handshake me-1"></i>Ajukan Sponsor
+         </a>
+
             
             <div class="d-flex align-items-center gap-2">
                @if(Auth::guard('pelanggan')->check())

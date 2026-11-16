@@ -1,119 +1,127 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Pengajuan Sponsor')
+@section('title', 'Riwayat Sponsor')
 
 @section('content')
 @include('monitoring._tema')
+@php
+    $status = \App\Models\Sponsor::STATUS;
+    $warna  = \App\Models\Sponsor::WARNA;
+@endphp
 <div class="tema-qonita">
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">{{ $pengajuan->nama_kegiatan }}</h4>
-    <span class="badge fs-6 text-bg-{{ $pengajuan->warna_status }}">{{ $pengajuan->label_status }}</span>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h4 class="mb-0">Riwayat Sponsor</h4>
+    <a href="{{ route('monitoring.index') }}" class="btn btn-outline-primary btn-sm">&larr; Kembali ke Monitoring</a>
 </div>
 
-<div class="row g-3">
-    {{-- Detail pengajuan --}}
-    <div class="col-lg-7">
-        <div class="card mb-3">
-            <div class="card-header">Detail pengajuan</div>
-            <div class="card-body">
-                <dl class="row mb-0">
-                    <dt class="col-sm-4">Penyelenggara</dt><dd class="col-sm-8">{{ $pengajuan->nama_penyelenggara }}</dd>
-                    <dt class="col-sm-4">Tanggal kegiatan</dt><dd class="col-sm-8">{{ $pengajuan->tanggal_kegiatan?->format('d-m-Y') }}</dd>
-                    <dt class="col-sm-4">Lokasi</dt><dd class="col-sm-8">{{ $pengajuan->lokasi_kegiatan }}</dd>
-                    <dt class="col-sm-4">Deskripsi</dt><dd class="col-sm-8">{{ $pengajuan->deskripsi }}</dd>
-                    <dt class="col-sm-4">Diajukan pada</dt><dd class="col-sm-8">{{ $pengajuan->tanggal_pengajuan?->format('d-m-Y H:i') }}</dd>
-                    <dt class="col-sm-4">Proposal</dt>
-                    <dd class="col-sm-8">
-                        @if ($pengajuan->file_proposal)
-                            {{-- Sesuaikan path jika file disimpan di tempat lain --}}
-                            <a href="{{ asset('storage/' . $pengajuan->file_proposal) }}" target="_blank">Lihat proposal</a>
-                        @else
-                            <span class="text-muted">Tidak ada file</span>
-                        @endif
-                    </dd>
-                </dl>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">Pelanggan</div>
-            <div class="card-body">
-                @if ($pelanggan)
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4">Nama</dt><dd class="col-sm-8">{{ $pelanggan->nama_pelanggan }}</dd>
-                        <dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ $pelanggan->email }}</dd>
-                        <dt class="col-sm-4">No. telepon</dt><dd class="col-sm-8">{{ $pelanggan->no_telepon ?? '-' }}</dd>
-                        <dt class="col-sm-4">Alamat</dt><dd class="col-sm-8">{{ $pelanggan->alamat ?? '-' }}</dd>
-                    </dl>
-                @else
-                    <span class="text-muted">Data pelanggan tidak ditemukan.</span>
-                @endif
+{{-- Ringkasan --}}
+<div class="row g-2 mb-3 ringkasan">
+    <div class="col-6 col-md">
+        <div class="card text-center h-100">
+            <div class="card-body py-3">
+                <div class="fs-3 fw-bold text-dark">{{ $totalRiwayat }}</div>
+                <div class="small text-muted">Total pengajuan</div>
             </div>
         </div>
     </div>
-
-    {{-- Ubah status + riwayat --}}
-    <div class="col-lg-5">
-        <div class="card mb-3">
-            <div class="card-header">Ubah status</div>
-            <div class="card-body">
-                <form method="POST" action="{{ route('monitoring.status', $pengajuan) }}">
-                    @csrf @method('PATCH')
-
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select name="status" class="form-select @error('status') is-invalid @enderror">
-                            @foreach (\App\Models\PengajuanSponsor::STATUS as $key => $label)
-                                <option value="{{ $key }}" @selected(old('status', $pengajuan->status) === $key)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                        @error('status') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Catatan</label>
-                        <textarea name="catatan" rows="3" class="form-control"
-                                  placeholder="Alasan atau keterangan keputusan">{{ old('catatan', $pengajuan->keputusan?->catatan) }}</textarea>
-                    </div>
-
-                    <button class="btn btn-primary w-100">Simpan status</button>
-                </form>
-
-                @if ($pengajuan->keputusan?->tanggal_keputusan)
-                    <div class="small text-muted mt-3">
-                        Keputusan: {{ $pengajuan->keputusan->tanggal_keputusan->format('d-m-Y H:i') }}
-                        oleh {{ $namaAdmin[$pengajuan->keputusan->id_admin] ?? '-' }}
-                    </div>
-                @endif
+    @foreach ($status as $key => $label)
+        <div class="col-6 col-md">
+            <div class="card text-center h-100">
+                <div class="card-body py-3">
+                    <div class="fs-3 fw-bold text-dark">{{ $ringkasan[$key] ?? 0 }}</div>
+                    <div class="small text-muted">{{ $label }}</div>
+                </div>
             </div>
         </div>
+    @endforeach
+</div>
 
-        <div class="card">
-            <div class="card-header">Riwayat status</div>
-            <ul class="list-group list-group-flush">
-                @forelse ($pengajuan->riwayat as $r)
-                    <li class="list-group-item">
-                        <div>
-                            <span class="badge text-bg-light">{{ $r->status_sebelumnya ?? '-' }}</span>
-                            &rarr;
-                            <span class="badge text-bg-primary">{{ $r->status_baru }}</span>
-                        </div>
-                        @if ($r->catatan)
-                            <div class="small mt-1">{{ $r->catatan }}</div>
-                        @endif
-                        <div class="small text-muted mt-1">
-                            {{ $r->tanggal_perubahan?->format('d-m-Y H:i') }}
-                            @if ($r->id_admin) &middot; {{ $namaAdmin[$r->id_admin] ?? 'admin' }} @endif
-                        </div>
-                    </li>
+{{-- Cari & filter --}}
+<form method="GET" class="row g-2 mb-3 align-items-end">
+    <div class="col-lg-4">
+        <div class="input-group">
+            <span class="input-group-text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+            </span>
+            <input type="text" name="q" value="{{ request('q') }}" class="form-control"
+                   placeholder="Cari sponsor / PIC / kegiatan">
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <label class="form-label small mb-1">Status</label>
+        <select name="status" class="form-select">
+            <option value="">Semua status</option>
+            @foreach ($status as $key => $label)
+                <option value="{{ $key }}" @selected(request('status') === $key)>{{ $label }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-6 col-lg-2">
+        <label class="form-label small mb-1">Diajukan dari</label>
+        <input type="date" name="dari" value="{{ request('dari') }}"
+               class="form-control @error('dari') is-invalid @enderror">
+    </div>
+    <div class="col-6 col-lg-2">
+        <label class="form-label small mb-1">Sampai tanggal</label>
+        <input type="date" name="sampai" value="{{ request('sampai') }}"
+               class="form-control @error('sampai') is-invalid @enderror">
+        @error('sampai') <div class="invalid-feedback">Tanggal akhir tidak boleh sebelum tanggal awal.</div> @enderror
+    </div>
+    <div class="col-6 col-lg-auto">
+        <button class="btn btn-dark">Terapkan</button>
+        @if (request()->hasAny(['q', 'status', 'dari', 'sampai']))
+            <a href="{{ route('riwayat.index') }}" class="btn btn-link">Reset</a>
+        @endif
+    </div>
+</form>
+
+{{-- Tabel --}}
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Tanggal diajukan</th>
+                    <th>Sponsor</th>
+                    <th>Kegiatan</th>
+                    <th>Dukungan</th>
+                    <th>Status terakhir</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($riwayat as $r)
+                    <tr>
+                        <td class="text-nowrap">{{ $r->tanggal_pengajuan?->format('d-m-Y') ?? '-' }}</td>
+                        <td>
+                            <span class="fw-semibold">{{ $r->nama_sponsor }}</span>
+                            <div class="small text-muted">{{ $r->nama_pic }}</div>
+                        </td>
+                        <td>{{ $r->nama_kegiatan ?: '-' }}</td>
+                        <td>
+                            {{ $r->bentuk_dukungan ?: '-' }}
+                            @if ($r->nominal)
+                                <div class="small text-muted">Rp {{ number_format($r->nominal, 0, ',', '.') }}</div>
+                            @endif
+                        </td>
+                        <td>
+                            <span class="badge text-bg-{{ $warna[$r->status] ?? 'secondary' }}">
+                                {{ $status[$r->status] ?? $r->status }}
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ route('monitoring.show', $r) }}" class="btn btn-outline-primary btn-sm">Detail</a>
+                        </td>
+                    </tr>
                 @empty
-                    <li class="list-group-item text-muted">Belum ada perubahan status.</li>
+                    <tr><td colspan="6" class="text-center text-muted py-4">Belum ada sponsor yang pernah diajukan.</td></tr>
                 @endforelse
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<a href="{{ route('monitoring.index') }}" class="btn btn-link mt-3">&larr; Kembali ke daftar</a>
+<div class="mt-3">{{ $riwayat->links() }}</div>
 </div>
 @endsection

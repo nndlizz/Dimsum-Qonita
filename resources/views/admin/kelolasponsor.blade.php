@@ -1,4 +1,3 @@
-
 @extends('admin.layout')
 
 @section('title', 'Kelola Sponsor')
@@ -11,13 +10,10 @@
         <form action="{{ route('admin.kelolasponsor') }}" method="GET"
               class="d-flex align-items-center"
               style="max-width: 400px; width: 100%;">
-            <input
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Cari pengajuan sponsor..."
-                value="{{ request('search') }}"
-            >
+            <input type="text" name="search" class="form-control"
+                   placeholder="Cari pengajuan sponsor..."
+                   value="{{ request('search') }}">
+
             <button type="submit" class="btn-search btn-primary ms-2">
                 <i class="bi bi-search"></i>
             </button>
@@ -28,23 +24,6 @@
 </div>
 
 <div class="page-content">
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Terjadi kesalahan:</strong>
-            <ul class="mb-0 mt-2">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-header">
@@ -86,11 +65,8 @@
 
                                 <td>
                                     @if ($pengajuan->file_proposal)
-                                        <a
-                                            href="{{ asset('storage/' . $pengajuan->file_proposal) }}"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
+                                        <a href="{{ asset('storage/' . $pengajuan->file_proposal) }}"
+                                           target="_blank" rel="noopener noreferrer">
                                             Lihat Proposal
                                         </a>
                                     @else
@@ -115,9 +91,7 @@
                                     </span>
                                 </td>
 
-                                <td>
-                                    {{ $pengajuan->catatan_admin ?: '-' }}
-                                </td>
+                                <td>{{ $pengajuan->catatan_admin ?: '-' }}</td>
 
                                 <td>
                                     {{ $pengajuan->tanggal_pengajuan
@@ -129,22 +103,22 @@
                                     <form
                                         action="{{ route('admin.kelolasponsor.status', $pengajuan->id_pengajuan) }}"
                                         method="POST"
+                                        class="form-status"
+                                        data-nama="{{ $pengajuan->nama_kegiatan }}"
                                     >
                                         @csrf
                                         @method('PUT')
 
                                         <div class="mb-2">
-                                            <label
-                                                for="status-{{ $pengajuan->id_pengajuan }}"
-                                                class="form-label"
-                                            >
+                                            <label for="status-{{ $pengajuan->id_pengajuan }}"
+                                                   class="form-label">
                                                 Ubah Status
                                             </label>
 
                                             <select
                                                 name="status"
                                                 id="status-{{ $pengajuan->id_pengajuan }}"
-                                                class="form-select"
+                                                class="form-select status-select"
                                                 required
                                             >
                                                 @foreach ([
@@ -154,10 +128,8 @@
                                                     'ditolak',
                                                     'selesai'
                                                 ] as $status)
-                                                    <option
-                                                        value="{{ $status }}"
-                                                        @selected($pengajuan->status === $status)
-                                                    >
+                                                    <option value="{{ $status }}"
+                                                        @selected($pengajuan->status === $status)>
                                                         {{ ucfirst($status) }}
                                                     </option>
                                                 @endforeach
@@ -165,10 +137,8 @@
                                         </div>
 
                                         <div class="mb-2">
-                                            <label
-                                                for="catatan-{{ $pengajuan->id_pengajuan }}"
-                                                class="form-label"
-                                            >
+                                            <label for="catatan-{{ $pengajuan->id_pengajuan }}"
+                                                   class="form-label">
                                                 Catatan Admin
                                             </label>
 
@@ -182,10 +152,7 @@
                                             >{{ $pengajuan->catatan_admin }}</textarea>
                                         </div>
 
-                                        <button
-                                            type="submit"
-                                            class="btn btn-primary btn-sm"
-                                        >
+                                        <button type="submit" class="btn btn-primary btn-sm">
                                             Simpan Perubahan
                                         </button>
                                     </form>
@@ -208,4 +175,79 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    // Alert ketika form status disimpan
+    document.querySelectorAll('.form-status').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const status = form.querySelector('.status-select').value;
+            const nama = form.dataset.nama;
+
+            let config = {
+                title: 'Simpan perubahan?',
+                text: 'Yakin ingin menyimpan perubahan status pengajuan ini?',
+                icon: 'question',
+                confirmButtonText: 'Ya, Simpan',
+                confirmButtonColor: '#435ebe'
+            };
+
+            // Konfirmasi khusus status selesai
+            if (status === 'selesai') {
+                config = {
+                    title: 'Selesaikan pengajuan?',
+                    text: `Pengajuan "${nama}" akan diselesaikan dan dipindahkan ke Riwayat Sponsor.`,
+                    icon: 'success',
+                    confirmButtonText: 'Ya, Selesaikan',
+                    confirmButtonColor: '#198754'
+                };
+            }
+
+            // Konfirmasi khusus status ditolak
+            if (status === 'ditolak') {
+                config = {
+                    title: 'Tolak pengajuan?',
+                    text: `Pengajuan "${nama}" akan ditolak dan dipindahkan ke Riwayat Sponsor.`,
+                    icon: 'warning',
+                    confirmButtonText: 'Ya, Tolak',
+                    confirmButtonColor: '#dc3545'
+                };
+            }
+
+            Swal.fire({
+                ...config,
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then(result => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+
+    // Alert sukses setelah redirect
+    @if(session('success'))
+        Swal.fire({
+            title: 'Berhasil!',
+            text: @json(session('success')),
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    @endif
+
+    // Alert error validasi
+    @if($errors->any())
+        Swal.fire({
+            title: 'Terjadi Kesalahan!',
+            html: `{!! implode('<br>', $errors->all()) !!}`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 @endsection

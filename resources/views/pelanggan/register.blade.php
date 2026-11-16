@@ -61,7 +61,10 @@
 
                 <div class="mb-4">
                     <label class="form-label fw-semibold small">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg bg-light border-0 fs-6" placeholder="Minimal 6 karakter" required>
+                    <input type="password" name="password" class="form-control form-control-lg bg-light border-0 fs-6" placeholder="Masukkan password" required>
+                    <div class="form-text text-muted mt-1" style="font-size: 11.5px;">
+                        * Minimal 8 karakter, wajib mengandung huruf kapital, angka, dan simbol (contoh: <strong>Qonita1!</strong>).
+                    </div>
                 </div>
 
                 <button type="submit" class="btn text-white w-100 py-3 fw-bold rounded-3 shadow-sm mb-3" style="background-color: #800000;">

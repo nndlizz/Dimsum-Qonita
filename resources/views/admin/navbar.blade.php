@@ -1,238 +1,103 @@
 
-<header class="navbar-custom">
-    <div class="navbar-left">
-        <!-- Desktop sidebar toggle -->
-        <button
-            class="btn-desktop-toggle d-none d-xl-flex align-items-center justify-content-center me-3"
-            id="desktop-sidebar-toggle"
-            aria-label="Minimize Sidebar"
-        >
-            <i class="bi bi-chevron-bar-left"></i>
-        </button>
+<header class="navbar-custom navbar-modern">
 
-        <!-- Mobile sidebar toggle -->
-        <button
-            class="sidebar-toggle-btn me-2"
-            id="sidebar-toggle"
-            aria-label="Toggle Navigation"
-        >
-            <i class="bi bi-list"></i>
-        </button>
-
-        <!-- Quick Actions -->
-        <div class="dropdown ms-2">
-            <button
-                class="btn-quick-action dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                id="quick-actions-dropdown"
-            >
-                <i class="bi bi-plus-lg"></i>
-                <span>Create</span>
-            </button>
-
-            <ul class="dropdown-menu dropdown-menu-quick-action"
-                aria-labelledby="quick-actions-dropdown">
-                <li class="dropdown-header">Quick Action Shortcuts</li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-file-earmark-plus"></i> New Invoice
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-person-plus"></i> New User
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-box-seam"></i> New Product
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-gear"></i> System Settings
-                    </a>
-                </li>
-            </ul>
+    {{-- KIRI: BRAND / TITLE --}}
+    <div class="navbar-brand-admin">
+        <div class="brand-icon">
+            <i class="bi bi-grid-1x2-fill"></i>
+        </div>
+        <div class="brand-text">
+            <span class="brand-title">Admin Panel</span>
+            <small>Dimsum Qonita</small>
         </div>
     </div>
 
-    <!-- Search -->
-    <div class="navbar-search-wrapper">
-        <input
-            type="text"
-            class="navbar-search-input"
-            placeholder="Search anything in Spark..."
-            id="main-search"
-        />
-        <button class="navbar-search-btn" aria-label="Search">
-            <i class="bi bi-search"></i>
-        </button>
-    </div>
+    {{-- KANAN: PROFILE --}}
+    @php
+        $adminNavbar = null;
 
-    <!-- Right Actions -->
-    <div class="navbar-actions">
-        <!-- Fullscreen -->
-        <button
-            class="navbar-action-btn me-1"
-            aria-label="Toggle Fullscreen"
-            id="btn-fullscreen"
-            type="button"
-        >
-            <i class="bi bi-arrows-fullscreen"></i>
-        </button>
+        if (session()->has('admin_id')) {
+            $adminNavbar = \Illuminate\Support\Facades\DB::table('admin')
+                ->where('id_admin', session('admin_id'))
+                ->first();
+        }
 
-        <!-- Notifications -->
+        $namaAdmin = $adminNavbar->nama_admin
+            ?? session('admin_name', 'Administrator');
+
+        $fotoAdmin = $adminNavbar && $adminNavbar->gambar
+            ? asset('storage/' . $adminNavbar->gambar)
+            : asset('template_admin/assets/images/avatar.png');
+    @endphp
+
+    <div class="navbar-actions right d-flex align-items-center">
+
+        {{-- LABEL ADMIN --}}
+        <div class="admin-role me-3 d-none d-sm-flex">
+            <i class="bi bi-shield-check"></i>
+            <span>Administrator</span>
+        </div>
+
+        {{-- PROFILE DROPDOWN --}}
         <div class="dropdown">
             <button
-                class="navbar-action-btn dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                id="btn-notifications"
-                data-bs-auto-close="outside"
-            >
-                <i class="bi bi-bell"></i>
-                <span class="navbar-action-badge"></span>
-            </button>
-
-            <div
-                class="dropdown-menu dropdown-menu-end dropdown-menu-notification p-0"
-                aria-labelledby="btn-notifications"
-            >
-                <div class="notification-header">
-                    <h6 class="notification-title">Notifications</h6>
-                    <button class="btn-clear-all" type="button">
-                        Mark all read
-                    </button>
-                </div>
-
-                <div class="notification-list">
-                    <a href="#" class="notification-item">
-                        <div class="notification-icon bg-success text-white">
-                            <i class="bi bi-wallet2"></i>
-                        </div>
-                        <div class="notification-content">
-                            <p class="notification-text">
-                                New sale received: <strong>$150.00</strong>
-                            </p>
-                            <span class="notification-time">2 mins ago</span>
-                        </div>
-                        <span class="notification-unread-dot"></span>
-                    </a>
-
-                    <a href="#" class="notification-item">
-                        <div class="notification-icon bg-primary text-white">
-                            <i class="bi bi-person-plus-fill"></i>
-                        </div>
-                        <div class="notification-content">
-                            <p class="notification-text">
-                                New user registered: <strong>John Doe</strong>
-                            </p>
-                            <span class="notification-time">1 hour ago</span>
-                        </div>
-                        <span class="notification-unread-dot"></span>
-                    </a>
-
-                    <a href="#" class="notification-item">
-                        <div class="notification-icon bg-warning text-dark">
-                            <i class="bi bi-box-seam-fill"></i>
-                        </div>
-                        <div class="notification-content">
-                            <p class="notification-text">
-                                Stock running low: <strong>Hoodie</strong>
-                            </p>
-                            <span class="notification-time">3 hours ago</span>
-                        </div>
-                    </a>
-                </div>
-
-                <a href="#" class="notification-footer">
-                    View All Notifications
-                </a>
-            </div>
-        </div>
-
-        <!-- Profile Dropdown -->
-        @php
-            $adminNavbar = null;
-
-            if (session()->has('admin_id')) {
-                $adminNavbar = \Illuminate\Support\Facades\DB::table('admin')
-                    ->where('id_admin', session('admin_id'))
-                    ->first();
-            }
-        @endphp
-
-        <div class="dropdown ms-2">
-            <button
-                class="navbar-profile-btn dropdown-toggle"
+                class="navbar-profile-btn"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 id="profile-dropdown"
             >
-                <img
-                    src="{{ $adminNavbar && $adminNavbar->gambar
-                        ? asset('storage/' . $adminNavbar->gambar)
-                        : asset('template_admin/assets/images/avatar.png') }}"
-                    alt="Foto Profil Admin"
-                    class="navbar-profile-img"
-                />
+                <img src="{{ $fotoAdmin }}"
+                     alt="Foto Profil Admin"
+                     class="navbar-profile-img">
 
-                <span class="navbar-profile-name d-none d-md-inline">
-                    {{ $adminNavbar->nama_admin ?? session('admin_name', 'Administrator') }}
-                </span>
+                <div class="profile-info d-none d-md-flex">
+                    <span class="profile-name">{{ $namaAdmin }}</span>
+                    <small>Administrator</small>
+                </div>
 
-                <i class="bi bi-chevron-down navbar-profile-caret"></i>
+                <i class="bi bi-chevron-down profile-caret"></i>
             </button>
 
-            <ul
-                class="dropdown-menu dropdown-menu-end dropdown-menu-profile"
-                aria-labelledby="profile-dropdown"
-            >
-                <li class="dropdown-header">
-                    Welcome, {{ $adminNavbar->nama_admin ?? session('admin_name', 'Administrator') }}!
-                </li>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile">
 
-                <li>
-                    <a class="dropdown-item" href="{{ route('admin.profil') }}">
-                        <i class="bi bi-person"></i> Profil Saya
-                    </a>
-                </li>
+                {{-- HEADER PROFILE --}}
+                <li class="profile-dropdown-header">
+                    <img src="{{ $fotoAdmin }}" alt="Foto Admin">
 
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-gear"></i> Settings
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-lock"></i> Lock Screen
-                    </a>
+                    <div>
+                        <strong>{{ $namaAdmin }}</strong>
+                        <small>Administrator</small>
+                        <span class="profile-status">
+                            <span></span> Aktif
+                        </span>
+                    </div>
                 </li>
 
                 <li><hr class="dropdown-divider"></li>
 
+                {{-- PROFIL --}}
                 <li>
-                    <form
-                        id="logout-form"
-                        action="{{ route('logout') }}"
-                        method="POST"
-                    >
+                    <a class="dropdown-item profile-item"
+                       href="{{ route('admin.profil') }}">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Profil Saya</span>
+                        <i class="bi bi-chevron-right ms-auto item-arrow"></i>
+                    </a>
+                </li>
+
+                {{-- LOGOUT --}}
+                <li>
+                    <form id="logout-form"
+                          action="{{ route('logout') }}"
+                          method="POST">
                         @csrf
-                        <button
-                            type="button"
-                            class="dropdown-item text-danger"
-                            style="width: 100%; text-align: left;"
-                            onclick="confirmLogout()"
-                        >
+
+                        <button type="button"
+                                class="dropdown-item profile-item logout-item"
+                                onclick="confirmLogout()">
                             <i class="bi bi-box-arrow-right"></i>
-                            Keluar
+                            <span>Keluar</span>
                         </button>
                     </form>
                 </li>
@@ -241,7 +106,239 @@
     </div>
 </header>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    /* NAVBAR */
+    .navbar-modern {
+        background: #fff;
+        min-height: 78px;
+        padding: 0 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eef0f4;
+        box-shadow: 0 3px 15px rgba(30, 35, 90, .04);
+        position: relative;
+        z-index: 100;
+    }
+
+    /* BRAND */
+    .navbar-brand-admin {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+        border-radius: 12px;
+        background: #435ebe;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 4px 10px rgba(67, 94, 190, .2);
+    }
+
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+    }
+
+    .brand-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #25396f;
+    }
+
+    .brand-text small {
+        color: #8a92a6;
+        font-size: 12px;
+    }
+
+    /* ADMIN ROLE */
+    .admin-role {
+        align-items: center;
+        gap: 7px;
+        padding: 8px 13px;
+        background: #f4f6ff;
+        color: #435ebe;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* PROFILE BUTTON */
+    .navbar-profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 10px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        background: transparent;
+        transition: .2s;
+    }
+
+    .navbar-profile-btn:hover,
+    .navbar-profile-btn[aria-expanded="true"] {
+        background: #f7f8fc;
+        border-color: #edf0f7;
+    }
+
+    .navbar-profile-img {
+        width: 43px;
+        height: 43px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #e8ecfa;
+    }
+
+    .profile-info {
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.3;
+    }
+
+    .profile-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: #25396f;
+    }
+
+    .profile-info small {
+        color: #98a0b5;
+        font-size: 11px;
+    }
+
+    .profile-caret {
+        font-size: 12px;
+        color: #8a92a6;
+        margin-left: 3px;
+    }
+
+    /* DROPDOWN */
+    .dropdown-menu-profile {
+        width: 255px;
+        padding: 10px;
+        margin-top: 12px !important;
+        border: 1px solid #edf0f5;
+        border-radius: 14px;
+        box-shadow: 0 12px 35px rgba(30, 35, 90, .12);
+    }
+
+    .profile-dropdown-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 8px;
+    }
+
+    .profile-dropdown-header img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e8ecfa;
+    }
+
+    .profile-dropdown-header div {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .profile-dropdown-header strong {
+        font-size: 13px;
+        color: #25396f;
+    }
+
+    .profile-dropdown-header small {
+        color: #8a92a6;
+        font-size: 11px;
+    }
+
+    .profile-status {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: #198754;
+    }
+
+    .profile-status span {
+        width: 6px;
+        height: 6px;
+        background: #198754;
+        border-radius: 50%;
+    }
+
+    .profile-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 12px;
+        border-radius: 9px;
+        font-size: 13px;
+        color: #5a6278;
+        transition: .2s;
+    }
+
+    .profile-item > i:first-child {
+        font-size: 17px;
+        width: 20px;
+    }
+
+    .profile-item:hover {
+        background: #f4f6ff;
+        color: #435ebe;
+    }
+
+    .item-arrow {
+        font-size: 11px !important;
+        opacity: .5;
+    }
+
+    .logout-item {
+        color: #dc3545;
+        width: 100%;
+        text-align: left;
+        border: none;
+        background: transparent;
+    }
+
+    .logout-item:hover {
+        background: #fff1f2;
+        color: #dc3545;
+    }
+
+    @media (max-width: 576px) {
+        .navbar-modern {
+            padding: 0 14px;
+            min-height: 68px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+        }
+
+        .brand-title {
+            font-size: 14px;
+        }
+
+        .brand-text small {
+            font-size: 10px;
+        }
+
+        .navbar-profile-img {
+            width: 38px;
+            height: 38px;
+        }
+    }
+</style>
 
 <script>
     function confirmLogout() {
@@ -250,11 +347,12 @@
             text: 'Kamu harus login kembali untuk mengakses halaman admin.',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
+            confirmButtonColor: '#dc3545',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Ya, logout',
             cancelButtonText: 'Batal',
-            reverseButtons: true
+            reverseButtons: true,
+            borderRadius: '14px'
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('logout-form').submit();
