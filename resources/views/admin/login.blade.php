@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin | Qonita Food Store</title>
+    <title>Halaman Login | Qonita Food Store</title>
+
+    <!-- FontAwesome untuk Ikon Mata -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         * {
@@ -38,20 +41,6 @@
             padding: 55px 40px;
         }
 
-        .brand {
-            color: #820000;
-            font-size: 25px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .subtitle {
-            color: #886128;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 35px;
-        }
-
         h2 {
             color: #332005;
             margin-bottom: 10px;
@@ -77,7 +66,6 @@
             padding: 13px;
             border: 1px solid #EED1A6;
             border-radius: 9px;
-            margin-bottom: 20px;
             outline: none;
         }
 
@@ -85,7 +73,38 @@
             border-color: #820000;
         }
 
-        button {
+        /* Styling khusus untuk membungkus input password & tombol mata agar sejajar */
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin-top: 8px;     
+            margin-bottom: 20px; 
+        }
+
+        .password-container input {
+            margin-bottom: 0;
+            padding-right: 45px; /* Memberikan ruang agar teks tidak tertutup ikon */
+        }
+
+        /* Tombol ikon mata */
+        #togglePassword {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        #togglePassword:hover {
+            color: #820000;
+        }
+
+        button[type="submit"] {
             width: 100%;
             padding: 14px;
             background: #820000;
@@ -96,7 +115,7 @@
             cursor: pointer;
         }
 
-        button:hover {
+        button[type="submit"]:hover {
             background: #9A0000;
         }
 
@@ -128,6 +147,13 @@
             margin-bottom: 12px;
         }
 
+        .visual-section .subtitle {
+            color: #FFF4E5;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
         .visual-section p {
             color: #FFF4E5;
             font-size: 14px;
@@ -155,7 +181,7 @@
             <h2>Selamat Datang!</h2>
 
             <p class="description">
-                Silakan login untuk masuk ke halaman admin.
+                Silakan masuk untuk mengakses halaman.
             </p>
 
             @if ($errors->any())
@@ -170,7 +196,6 @@
                 </div>
             @endif
 
-            {{-- TAMBAHKAN ALERT SUKSES REGISTER DI SINI --}}
             @if (session('success'))
                 <div class="success" role="alert" style="color: #2e7d32; background: #e8f5e9; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px;">
                     {{ session('success') }}
@@ -192,45 +217,58 @@
                 >
 
                 <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Masukkan password"
-                    autocomplete="current-password"
-                    required
-                >
+                <!-- Pembungkus custom agar tombol mata menempel rapi di dalam kotak input -->
+                <div class="password-container">
+                    <input type="password" name="password" id="password" placeholder="Masukkan password" required>
+                    
+                    <button type="button" id="togglePassword" tabindex="-1">
+                        <i class="fas fa-eye" id="iconEye"></i>
+                    </button>
+                </div>
 
                 <button type="submit">Login Sekarang</button>
-            <!-- Tambahkan jarak dengan mt-3 atau mt-4 di sini -->
-            <div class="text-center" style="margin-top: 20px;">
-                <span style="font-size: 14px; color: #666;">Belum punya akun?</span>
-                <a href="{{ route('register') }}" style="color: #800000; font-weight: bold; text-decoration: underline; margin-left: 5px;">
-                    Daftar Akun
-                </a>
-            </div>
+
+                <div class="text-center" style="margin-top: 20px; text-align: center;">
+                    <span style="font-size: 14px; color: #666;">Belum punya akun?</span>
+                    <a href="{{ route('register') }}" style="color: #800000; font-weight: bold; text-decoration: underline; margin-left: 5px;">
+                        Daftar Akun
+                    </a>
+                </div>
             </form>
 
         </section>
 
         <!-- BAGIAN KANAN: IDENTITAS DIMSUM QONITA -->
         <aside class="visual-section">
-
             <div class="emoji">🥟</div>
-
             <h3>Qonita Food Store</h3>
-
             <p class="subtitle">
                 Sistem Pengelolaan Qonita Food Store
             </p>
-
             <p>
                 Kelola produk dan aktivitas Qonita Food Store
                 melalui satu sistem yang praktis.
             </p>
-
         </aside>
 
     </main>
+
+    <!-- Skrip JavaScript untuk Toggle Show/Hide Password -->
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const iconEye = document.getElementById('iconEye');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                iconEye.classList.remove('fa-eye');
+                iconEye.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                iconEye.classList.remove('fa-eye-slash');
+                iconEye.classList.add('fa-eye');
+            }
+        });
+    </script>
 </body>
 </html>

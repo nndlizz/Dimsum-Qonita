@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -15,6 +14,7 @@ use App\Http\Controllers\Pelanggan\PelangganAuthController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Middleware\PelangganAuth;
 use App\Http\Middleware\AdminAuth;
+use App\Http\Controllers\GoogleController;
 
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
@@ -198,7 +198,6 @@ Route::middleware(AdminAuth::class)->group(function () {
         Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
     });
 
-
     // Halaman Tabel
     Route::get('/admin/tables', function () {
         return view('admin.tables');
@@ -214,10 +213,13 @@ Route::middleware(AdminAuth::class)->group(function () {
         return view('admin.blankpage');
     })->name('admin.blankpage');
 
-});
-    
+}); // <--- INI BATAS AKHIR GRUP ADMIN (DI LUAR SINI RUTE AMAN)
 
-// Halaman Landing Pelanggan
-// Route::get('/pelanggan', function () {
-//     return view('pelanggan.layout.landing_page');
-// })->name('pelanggan.index');
+
+/*
+|--------------------------------------------------------------------------
+| ROUTE GOOGLE OAUTH (Diletakkan di luar semua middleware admin/pelanggan)
+|--------------------------------------------------------------------------
+*/
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
