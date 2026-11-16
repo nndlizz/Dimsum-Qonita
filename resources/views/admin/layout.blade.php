@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="id">
 <head>
@@ -24,7 +25,7 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('template_admin/assets/css/main.css') }}">
-    
+
     @stack('styles')
 </head>
 
@@ -44,7 +45,7 @@
 
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS: CUKUP SATU KALI -->
     <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 
@@ -52,12 +53,14 @@
     <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- SweetAlert2 -->
+
+    <!-- SweetAlert2: CUKUP SATU KALI -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- ApexCharts JS -->
+    <!-- ApexCharts -->
     <script src="{{ asset('template_admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-    <!-- Flatpickr JS -->
+    <!-- Flatpickr -->
     <script src="{{ asset('template_admin/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 
     <!-- Dashboard JS -->
@@ -72,6 +75,13 @@
             if (!sidebar) return;
 
             // Toggle sidebar desktop
+    <!-- Sidebar Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const sidebar = document.getElementById('sidebar');
+            const desktopToggle = document.getElementById('desktop-sidebar-toggle');
+            const mobileToggle = document.getElementById('sidebar-toggle');
             if (desktopToggle) {
                 desktopToggle.addEventListener('click', function () {
                     document.body.classList.toggle('sidebar-collapsed');
@@ -84,10 +94,18 @@
                     document.body.classList.toggle('sidebar-mobile-open');
                 });
             }
+
+
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function () {
+                    document.body.classList.toggle('sidebar-mobile-open');
+                });
+            }
         });
     </script>
 
     @stack('scripts')
+    @yield('scripts')
 
 </body>
 </html>

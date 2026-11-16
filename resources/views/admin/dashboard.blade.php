@@ -83,6 +83,80 @@
 
     </div>
 
+    <!-- Statistik Dashboard-->
+<div class="row g-3 mb-4">
+
+    <!-- Sponsor Diterima -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-3 h-100"
+             style="background-color: #820000; color: white;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 p-3 bg-light">
+                    <i class="bi bi-check-circle fs-3 text-success"></i>
+                </div>
+                <div>
+                    <p class="mb-1" style="color: #FFF4E5;">
+                        Sponsor Diterima
+                    </p>
+                    <h3 class="mb-0 text-white">
+                        {{ $sponsorDiterima }}
+                    </h3>
+                    <small style="color: #FFF4E5;">
+                        Pengajuan diterima
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sponsor Ditolak -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-3 h-100"
+             style="background-color: #820000; color: white;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 p-3 bg-light">
+                    <i class="bi bi-x-circle fs-3 text-danger"></i>
+                </div>
+                <div>
+                    <p class="mb-1" style="color: #FFF4E5;">
+                        Sponsor Ditolak
+                    </p>
+                    <h3 class="mb-0 text-white">
+                        {{ $sponsorDitolak }}
+                    </h3>
+                    <small style="color: #FFF4E5;">
+                        Pengajuan ditolak
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Admin -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-3 h-100"
+             style="background-color: #820000; color: white;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 p-3 bg-light">
+                    <i class="bi bi-people fs-3 text-success"></i>
+                </div>
+                <div>
+                    <p class="mb-1" style="color: #FFF4E5;">
+                        Total Admin
+                    </p>
+                    <h3 class="mb-0 text-white">
+                        {{ $totalAdmin }}
+                    </h3>
+                    <small style="color: #FFF4E5;">
+                        Admin terdaftar
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
     <!-- Lokasi Utama -->
 
 <!-- Lokasi Utama -->
@@ -93,7 +167,7 @@
             <i class="bi bi-geo-alt fs-3 text-success"></i>
         </div>
         <div>
-            <h5 class="mb-1 text-white">Lokasi Utama GoDimsum</h5>
+            <h5 class="mb-1 text-white">Lokasi Utama Dimsum Qonita</h5>
             <p class="mb-0" style="color: #FFF4E5;">
                 Pabrik Dimsum Qonita Food Store
             </p>
@@ -135,11 +209,76 @@
                 href="https://www.google.com/maps/place/Pabrik+Dimsum+Qonita+Food+Store/@-6.5285054,107.4465055,17z"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-success btn-sm mt-2 btn-maps-custom"
-                <i class="bi bi-shop fs-3" style="color: #FFF4E5;"></i>
+                class="btn btn-outline-success btn-sm mt-2 btn-maps-custom">
+
+                <i class="bi bi-shop me-1 style="color: #FFF4E5;></i>
                 Buka di Google Maps
             </a>
         </div>
     </div>
 </div>
+
+
+<!-- Lokasi Resto -->
+<div class="card border-0 shadow-sm p-4 mb-4"
+     style="background-color: #820000; color: white;">
+
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="rounded-3 p-3 bg-light">
+            <i class="bi bi-shop fs-3 text-success"></i>
+        </div>
+
+        <div>
+            <h5 class="mb-1 text-white">Lokasi Resto Dimsum Qonita</h5>
+            <p class="mb-0" style="color: #FFF4E5;">
+                Resto Dimsum Qonita Food Store
+            </p>
+        </div>
+    </div>
+
+    <hr>
+
+    <p class="mb-3" style="color: #FFF4E5;">
+        <i class="bi bi-geo-alt-fill me-2"></i>
+        Jl. Mr. Dr. Kusuma Atmaja No. 65,
+        Cipaisan, Purwakarta, Jawa Barat 41112
+    </p>
+
+    
+<div class="row g-3 align-items-stretch">
+
+    <!-- Foto Resto -->
+    <div class="col-md-6">
+        <img
+            src="{{ asset('uploads/foto-resto.jpeg') }}"
+            alt="Resto Qonita Dimsum"
+            class="img-fluid rounded w-100"
+            style="height: 300px; object-fit: contain; background-color: #820000;"
+        >
+    </div>
+
+    <!-- Google Maps -->
+    <div class="col-md-6">
+        <iframe
+            src="https://maps.google.com/maps?q=Resto%20Dimsum%20Qonita%20Food%20Store,%20Jl.%20Mr.%20Dr.%20Kusuma%20Atmaja%20No.65,%20Cipaisan,%20Purwakarta&z=17&output=embed"
+            width="100%"
+            height="300"
+            style="border: 0; border-radius: 10px;"
+            allowfullscreen
+            loading="lazy"
+            title="Lokasi Resto Qonita Dimsum">
+        </iframe>
+
+        <a
+            href="https://maps.google.com/maps?q=Resto%20Dimsum%20Qonita%20Food%20Store,%20Jl.%20Mr.%20Dr.%20Kusuma%20Atmaja%20No.65,%20Cipaisan,%20Purwakarta&z=17&output=embed"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline-success btn-sm mt-2 btn-maps-custom">
+            <i class="bi bi-shop me-1"></i>
+            Buka di Google Maps
+        </a>
+    </div>
+
+</div>
+
 @endsection

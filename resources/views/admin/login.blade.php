@@ -164,6 +164,19 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="error" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- TAMBAHKAN ALERT SUKSES REGISTER DI SINI --}}
+            @if (session('success'))
+                <div class="success" role="alert" style="color: #2e7d32; background: #e8f5e9; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px;">
+                    {{ session('success') }}
+                </div>
+            @endif
+            
             <form action="{{ url('/login') }}" method="POST">
                 @csrf
 

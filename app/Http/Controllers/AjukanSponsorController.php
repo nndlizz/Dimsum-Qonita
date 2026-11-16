@@ -17,31 +17,45 @@ class AjukanSponsorController extends Controller
         return view('pelanggan.ajukan_sponsor');
     }
 
+    
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
-            'nama_kegiatan' => 'required|string|max:150',
-            'nama_penyelenggara' => 'required|string|max:150',
-            'tanggal_kegiatan' => 'required|date',
-            'lokasi_kegiatan' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'file_proposal' => 'required|mimes:pdf|max:5120',
-        ]);
+    // Ambil ID pelanggan dari session login
+    $idPelanggan = session('id_pelanggan');
 
-        $data['file_proposal'] = $request
-            ->file('file_proposal')
-            ->store('proposal', 'public');
-
-        $data['status'] = 'diajukan';
-        $data['tanggal_pengajuan'] = now();
-
-        AjukanSponsor::create($data);
-
-        return redirect()
-            ->route('pelanggan.sponsor.create')
-            ->with('success', 'Pengajuan sponsor berhasil dikirim!');
+    if (!$idPelanggan) {
+        return redirect()->route('login')
+            ->with('error', 'Silakan login terlebih dahulu.');
     }
+
+    // Validasi form
+    $data = $request->validate([
+        'nama_kegiatan' => 'required|string|max:150',
+        'nama_penyelenggara' => 'required|string|max:150',
+        'tanggal_kegiatan' => 'required|date',
+        'lokasi_kegiatan' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
+        'file_proposal' => 'required|mimes:pdf|max:5120',
+    ]);
+
+    // ID pelanggan otomatis dari session
+    $data['id_pelanggan'] = $idPelanggan;
+
+    // Upload proposal
+    $data['file_proposal'] = $request
+        ->file('file_proposal')
+        ->store('proposal', 'public');
+
+    $data['status'] = 'diajukan';
+    $data['tanggal_pengajuan'] = now();
+
+    AjukanSponsor::create($data);
+
+    return redirect()
+        ->route('pelanggan.sponsor.create')
+        ->with('success', 'Pengajuan sponsor berhasil dikirim!');
+}
+
     public function show($id) { return response()->json(AjukanSponsor::findOrFail($id)); }
     public function edit($id) { return response()->json(AjukanSponsor::findOrFail($id)); }
     public function update(Request $request, $id)
@@ -125,13 +139,14 @@ class AjukanSponsorController extends Controller
             ->with('success', 'Status sponsor berhasil diperbarui.');
     }
 
+    // Halaman Riwayat Sponsor
     public function halamanRiwayatSponsor(Request $request): View
     {
         $request->validate([
             'q'      => ['nullable', 'string', 'max:100'],
-            'status' => ['nullable', 'string', 'max:30'],
-            'dari'   => ['nullable', 'date'],
-            'sampai' => ['nullable', 'date', 'after_or_equal:dari'],
+            'status'  => ['nullable', Rule::in(['selesai', 'ditolak'])],
+            'dari'    => ['nullable', 'date'],
+            'sampai'  => ['nullable', 'date', 'after_or_equal:dari'],
         ]);
 
         $query = AjukanSponsor::whereIn('status', ['selesai', 'ditolak']);
@@ -142,10 +157,10 @@ class AjukanSponsorController extends Controller
 
         if ($request->filled('q')) {
             $q = $request->q;
+
             $query->where(function ($w) use ($q) {
-                $w->where('nama_sponsor', 'like', "%{$q}%")
-                  ->orWhere('nama_pic', 'like', "%{$q}%")
-                  ->orWhere('nama_kegiatan', 'like', "%{$q}%");
+                $w->where('nama_penyelenggara', 'like', "%{$q}%")
+                ->orWhere('nama_kegiatan', 'like', "%{$q}%");
             });
         }
 
@@ -157,8 +172,9 @@ class AjukanSponsorController extends Controller
             $query->whereDate('tanggal_pengajuan', '<=', $request->sampai);
         }
 
-        $riwayat = $query->orderByDesc('tanggal_pengajuan')
-            ->orderByDesc('id_sponsor')
+        $riwayat = $query
+            ->orderByDesc('tanggal_pengajuan')
+            ->orderByDesc('id_pengajuan')
             ->paginate(15)
             ->withQueryString();
 
@@ -166,7 +182,7 @@ class AjukanSponsorController extends Controller
             ->groupBy('status')
             ->pluck('total', 'status');
 
-        $totalRiwayat = $ringkasan->sum();
+        $totalRiwayat = $ringkasan->only(['selesai', 'ditolak'])->sum();
 
         $status = [
             'diajukan' => 'Diajukan',
@@ -192,4 +208,5 @@ class AjukanSponsorController extends Controller
             'warna'
         ));
     }
+
 }
