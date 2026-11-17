@@ -10,6 +10,19 @@ use Illuminate\Validation\Rules\Password;
 
 class PelangganAuthController extends Controller
 {
+    public function index()
+    {
+        // Ambil ID pelanggan yang sedang login (sesuaikan session login kamu)
+        $pelangganId = session('pelanggan_id'); // atau auth('pelanggan')->id()
+
+        // Ambil notifikasi khusus milik pelanggan ini
+        $notifikasis = \App\Models\Notifikasi::where('id_pelanggan', $pelangganId)
+                        ->latest()
+                        ->get();
+
+        return view('pelanggan.layout.landing_page', compact('notifikasis')); // atau view notifikasi khusus
+    }
+    
     // Menampilkan form register pelanggan
     public function showRegister()
     {

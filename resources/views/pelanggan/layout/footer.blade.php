@@ -1,67 +1,75 @@
- <!-- FOOTER -->
-      <footer>
-         <div class="container">
-            <div class="row g-5">
-               <div class="col-lg-4">
-                  <div class="fnm">Sar<span>ab</span></div>
-                  <p class="fdesc">We bring the world's finest flavors together in a fast, friendly, and affordable experience. Every meal crafted with love.</p>
-                  <div class="fsoc">
-                     <a href="#"><i class="fab fa-facebook-f"></i></a>
-                     <a href="#"><i class="fab fa-instagram"></i></a>
-                     <a href="#"><i class="fab fa-twitter"></i></a>
-                     <a href="#"><i class="fab fa-youtube"></i></a>
-                     <a href="#"><i class="fab fa-tiktok"></i></a>
-                  </div>
-               </div>
-               <div class="col-sm-6 col-lg-2">
-                  <div class="ftit">Quick Links</div>
-                  <ul class="flinks ps-0">
-                     <li><a href="#hero"><i class="fas fa-chevron-right"></i>Home</a></li>
-                     <li><a href="#about"><i class="fas fa-chevron-right"></i>About Us</a></li>
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Our Menu</a></li>
-                     <li><a href="#reservation"><i class="fas fa-chevron-right"></i>Reservation</a></li>
-                     <li><a href="#blog"><i class="fas fa-chevron-right"></i>Blog</a></li>
-                     <li><a href="#contact-section"><i class="fas fa-chevron-right"></i>Contact</a></li>
-                  </ul>
-               </div>
-               <div class="col-sm-6 col-lg-2">
-                  <div class="ftit">Our Menu</div>
-                  <ul class="flinks ps-0">
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Burgers</a></li>
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Pizza</a></li>
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Fried Chicken</a></li>
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Wraps &amp; Rolls</a></li>
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Pasta</a></li>
-                     <li><a href="#menu"><i class="fas fa-chevron-right"></i>Desserts</a></li>
-                  </ul>
-               </div>
-               <div class="col-lg-4">
-                  <div class="ftit">Get In Touch</div>
-                  <div class="fci">
-                     <div class="fciico"><i class="fas fa-map-marker-alt"></i></div>
-                     <div class="fciinfo"><strong>Address</strong>42 Flavor Street, Manhattan, NY 10001</div>
-                  </div>
-                  <div class="fci">
-                     <div class="fciico"><i class="fas fa-phone-alt"></i></div>
-                     <div class="fciinfo"><strong>Phone</strong>+1 (800) 123-4567</div>
-                  </div>
-                  <div class="fci">
-                     <div class="fciico"><i class="fas fa-envelope"></i></div>
-                     <div class="fciinfo"><strong>Email</strong>hello@sarabfood.com</div>
-                  </div>
-                  <div class="fci">
-                     <div class="fciico"><i class="fas fa-clock"></i></div>
-                     <div class="fciinfo"><strong>Hours</strong>Wed - Sun: 09 AM - 11 PM</div>
-                  </div>
-               </div>
+@php
+    // Lokasi dari tabel `cabang`; kalau belum ada / kosong dipakai alamat bawaan ini.
+    $lokasiUtamaFooter = 'Perum Usman, Purwakarta';
+    $lokasiRestoFooter = ['Cipaisan, Purwakarta'];
+
+    try {
+        $dbUtama = \Illuminate\Support\Facades\DB::table('cabang')->where('jenis', 'utama')->value('alamat');
+        $dbResto = \Illuminate\Support\Facades\DB::table('cabang')->where('jenis', 'resto')->pluck('alamat')->all();
+        if ($dbUtama) { $lokasiUtamaFooter = $dbUtama; }
+        if ($dbResto) { $lokasiRestoFooter = $dbResto; }
+    } catch (\Throwable $e) {
+        // pakai alamat bawaan
+    }
+
+    $petaFooter = fn ($alamat) => 'https://www.google.com/maps/search/?api=1&query=' . urlencode($alamat);
+@endphp
+
+<!-- FOOTER -->
+<footer>
+   <div class="container">
+      <div class="row g-5">
+
+         <div class="col-lg-4">
+            <div class="fnm">Qonita <span>Food Store</span></div>
+            <p class="fdesc">Qonita Food Store menyajikan dimsum dan aneka makanan yang dibuat segar setiap hari, dengan harga yang ramah di kantong.</p>
+            <div class="fsoc">
+               <a href="https://www.instagram.com/qonitafoodstore?obrf=MTk4dmhiOWo5M2Z3OA=="><i class="fab fa-instagram"></i></a>
+               <a href="https://www.tiktok.com/@qonitafoodstore?_r=1&_t=ZS-9BRcbskIOzB"><i class="fab fa-tiktok"></i></a>
             </div>
          </div>
-         <div class="fbot">
-            <div class="container">
-               <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                  <p>&copy 2026 <span>Sarab Restaurant</span>. All Rights Reserved by <a target="_blank" class="mx-0 fw-bold text-success" href="https://bestwpware.com/">Bestwpware</a>. Made with <span><i class="fas fa-heart"></i></span>  <br>Distributed by <a target="_blank" class="mx-0 fw-bold text-success" href="https://themewagon.com">ThemeWagon</a></p>
-                  <div><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+
+         <div class="col-sm-6 col-lg-3">
+            <div class="ftit">Quick Links</div>
+            <ul class="flinks ps-0">
+               <li><a href="#hero"><i class="fas fa-chevron-right"></i>Home</a></li>
+               <li><a href="#galeri"><i class="fas fa-chevron-right"></i>Galeri</a></li>
+               <li><a href="#menu"><i class="fas fa-chevron-right"></i>Menu</a></li>
+               <li><a href="#jam-operasional"><i class="fas fa-chevron-right"></i>Jam Operasional</a></li>
+               <li><a href="#lokasi"><i class="fas fa-chevron-right"></i>Lokasi</a></li>
+            </ul>
+         </div>
+
+         <div class="col-sm-6 col-lg-5">
+            <div class="ftit">Lokasi</div>
+
+            <div class="fci">
+               <div class="fciico"><i class="fas fa-map-marker-alt"></i></div>
+               <div class="fciinfo">
+                  <strong>Lokasi Utama</strong>{{ $lokasiUtamaFooter }}
+                  <br><a href="{{ $petaFooter($lokasiUtamaFooter) }}" target="_blank" rel="noopener">Lihat di peta</a>
                </div>
             </div>
+
+            @foreach ($lokasiRestoFooter as $alamat)
+               <div class="fci">
+                  <div class="fciico"><i class="fas fa-utensils"></i></div>
+                  <div class="fciinfo">
+                     <strong>Lokasi Resto</strong>{{ $alamat }}
+                     <br><a href="{{ $petaFooter($alamat) }}" target="_blank" rel="noopener">Lihat di peta</a>
+                  </div>
+               </div>
+            @endforeach
          </div>
-      </footer>
+
+      </div>
+   </div>
+
+   <div class="fbot">
+      <div class="container">
+         <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 text-center">
+            <p class="mb-0">&copy; {{ date('Y') }} <span>Qonita Food Store</span>. Semua hak dilindungi. Template oleh <a target="_blank" class="mx-0 fw-bold text-success" href="https://bestwpware.com/">Bestwpware</a>, didistribusikan oleh <a target="_blank" class="mx-0 fw-bold text-success" href="https://themewagon.com">ThemeWagon</a>.</p>
+         </div>
+      </div>
+   </div>
+</footer>

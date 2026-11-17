@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function index() 
     { 
         $admins = Admin::latest()->get();
-        return view('admin.index', compact('admins')); 
+        return view('admin.index', compact('admins')); // <- Variabel $cabangs tidak ada di sini!
     }
 
     public function create() 

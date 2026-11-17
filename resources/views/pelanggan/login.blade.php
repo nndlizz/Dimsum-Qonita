@@ -31,9 +31,18 @@
                     <input type="email" name="email" class="form-control form-control-lg bg-light border-0 fs-6" placeholder="nama@gmail.com" required>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-semibold small">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg bg-light border-0 fs-6" placeholder="••••••••" required>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    
+                    <!-- Bungkus dengan input-group -->
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
+                        
+                        <!-- Tombol Ikon Mata -->
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword" tabindex="-1">
+                            <i class="fas fa-eye" id="iconEye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn text-white w-100 py-3 fw-bold rounded-3 shadow-sm mb-3" style="background-color: #800000;">
@@ -44,8 +53,35 @@
                     <span class="small text-muted">Belum punya akun pelanggan? </span>
                     <a href="{{ route('pelanggan.register') }}" class="small fw-bold text-decoration-none" style="color: #800000;">Daftar Akun</a>
                 </div>
+                <!-- Taruh Tombol Google di Sini -->
+                <a href="{{ route('google.login') }}" class="btn btn-danger w-100 mt-3">
+                    Login with Google
+                </a>
             </form>
         </div>
     </div>
 </div>
 @endsection
+
+<!-- Konten form registrasi/login kamu di atas... -->
+
+    <!-- BAGIAN PENEMPATAN SCRIPT -->
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const iconEye = document.getElementById('iconEye');
+
+            // Ubah tipe input dari password ke text, atau sebaliknya
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                iconEye.classList.remove('fa-eye');
+                iconEye.classList.add('fa-eye-slash'); // Ikon mata dicoret
+            } else {
+                passwordInput.type = 'password';
+                iconEye.classList.remove('fa-eye-slash');
+                iconEye.classList.add('fa-eye'); // Ikon mata normal
+            }
+        });
+    </script>
+</body>
+</html>

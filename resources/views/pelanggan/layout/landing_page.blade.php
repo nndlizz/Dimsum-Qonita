@@ -247,6 +247,7 @@
         }
     </style>
 
+   <!-- Gallery -->
     <div class="container">
 
         <div class="text-center mb-5">
@@ -585,12 +586,166 @@
             </div>
          </div>
       </section>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 3: Chicken -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="chicken" data-aos="fade-up" data-aos-delay="160">
+                  <div class="mcard"
+                     data-img="img/menu/3.jpg"
+                     data-title="Nashville Hot Chicken"
+                     data-cat="Chicken"
+                     data-price="$12.99" data-old="$16.99"
+                     data-rating="5.0" data-reviews="210"
+                     data-cal="710" data-time="15"
+                     data-desc="Extra-crispy fried chicken tossed in our signature fiery Nashville spice blend, served with honey drizzle and house pickles on a toasted brioche bun."
+                     data-tags="Spicy,Bestseller,Crispy">
+                     <div class="mimg">
+                        <img src="img/menu/3.jpg" alt="Chicken"/>
+                        <div class="mbdg"><i class="fas fa-star"></i> Best Seller</div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">Chicken</div>
+                        <div class="mtit">Nashville Hot Chicken</div>
+                        <div class="mdesc">Crispy fried chicken in fiery Nashville spice blend with honey drizzle</div>
+                        <div class="mfoot">
+                           <div>
+                              <div class="mprice">$12.99 <small>$16.99</small></div>
+                              <div class="mstars"><i class="fas fa-star"></i> <span style="color:#bbb;font-size:.7rem;">(210)</span></div>
+                           </div>
+                           <button class="madd" title="View Details"><i class="fas fa-plus"></i></button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 4: Wraps -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="wraps" data-aos="fade-up">
+                  <div class="mcard"
+                     data-img="img/menu/4.jpg"
+                     data-title="Loaded Fajita Wrap"
+                     data-cat="Wraps"
+                     data-price="$10.99" data-old=""
+                     data-rating="4.5" data-reviews="74"
+                     data-cal="520" data-time="10"
+                     data-desc="Grilled chicken strips, saut�ed bell peppers and onions, sour cream, fresh guacamole and salsa wrapped in a warm flour tortilla with melted cheddar."
+                     data-tags="Grilled,Fresh,Mexican">
+                     <div class="mimg">
+                        <img src="img/menu/4.jpg" alt="Wrap"/>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">Wraps</div>
+                        <div class="mtit">Loaded Fajita Wrap</div>
+                        <div class="mdesc">Grilled chicken, peppers, sour cream &amp; guacamole in a warm tortilla</div>
+                        <div class="mfoot">
+                           <div>
+                              <div class="mprice">$10.99</div>
+                              <div class="mstars"><i class="fas fa-star"></i> <span style="color:#bbb;font-size:.7rem;">(74)</span></div>
+                           </div>
+                           <button class="madd" title="View Details"><i class="fas fa-plus"></i></button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 5: Desserts -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="desserts" data-aos="fade-up" data-aos-delay="80">
+                  <div class="mcard"
+                     data-img="img/menu/5.jpg"
+                     data-title="Nutella Lava Cake"
+                     data-cat="Desserts"
+                     data-price="$8.99" data-old="$11.99"
+                     data-rating="4.9" data-reviews="56"
+                     data-cal="390" data-time="8"
+                     data-desc="Warm molten chocolate cake with a gooey Nutella center, served alongside Madagascar vanilla bean ice cream with salted caramel drizzle and fresh berries."
+                     data-tags="Sweet,New,Chocolate">
+                     <div class="mimg">
+                        <img src="img/menu/5.jpg" alt="Lava Cake"/>
+                        <div class="mbdg new"><i class="fas fa-star"></i> New</div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">Desserts</div>
+                        <div class="mtit">Nutella Lava Cake</div>
+                        <div class="mdesc">Molten chocolate cake with Nutella center, vanilla ice cream &amp; caramel</div>
+                        <div class="mfoot">
+                           <div>
+                              <div class="mprice">$8.99 <small>$11.99</small></div>
+                              <div class="mstars"><i class="fas fa-star"></i> <span style="color:#bbb;font-size:.7rem;">(56)</span></div>
+                           </div>
+                           <button class="madd" title="View Details"><i class="fas fa-plus"></i></button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- CARD 6: Pasta -->
+               <div class="col-sm-6 col-lg-4 mwrap" data-c="pasta" data-aos="fade-up" data-aos-delay="160">
+                  <div class="mcard"
+                     data-img="img/menu/6.jpg"
+                     data-title="Truffle Mushroom Pasta"
+                     data-cat="Pasta"
+                     data-price="$16.99" data-old=""
+                     data-rating="4.9" data-reviews="88"
+                     data-cal="560" data-time="20"
+                     data-desc="Al dente tagliatelle tossed with mixed wild mushrooms, freshly shaved black truffle, aged parmesan, fresh thyme and a touch of cream in garlic butter."
+                     data-tags="Vegetarian,Chef's Pick,Italian">
+                     <div class="mimg">
+                        <img src="img/menu/6.jpg" alt="Pasta"/>
+                        <div class="mbdg hot">Chef's Pick</div>
+                        <div class="mhrt"><i class="far fa-heart"></i></div>
+                     </div>
+                     <div class="mbody">
+                        <div class="mcat">Pasta</div>
+                        <div class="mtit">Truffle Mushroom Pasta</div>
+                        <div class="mdesc">Al dente tagliatelle, wild mushrooms, black truffle, parmesan &amp; thyme</div>
+                        <div class="mfoot">
+                           <div>
+                              <div class="mprice">$16.99</div>
+                              <div class="mstars"><i class="fas fa-star"></i> <span style="color:#bbb;font-size:.7rem;">(88)</span></div>
+                           </div>
+                           <button class="madd" title="View Details"><i class="fas fa-plus"></i></button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- end #mgrid -->
+            <div class="text-center mt-5"><a href="#" class="btn-red"><i class="fas fa-th-large"></i>View Full Menu</a></div>
+         </div>
+      </section>
 	  
+	  
+      <!-- ============================================================
+         FIX 4 � MENU DETAIL POPUP MODAL
+         ============================================================ -->
+      <div id="menuPop">
+         <div class="mpbox">
+            <button class="mpclose" id="mpClose"><i class="fas fa-times"></i></button>
+            <div class="mpimg"><img id="mpImg" src="" alt=""/></div>
+            <div class="mpbody">
+               <div id="mpCat"></div>
+               <div id="mpTitle"></div>
+               <div id="mpStars"></div>
+               <div id="mpDesc"></div>
+               <div id="mpPrice"></div>
+               <div class="mpmeta" id="mpMeta"></div>
+               <div class="mpqty">
+                  <button class="mpqbtn" id="mpMinus">-</button>
+                  <span class="mpqnum" id="mpQnum">1</span>
+                  <button class="mpqbtn" id="mpPlus">+</button>
+                  <span style="font-size:.82rem;color:#aaa;margin-left:9px;">portion</span>
+               </div>
+               <div class="mptags" id="mpTags"></div>
+               <button class="mpaddcart" id="mpAddCart"><i class="fas fa-shopping-cart"></i>Add to Cart</button>
+            </div>
+         </div>
+      </div>
+      
 	  
       <!-- ============================================================
          GALLERY � FIX 7 (click opens detail popup)
          ============================================================ -->
-      <section id="gallery">
+      <!-- <section id="gallery">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">Food Showcase</span>
@@ -640,9 +795,9 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
       <!-- FIX 7 � GALLERY POPUP -->
-      <div id="galPop">
+      <!-- <div id="galPop">
          <div class="gpbox">
             <button class="gpclose" id="gpClose"><i class="fas fa-times"></i></button>
             <img id="gpImg" src="" alt=""/>
@@ -655,7 +810,7 @@
                <button id="gpNext">Next <i class="fas fa-chevron-right ms-1"></i></button>
             </div>
          </div>
-      </div>
+      </div> -->
 	  
 	  
       <!-- ============================================================
@@ -740,7 +895,7 @@
 	  
 	  
       <!-- CHEFS -->
-      <section id="chefs">
+      <!-- <section id="chefs">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">The Culinary Team</span>
@@ -802,11 +957,11 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
 	  
 	  
       <!-- HOURS -->
-      <section id="hours">
+      <!-- <section id="hours">
          <div class="hrsbg"></div>
          <div class="container" style="position:relative;z-index:2;">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -872,11 +1027,11 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
 	  
 	  
       <!-- TESTIMONIALS -->
-      <section id="testimonials">
+      <!-- <section id="testimonials">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">What People Say</span>
@@ -945,7 +1100,7 @@
                <div class="swiper-pagination mt-4" style="position:static;"></div>
             </div>
          </div>
-      </section>
+      </section> -->
 	  
       <!-- BAGIAN LOKASI & OUTLET -->
       <section id="news" class="py-5" style="background-color: #FFF4E5;">
@@ -956,7 +1111,6 @@
             <section id="lokasi" class="py-5" style="background-color: #FFF4E5;">
                <div class="container">
                   <!-- Judul & Kartu Peta Usman & Cipaisan -->
-                  ...
                </div>
             </section>
             <div class="text-center mb-5" data-aos="fade-up">
@@ -982,10 +1136,10 @@
                         <div class="card-body">
                            <!-- Keterangan Status: Pabrik atau Outlet -->
                                  <div class="mb-2">
-                                    @if(stripos($cabang->nama_cabang, 'usman') !== false)
-                                          <span class="badge bg-danger" style="background-color: #820000 !important;">Pabrik Frozen Food</span>
+                                    @if($cabang->id_cabang == 2) <!-- Sesuaikan angka ID pabrik di database kamu -->
+                                       <span class="badge bg-warning text-dark" style="background-color: #886128 !important; color: white !important;">Pusat Produksi</span>
                                     @else
-                                          <span class="badge bg-warning text-dark" style="background-color: #886128 !important; color: white !important;">Outlet Dimsum Qonita</span>
+                                       <span class="badge bg-warning text-dark" style="background-color: #886128 !important; color: white !important;">Outlet Dimsum Qonita</span>
                                     @endif
                                  </div>
                            <h4 class="card-title fw-bold">{{ $cabang->nama_cabang }}</h4>
@@ -1011,7 +1165,7 @@
       </section>
 	  
       <!-- NEWSLETTER -->
-      <section id="newsletter">
+      <!-- <section id="newsletter">
          <div class="nlbg"></div>
          <div class="container">
             <div class="nlw text-center" data-aos="zoom-in">
@@ -1026,11 +1180,11 @@
             </div>
          </div>
       </section>
-	  
+	   -->
       <!-- ============================================================
          FIX 6 � CONTACT FORM
          ============================================================ -->
-      <section id="contact-section">
+      <!-- <section id="contact-section">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">Get In Touch</span>
@@ -1094,5 +1248,5 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
 @endsection

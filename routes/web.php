@@ -17,7 +17,8 @@ use App\Http\Middleware\PelangganAuth;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\Pelanggan\PelangganProfileController;
 
-
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\GoogleController;   
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->name('admin.produk.index');
@@ -77,13 +78,14 @@ Route::post('/register', [PelangganAuthController::class, 'register'])
 |--------------------------------------------------------------------------
 */
 
-Route::get('/notifikasi', [NotifikasiController::class, 'index'])
-    ->middleware(PelangganAuth::class)
-    ->name('pelanggan.notifikasi');
-    
-// (KHUSUS PELANGGAN)
-Route::middleware(PelangganAuth::class)->group(function () {
 
+/*
+|--------------------------------------------------------------------------
+| ROUTE PELANGGAN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(PelangganAuth::class)->group(function () {
     // Profil Pelanggan
     Route::get('/pelanggan/profil', [PelangganProfileController::class, 'index'])
         ->name('pelanggan.profil');
@@ -96,6 +98,7 @@ Route::middleware(PelangganAuth::class)->group(function () {
     Route::put('/pelanggan/profil', [PelangganProfileController::class, 'update'])
     ->name('pelanggan.profil.update');
 
+    // Ajukan Sponsor
     Route::get('/pelanggan/ajukan-sponsor', [
         AjukanSponsorController::class,
         'create'
@@ -106,12 +109,24 @@ Route::middleware(PelangganAuth::class)->group(function () {
         'store'
     ])->name('pelanggan.sponsor.store');
 
+    // Notifikasi Pelanggan
     Route::get('/notifikasi', [
         NotifikasiController::class,
         'index'
     ])->name('pelanggan.notifikasi');
 
+    // Riwayat Sponsor Pelanggan
+    Route::get('/riwayat-sponsor', [AjukanSponsorController::class, 'riwayat'])
+    ->name('pelanggan.riwayat');
+
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| ROUTE ADMIN (WAJIB LOGIN)
+|--------------------------------------------------------------------------
+*/
 
 
 /*
@@ -130,17 +145,13 @@ Route::middleware(AdminAuth::class)->group(function () {
             'jumlahKategori' => DB::table('kategoris')->count(),
             'totalAdmin' => DB::table('admin')->count(),
             'sponsorDiterima' => DB::table('ajukan_sponsor')
-            ->where('status', 'diterima')
-            ->count(),
-
-        'sponsorDitolak' => DB::table('ajukan_sponsor')
-            ->where('status', 'ditolak')
-            ->count(),
-
-        'totalAdmin' => DB::table('admin')->count(),
+                ->where('status', 'diterima')
+                ->count(),
+            'sponsorDitolak' => DB::table('ajukan_sponsor')
+                ->where('status', 'ditolak')
+                ->count(),
         ]);
     })->name('admin.dashboard');
-
 
     // Kelola Produk
     Route::prefix('admin/produk')->name('admin.produk.')->group(function () {
@@ -152,7 +163,6 @@ Route::middleware(AdminAuth::class)->group(function () {
         Route::delete('/{id_produk}', [ProdukController::class, 'destroy'])->name('destroy');
     });
 
-
     // Kelola Kategori
     Route::prefix('admin/kategori')->name('admin.kategori.')->group(function () {
         Route::get('/', [KategoriController::class, 'index'])->name('index');
@@ -162,7 +172,6 @@ Route::middleware(AdminAuth::class)->group(function () {
         Route::put('/{id_kategori}', [KategoriController::class, 'update'])->name('update');
         Route::delete('/{id_kategori}', [KategoriController::class, 'destroy'])->name('destroy');
     });
-
 
     // Kelola Cabang
     Route::prefix('admin/cabang')->name('admin.cabang.')->group(function () {
@@ -174,7 +183,6 @@ Route::middleware(AdminAuth::class)->group(function () {
         Route::delete('/{id_cabang}', [CabangController::class, 'destroy'])->name('destroy');
     });
 
-
     // Profil Admin
     Route::get('/admin/profil', [AdminProfileController::class, 'index'])
         ->name('admin.profil');
@@ -185,8 +193,7 @@ Route::middleware(AdminAuth::class)->group(function () {
     Route::put('/admin/profil', [AdminProfileController::class, 'update'])
         ->name('admin.profil.update');
 
-
-    // Kelola Sponsor
+    // Kelola Sponsor Admin
     Route::get('/admin/kelolasponsor', [
         AjukanSponsorController::class,
         'halamanKelolaSponsor'
@@ -197,13 +204,11 @@ Route::middleware(AdminAuth::class)->group(function () {
         'updateStatus'
     ])->name('admin.kelolasponsor.status');
 
-
-    // Riwayat Sponsor
+    // Riwayat Sponsor Admin
     Route::get('/admin/riwayat_sponsor', [
         AjukanSponsorController::class,
         'halamanRiwayatSponsor'
     ])->name('admin.riwayat_sponsor');
-
 
     // Kelola Akun Petugas
     Route::prefix('admin/akun')->name('admin.akun.')->group(function () {
@@ -215,12 +220,10 @@ Route::middleware(AdminAuth::class)->group(function () {
         Route::delete('/hapus/{id}', [AdminController::class, 'destroy'])->name('hapus');
     });
 
-
     // Halaman Tabel
     Route::get('/admin/tables', function () {
         return view('admin.tables');
     })->name('admin.tables');
-
 
     // Halaman Blank
     Route::get('/admin/blankpage', function () {
@@ -228,9 +231,11 @@ Route::middleware(AdminAuth::class)->group(function () {
     })->name('admin.blankpage');
 
 });
-    
 
-// Halaman Landing Pelanggan
-// Route::get('/pelanggan', function () {
-//     return view('pelanggan.layout.landing_page');
-// })->name('pelanggan.index');
+// Google Login
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])
+    ->name('google.login');
+
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])
+    ->name('google.callback');
+

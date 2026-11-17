@@ -3,66 +3,87 @@
 namespace App\Http\Controllers;
 
 use App\Models\AjukanSponsor;
-use Illuminate\Http\Request;
 use App\Models\Notifikasi;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class AjukanSponsorController extends Controller
 {
-    public function index() { return response()->json(AjukanSponsor::latest()->get()); }
+    public function index()
+    {
+        return response()->json(AjukanSponsor::latest()->get());
+    }
+
+    // Form Ajukan Sponsor Pelanggan
     public function create()
     {
         return view('pelanggan.ajukan_sponsor');
     }
 
-    
+    // Simpan Pengajuan Sponsor
     public function store(Request $request)
     {
-    // Ambil ID pelanggan dari session login
-    $idPelanggan = session('pelanggan_id');
+        $idPelanggan = session('pelanggan_id')
+            ?? session('id_pelanggan');
 
-    if (!$idPelanggan) {
-        return redirect()->route('login')
-            ->with('error', 'Silakan login terlebih dahulu.');
+        if (!$idPelanggan) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $data = $request->validate([
+            'nama_kegiatan' => 'required|string|max:150',
+            'nama_penyelenggara' => 'required|string|max:150',
+            'tanggal_kegiatan' => 'required|date',
+            'lokasi_kegiatan' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'file_proposal' => 'required|mimes:pdf|max:5120',
+        ]);
+
+        $data['id_pelanggan'] = $idPelanggan;
+        $data['file_proposal'] = $request->file('file_proposal')
+            ->store('proposal', 'public');
+        $data['status'] = 'diajukan';
+        $data['tanggal_pengajuan'] = now();
+
+        // Simpan pengajuan sponsor
+        $pengajuan = AjukanSponsor::create($data);
+
+        // Buat notifikasi untuk pelanggan
+        Notifikasi::create([
+            'id_pelanggan' => $idPelanggan,
+            'id_pengajuan' => $pengajuan->id_pengajuan,
+            'judul' => 'Pengajuan Sponsor Berhasil',
+            'pesan' => 'Pengajuan sponsor untuk kegiatan "'
+                . $pengajuan->nama_kegiatan
+                . '" berhasil dikirim dan sedang menunggu pemeriksaan admin.',
+            'status_baca' => false,
+            'created_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('pelanggan.riwayat')
+            ->with('success', 'Pengajuan sponsor berhasil dikirim!');
     }
 
-    // Validasi form
-    $data = $request->validate([
-        'nama_kegiatan' => 'required|string|max:150',
-        'nama_penyelenggara' => 'required|string|max:150',
-        'tanggal_kegiatan' => 'required|date',
-        'lokasi_kegiatan' => 'required|string|max:255',
-        'deskripsi' => 'required|string',
-        'file_proposal' => 'required|mimes:pdf|max:5120',
-    ]);
+    public function show($id)
+    {
+        return response()->json(AjukanSponsor::findOrFail($id));
+    }
 
-    // ID pelanggan otomatis dari session
-    $data['id_pelanggan'] = $idPelanggan;
+    public function edit($id)
+    {
+        return response()->json(AjukanSponsor::findOrFail($id));
+    }
 
-    // Upload proposal
-    $data['file_proposal'] = $request
-        ->file('file_proposal')
-        ->store('proposal', 'public');
-
-    $data['status'] = 'diajukan';
-    $data['tanggal_pengajuan'] = now();
-
-    AjukanSponsor::create($data);
-
-    return redirect()
-        ->route('home')
-        ->with('success', 'Pengajuan sponsor berhasil dikirim!');
-}
-
-    public function show($id) { return response()->json(AjukanSponsor::findOrFail($id)); }
-    public function edit($id) { return response()->json(AjukanSponsor::findOrFail($id)); }
     public function update(Request $request, $id)
     {
         $record = AjukanSponsor::findOrFail($id);
+
         $data = $request->validate([
-            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
+            'id_pelanggan' => 'required|exists:pelanggans,id_pelanggan',
             'nama_kegiatan' => 'required|string|max:150',
             'nama_penyelenggara' => 'required|string|max:150',
             'tanggal_kegiatan' => 'required|date',
@@ -72,16 +93,20 @@ class AjukanSponsorController extends Controller
             'status' => 'sometimes|string|max:30',
             'tanggal_pengajuan' => 'sometimes|date',
         ]);
+
         $record->update($data);
+
         return response()->json($record);
     }
+
     public function destroy($id)
     {
         AjukanSponsor::findOrFail($id)->delete();
+
         return response()->noContent();
     }
 
-    
+    // Kelola Sponsor Admin
     public function halamanKelolaSponsor()
     {
         $pengajuans = AjukanSponsor::with('pelanggan')
@@ -92,6 +117,7 @@ class AjukanSponsorController extends Controller
         return view('admin.kelolasponsor', compact('pengajuans'));
     }
 
+    // Update Status Sponsor Admin
     public function updateStatus(Request $request, $id)
     {
         $data = $request->validate([
@@ -139,14 +165,14 @@ class AjukanSponsorController extends Controller
             ->with('success', 'Status sponsor berhasil diperbarui.');
     }
 
-    // Halaman Riwayat Sponsor
+    // Riwayat Sponsor Admin
     public function halamanRiwayatSponsor(Request $request): View
     {
         $request->validate([
-            'q'      => ['nullable', 'string', 'max:100'],
-            'status'  => ['nullable', Rule::in(['selesai', 'ditolak'])],
-            'dari'    => ['nullable', 'date'],
-            'sampai'  => ['nullable', 'date', 'after_or_equal:dari'],
+            'q' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', Rule::in(['selesai', 'ditolak'])],
+            'dari' => ['nullable', 'date'],
+            'sampai' => ['nullable', 'date', 'after_or_equal:dari'],
         ]);
 
         $query = AjukanSponsor::whereIn('status', ['selesai', 'ditolak']);
@@ -160,7 +186,7 @@ class AjukanSponsorController extends Controller
 
             $query->where(function ($w) use ($q) {
                 $w->where('nama_penyelenggara', 'like', "%{$q}%")
-                ->orWhere('nama_kegiatan', 'like', "%{$q}%");
+                    ->orWhere('nama_kegiatan', 'like', "%{$q}%");
             });
         }
 
@@ -209,4 +235,47 @@ class AjukanSponsorController extends Controller
         ));
     }
 
+    // Riwayat Sponsor Pelanggan
+    public function riwayat(Request $request)
+    {
+        $idPelanggan = session('pelanggan_id') ?? session('id_pelanggan');
+
+        $status = [
+            'diajukan' => 'Diajukan',
+            'diproses' => 'Diproses',
+            'diterima' => 'Diterima',
+            'ditolak' => 'Ditolak',
+            'selesai' => 'Selesai',
+        ];
+
+        $warna = [
+            'diajukan' => 'warning',
+            'diproses' => 'info',
+            'diterima' => 'success',
+            'ditolak' => 'danger',
+            'selesai' => 'secondary',
+        ];
+
+        $riwayat = AjukanSponsor::where('id_pelanggan', $idPelanggan)
+            ->when($request->filled('q'), function ($query) use ($request) {
+                $q = $request->q;
+
+                $query->where(function ($sub) use ($q) {
+                    $sub->where('nama_kegiatan', 'like', "%{$q}%")
+                        ->orWhere('nama_penyelenggara', 'like', "%{$q}%");
+                });
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+            ->orderByDesc('tanggal_pengajuan')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('pelanggan.riwayat', compact(
+            'riwayat',
+            'status',
+            'warna'
+        ));
+    }
 }
