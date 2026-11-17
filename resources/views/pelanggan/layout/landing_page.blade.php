@@ -247,6 +247,7 @@
         }
     </style>
 
+   <!-- Gallery -->
     <div class="container">
 
         <div class="text-center mb-5">
@@ -668,38 +669,13 @@
             </div>
          </div>
       </div>
-      <!-- SPECIAL OFFER -->
-      <section id="special">
-         <div class="spbg"></div>
-         <div class="container" style="position:relative;z-index:2;">
-            <div class="row align-items-center g-5">
-               <div class="col-lg-6" data-aos="fade-right">
-                  <div class="sptag"><i class="fas fa-bolt me-1"></i>Limited Time Offer</div>
-                  <h2 class="sptitle">Get 30% Off<br/>Our Signature<br/><span>Burger</span> Meal</h2>
-                  <p class="spdesc">Don't miss our weekend special - grab our award-winning signature burger combo with loaded fries and a premium shake at an unbeatable price.</p>
-                  <div class="cdwrap">
-                     <div class="cditem"><span class="cdnum" id="cdH">08</span><span class="cdlbl">Hours</span></div>
-                     <div class="cditem"><span class="cdnum" id="cdM">45</span><span class="cdlbl">Minutes</span></div>
-                     <div class="cditem"><span class="cdnum" id="cdS">30</span><span class="cdlbl">Seconds</span></div>
-                  </div>
-                  <a href="#menu" class="btn-red"><i class="fas fa-shopping-cart"></i>Grab the Deal</a>
-               </div>
-               <div class="col-lg-6" data-aos="fade-left">
-                  <div class="spimgw">
-                     <div class="spglow"></div>
-                     <div class="sppbdg"><span class="old">$24.99</span><span class="np">$17.49</span></div>
-                     <img src="img/off-img.jpg" alt="Special Burger"/>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
+      
 	  
 	  
       <!-- ============================================================
          GALLERY � FIX 7 (click opens detail popup)
          ============================================================ -->
-      <section id="gallery">
+      <!-- <section id="gallery">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">Food Showcase</span>
@@ -749,9 +725,9 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
       <!-- FIX 7 � GALLERY POPUP -->
-      <div id="galPop">
+      <!-- <div id="galPop">
          <div class="gpbox">
             <button class="gpclose" id="gpClose"><i class="fas fa-times"></i></button>
             <img id="gpImg" src="" alt=""/>
@@ -764,7 +740,7 @@
                <button id="gpNext">Next <i class="fas fa-chevron-right ms-1"></i></button>
             </div>
          </div>
-      </div>
+      </div> -->
 	  
 	  
       <!-- ============================================================
@@ -849,7 +825,7 @@
 	  
 	  
       <!-- CHEFS -->
-      <section id="chefs">
+      <!-- <section id="chefs">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">The Culinary Team</span>
@@ -911,11 +887,11 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
 	  
 	  
       <!-- HOURS -->
-      <section id="hours">
+      <!-- <section id="hours">
          <div class="hrsbg"></div>
          <div class="container" style="position:relative;z-index:2;">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -981,11 +957,11 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
 	  
 	  
       <!-- TESTIMONIALS -->
-      <section id="testimonials">
+      <!-- <section id="testimonials">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">What People Say</span>
@@ -1054,7 +1030,7 @@
                <div class="swiper-pagination mt-4" style="position:static;"></div>
             </div>
          </div>
-      </section>
+      </section> -->
 	  
       <!-- BAGIAN LOKASI & OUTLET -->
       <section id="news" class="py-5" style="background-color: #FFF4E5;">
@@ -1119,7 +1095,7 @@
       </section>
 	  
       <!-- NEWSLETTER -->
-      <section id="newsletter">
+      <!-- <section id="newsletter">
          <div class="nlbg"></div>
          <div class="container">
             <div class="nlw text-center" data-aos="zoom-in">
@@ -1134,11 +1110,11 @@
             </div>
          </div>
       </section>
-	  
+	   -->
       <!-- ============================================================
          FIX 6 � CONTACT FORM
          ============================================================ -->
-      <section id="contact-section">
+      <!-- <section id="contact-section">
          <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                <span class="slbl">Get In Touch</span>
@@ -1202,5 +1178,5 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> -->
 @endsection

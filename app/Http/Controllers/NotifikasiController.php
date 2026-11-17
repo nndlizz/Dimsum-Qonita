@@ -10,15 +10,22 @@ class NotifikasiController extends Controller
 {
     // Menampilkan notifikasi pelanggan yang sedang login
     public function index()
-    {
-        $idPelanggan = Auth::guard('pelanggan')->id();
+{
+    $idPelanggan = session('pelanggan_id')
+        ?? session('id_pelanggan')
+        ?? Auth::guard('pelanggan')->id();
 
-        $notifikasi = Notifikasi::where('id_pelanggan', $idPelanggan)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('pelanggan.notifikasi', compact('notifikasi'));
+    if (!$idPelanggan) {
+        return redirect('/')
+            ->with('error', 'Silakan login terlebih dahulu.');
     }
+
+    $notifikasi = Notifikasi::where('id_pelanggan', $idPelanggan)
+        ->orderByDesc('created_at')
+        ->get();
+
+    return view('pelanggan.notifikasi', compact('notifikasi'));
+}
 
     public function create()
     {

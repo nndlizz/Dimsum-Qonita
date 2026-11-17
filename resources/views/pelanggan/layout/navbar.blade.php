@@ -1,14 +1,20 @@
 @php
-    $idPelangganNav = session('pelanggan_id') ?? session('id_pelanggan');
-    $sudahLoginNav = (bool) $idPelangganNav;
+    $idPelangganNav = session('pelanggan_id')
+        ?? session('id_pelanggan')
+        ?? \Illuminate\Support\Facades\Auth::guard('pelanggan')->id()
+        ?? \Illuminate\Support\Facades\Auth::id();
+
+    $sudahLoginNav = !empty($idPelangganNav);
     $jumlahNotifNav = 0;
 
     if ($sudahLoginNav) {
         try {
-            $jumlahNotifNav = \Illuminate\Support\Facades\DB::table('ajukan_sponsor')
+            $jumlahNotifNav = \Illuminate\Support\Facades\DB::table('notifikasis')
                 ->where('id_pelanggan', $idPelangganNav)
-                ->where('status', '!=', 'diajukan')
-                ->where('updated_at', '>=', now()->subDays(7))
+                ->where(function ($query) {
+                    $query->where('status_baca', 0)
+                          ->orWhereNull('status_baca');
+                })
                 ->count();
         } catch (\Throwable $e) {
             $jumlahNotifNav = 0;
@@ -16,14 +22,17 @@
     }
 @endphp
 
+
 <nav class="navbar navbar-expand-xl nq-nav" id="navQonita">
     <div class="nq-bar">
 
         {{-- LOGO --}}
         <a class="navbar-brand nq-brand" href="#hero">
-            <span class="nq-logo">
-                <i class="fas fa-utensils"></i>
-            </span>
+            <a class="navbar-brand nq-brand" href="{{ url('/#hero') }}">
+                <img src="{{ asset('template_admin/assets/images/logo.png') }}"
+                    alt="Logo Dimsum Qonita"
+                    class="nq-logo">
+            </a>
 
             <span class="nq-brand-teks">
                 <span class="nq-brand-nama">Qoni<span>ta</span></span>
@@ -46,26 +55,37 @@
 
             {{-- MENU --}}
             <ul class="navbar-nav nq-menu">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#hero">Home</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/#hero') }}">
+                    Home
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#galeri">Galeri</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/#category') }}">
+                    Galeri
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#menu">Menu</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/#menu') }}">
+                    Menu
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#jam-operasional">Jam Operasional</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/#jam-operasional') }}">
+                    Jam Operasional
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#lokasi">Lokasi</a>
-                </li>
-            </ul>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/#lokasi') }}">
+                    Lokasi
+                </a>
+            </li>
+        </ul>
+
 
             {{-- KANAN --}}
             <div class="nq-kanan">
@@ -81,7 +101,7 @@
 
                         @if ($jumlahNotifNav > 0)
                             <span class="nq-badge">
-                                {{ $jumlahNotifNav }}
+                                {{ $jumlahNotifNav > 99 ? '99+' : $jumlahNotifNav }}
                             </span>
                         @endif
                     </a>
@@ -203,25 +223,21 @@
     }
 
     /* LOGO */
-    .nq-nav .nq-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 0;
-        padding: 0;
-        text-decoration: none;
+    .nq-brand {
+    display: flex;
+    align-items: center;
+    padding: 0;
     }
 
-    .nq-nav .nq-logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-        background: var(--nq-utama);
-        color: #fff;
-        font-size: 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+    .nq-logo {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        display: block;
     }
 
     .nq-nav .nq-brand-teks {
