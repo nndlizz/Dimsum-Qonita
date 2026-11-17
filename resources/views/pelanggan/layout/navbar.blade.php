@@ -66,9 +66,13 @@
             </button>
 
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
-               
 
-                
+               <li>
+    <a class="dropdown-item" href="{{ route('pelanggan.profil') }}">
+        <i class="bi bi-person-circle me-2"></i>
+        Profil Saya
+    </a>
+</li>
 
                 <li><hr class="dropdown-divider"></li>
 
