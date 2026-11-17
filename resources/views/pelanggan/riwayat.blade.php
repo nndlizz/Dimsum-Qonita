@@ -1,109 +1,181 @@
-@extends('layouts.app')
+
+@extends('pelanggan.layout.app')
 
 @section('content')
 <div class="container py-4">
 
-    <h3 class="fw-bold mb-4" style="color:#43200f">
-        Riwayat Sponsor
-    </h3>
+    {{-- Header --}}
+    <div class="mb-4">
+        <h3 class="fw-bold mb-1" style="color:#43200f">
+            Riwayat Sponsor
+        </h3>
+        <p class="text-muted mb-0">
+            Pantau status dan detail pengajuan sponsor kamu.
+        </p>
+    </div>
 
+    {{-- Notifikasi --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    {{-- Filter --}}
     <form method="GET" class="row g-2 mb-4">
-        <div class="col-md-5">
-            <input type="text" name="search"
+
+        <div class="col-md-6">
+            <input
+                type="text"
+                name="q"
                 class="form-control"
-                placeholder="Cari sponsor atau kegiatan..."
-                value="{{ request('search') }}">
+                placeholder="Cari nama kegiatan atau penyelenggara..."
+                value="{{ request('q') }}"
+            >
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <select name="status" class="form-select">
                 <option value="">Semua Status</option>
-                @foreach(['Diajukan','Diproses','Disetujui','Ditolak'] as $status)
-                    <option value="{{ $status }}"
-                        {{ request('status') == $status ? 'selected' : '' }}>
-                        {{ $status }}
+
+                @foreach($status as $key => $label)
+                    <option
+                        value="{{ $key }}"
+                        {{ request('status') == $key ? 'selected' : '' }}
+                    >
+                        {{ $label }}
                     </option>
                 @endforeach
             </select>
         </div>
 
         <div class="col-md-2">
-            <button class="btn text-white w-100"
-                style="background:#850000">
+            <button
+                type="submit"
+                class="btn text-white w-100"
+                style="background:#850000"
+            >
+                <i class="bi bi-search me-1"></i>
                 Cari
             </button>
         </div>
+
     </form>
 
+    {{-- Tabel Riwayat --}}
     <div class="table-responsive shadow-sm rounded">
         <table class="table table-bordered table-hover align-middle mb-0">
+
             <thead style="background:#3b100e;color:white">
                 <tr>
-                    <th>No</th>
-                    <th>Nama Sponsor</th>
-                    <th>Pelanggan</th>
-                    <th>Kegiatan</th>
-                    <th>Tanggal</th>
-                    <th>Dukungan</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <th class="text-center" style="width:60px">No</th>
+                    <th>Nama Kegiatan</th>
+                    <th>Penyelenggara</th>
+                    <th>Tanggal Pengajuan</th>
+                    <th>Tanggal Kegiatan</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Proposal</th>
                 </tr>
             </thead>
 
             <tbody>
-                @forelse($pengajuan as $item)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->nama_sponsor }}</td>
-                    <td>{{ $item->user->name ?? '-' }}</td>
-                    <td>{{ $item->kegiatan }}</td>
-                    <td>{{ $item->tanggal_pengajuan }}</td>
-                    <td>{{ $item->jenis_dukungan }}</td>
+                @forelse($riwayat as $item)
+                    <tr>
+                        {{-- Nomor --}}
+                        <td class="text-center">
+                            {{ $riwayat->firstItem() + $loop->index }}
+                        </td>
 
-                    <td>
-                        <span class="badge
-                            @if($item->status == 'Disetujui') bg-success
-                            @elseif($item->status == 'Ditolak') bg-danger
-                            @elseif($item->status == 'Diproses') bg-warning text-dark
-                            @else bg-secondary
-                            @endif">
-                            {{ $item->status }}
-                        </span>
-                    </td>
+                        {{-- Nama Kegiatan --}}
+                        <td>
+                            <span class="fw-semibold">
+                                {{ $item->nama_kegiatan }}
+                            </span>
+                        </td>
 
-                    <td>
-                        <form action="{{ route('admin.sponsor.updateStatus', $item->id) }}"
-                              method="POST">
-                            @csrf
-                            @method('PATCH')
+                        {{-- Penyelenggara --}}
+                        <td>
+                            {{ $item->nama_penyelenggara }}
+                        </td>
 
-                            <select name="status"
-                                class="form-select form-select-sm mb-2">
-                                @foreach(['Diajukan','Diproses','Disetujui','Ditolak'] as $status)
-                                    <option value="{{ $status }}"
-                                        {{ $item->status == $status ? 'selected' : '' }}>
-                                        {{ $status }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        {{-- Tanggal Pengajuan --}}
+                        <td>
+                            {{ $item->tanggal_pengajuan
+                                ? \Carbon\Carbon::parse($item->tanggal_pengajuan)->format('d M Y')
+                                : '-' }}
+                        </td>
 
-                            <button class="btn btn-sm text-white w-100"
-                                style="background:#850000">
-                                Simpan
-                            </button>
-                        </form>
-                    </td>
-                </tr>
+                        {{-- Tanggal Kegiatan --}}
+                        <td>
+                            {{ $item->tanggal_kegiatan
+                                ? \Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d M Y')
+                                : '-' }}
+                        </td>
+
+                        {{-- Status --}}
+                        <td class="text-center">
+                            <span class="badge bg-{{ $warna[$item->status] ?? 'secondary' }}">
+                                {{ $status[$item->status] ?? ucfirst($item->status) }}
+                            </span>
+                        </td>
+
+                        {{-- File Proposal --}}
+                        <td class="text-center">
+                            @if($item->file_proposal)
+                                <a
+                                    href="{{ asset('storage/' . $item->file_proposal) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-danger"
+                                    title="Lihat Proposal"
+                                >
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                    Lihat
+                                </a>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+                    </tr>
+
                 @empty
-                <tr>
-                    <td colspan="8" class="text-center py-4">
-                        Belum ada pengajuan sponsor.
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="7" class="text-center py-5">
+                            <i class="bi bi-folder2-open fs-1 text-muted d-block mb-2"></i>
+
+                            <p class="fw-semibold mb-1">
+                                Belum ada pengajuan sponsor.
+                            </p>
+
+                            <small class="text-muted">
+                                Pengajuan sponsor yang kamu kirim akan muncul di sini.
+                            </small>
+                        </td>
+                    </tr>
                 @endforelse
             </tbody>
+
         </table>
     </div>
+
+    {{-- Pagination --}}
+    @if($riwayat->hasPages())
+        <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+            <small class="text-muted">
+                Menampilkan {{ $riwayat->firstItem() }}–{{ $riwayat->lastItem() }}
+                dari {{ $riwayat->total() }} pengajuan
+            </small>
+
+            {{ $riwayat->links() }}
+        </div>
+    @endif
 
 </div>
 @endsection

@@ -15,7 +15,8 @@ use App\Http\Controllers\Pelanggan\PelangganAuthController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Middleware\PelangganAuth;
 use App\Http\Middleware\AdminAuth;
-use App\Http\Controllers\PelangganController;   
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\GoogleController;   
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->name('admin.produk.index');
@@ -214,4 +215,11 @@ Route::middleware(AdminAuth::class)->group(function () {
     })->name('admin.blankpage');
 
 });
+
+// Google Login
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])
+    ->name('google.login');
+
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])
+    ->name('google.callback');
 

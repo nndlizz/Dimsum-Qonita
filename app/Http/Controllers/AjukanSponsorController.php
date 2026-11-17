@@ -25,7 +25,8 @@ class AjukanSponsorController extends Controller
     // Simpan Pengajuan Sponsor
     public function store(Request $request)
     {
-        $idPelanggan = session('pelanggan_id') ?? session('id_pelanggan');
+        $idPelanggan = session('pelanggan_id')
+            ?? session('id_pelanggan');
 
         if (!$idPelanggan) {
             return redirect()->route('login')
@@ -47,7 +48,20 @@ class AjukanSponsorController extends Controller
         $data['status'] = 'diajukan';
         $data['tanggal_pengajuan'] = now();
 
-        AjukanSponsor::create($data);
+        // Simpan pengajuan sponsor
+        $pengajuan = AjukanSponsor::create($data);
+
+        // Buat notifikasi untuk pelanggan
+        Notifikasi::create([
+            'id_pelanggan' => $idPelanggan,
+            'id_pengajuan' => $pengajuan->id_pengajuan,
+            'judul' => 'Pengajuan Sponsor Berhasil',
+            'pesan' => 'Pengajuan sponsor untuk kegiatan "'
+                . $pengajuan->nama_kegiatan
+                . '" berhasil dikirim dan sedang menunggu pemeriksaan admin.',
+            'status_baca' => false,
+            'created_at' => now(),
+        ]);
 
         return redirect()
             ->route('pelanggan.riwayat')
