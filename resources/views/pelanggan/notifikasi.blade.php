@@ -72,6 +72,16 @@
         color: #237A43;
     }
 
+            .status-processing {
+            background: #DCEEFF;
+            color: #1769AA;
+        }
+
+        .status-rejected {
+            background: #FCE4E4;
+            color: #B42318;
+        }
+
     .notification-empty {
         background: #FFFFFF;
         border-radius: 14px;
@@ -116,13 +126,21 @@
 
                     <h6>{{ $item->judul }}</h6>
 
-                    @if ($item->status_baca)
-                        <span class="notification-status status-read">
-                            Sudah dibaca
-                        </span>
-                    @else
-                        <span class="notification-status status-unread">
-                            Belum dibaca
+                    @php
+                        $statusSponsor = $item->pengajuan->status ?? null;
+
+                        $badgeStatus = [
+                            'diajukan' => ['Diajukan', 'status-unread'],
+                            'diproses' => ['Diproses', 'status-processing'],
+                            'diterima' => ['Diterima', 'status-read'],
+                            'ditolak' => ['Ditolak', 'status-rejected'],
+                            'selesai' => ['Selesai', 'status-read'],
+                        ];
+                    @endphp
+
+                    @if ($statusSponsor && isset($badgeStatus[$statusSponsor]))
+                        <span class="notification-status {{ $badgeStatus[$statusSponsor][1] }}">
+                            {{ $badgeStatus[$statusSponsor][0] }}
                         </span>
                     @endif
 

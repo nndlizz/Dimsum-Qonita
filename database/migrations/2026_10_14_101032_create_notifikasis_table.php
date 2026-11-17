@@ -14,7 +14,7 @@ return new class extends Migration
        Schema::create('notifikasi', function (Blueprint $table) {
             $table->id('id_notifikasi');
             $table->foreignId('id_pelanggan')->constrained('pelanggan', 'id_pelanggan')->cascadeOnDelete();
-            $table->foreignId('id_pengajuan')->nullable()->constrained('ajukan_sponsor', 'id_pengajuan')->nullOnDelete();
+            $table->foreignId('id_pengajuan')->nullable()->constrained('sponsors', 'id_pengajuan')->nullOnDelete();
             $table->string('judul', 150);
             $table->text('pesan');
             $table->boolean('status_baca')->default(false);

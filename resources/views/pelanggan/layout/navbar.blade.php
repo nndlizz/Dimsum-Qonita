@@ -1,3 +1,4 @@
+
 @php
     $idPelangganNav = session('pelanggan_id')
         ?? session('id_pelanggan')
@@ -8,19 +9,13 @@
     $jumlahNotifNav = 0;
 
     if ($sudahLoginNav) {
-        try {
-            $jumlahNotifNav = \Illuminate\Support\Facades\DB::table('notifikasis')
-                ->where('id_pelanggan', $idPelangganNav)
-                ->where(function ($query) {
-                    $query->where('status_baca', 0)
-                          ->orWhereNull('status_baca');
-                })
-                ->count();
-        } catch (\Throwable $e) {
-            $jumlahNotifNav = 0;
-        }
+        $jumlahNotifNav = \Illuminate\Support\Facades\DB::table('notifikasi')
+            ->where('id_pelanggan', $idPelangganNav)
+            ->where('status_baca', false)
+            ->count();
     }
 @endphp
+
 
 
 <nav class="navbar navbar-expand-xl nq-nav" id="navQonita">
