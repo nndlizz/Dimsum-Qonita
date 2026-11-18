@@ -66,39 +66,38 @@ class AdminController extends Controller
 
     public function show(Admin $admin) { return response()->json($admin); }
 
-    public function update(Request $request, $id)
-{
-    $admin = Admin::findOrFail($id);
+    public function update(Request $request)
+    {
+        // Ambil data admin yang sedang login (sesuaikan dengan session/Auth project kalian)
+        $id = session('admin_id'); // atau Auth::id() tergantung yang kalian pakai
+        $admin = Admin::findOrFail($id);
 
-    $data = $request->validate([
-        'nama_admin'    => ['sometimes', 'required', 'string', 'max:100'],
-        'email'         => ['sometimes', 'required', 'email', 'max:150', Rule::unique('admin', 'email')->ignore($admin->id_admin, 'id_admin')],
-        'password'      => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'regex:/[^A-Za-z0-9]/'],
-        'nomor_hp'      => ['nullable', 'string', 'max:20'],
-        'status'        => ['nullable', 'string', 'max:255'],
-        'jenis_kelamin' => ['nullable', 'string', 'max:50'],
-        'alamat'        => ['nullable', 'string'],
-        'gambar'        => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-    ]);
+        $admin->nama_admin = $request->nama_admin;
+        $admin->nomor_hp = $request->nomor_hp;
+        $admin->jenis_kelamin = $request->jenis_kelamin;
+        $admin->alamat = $request->alamat;
 
-    if (!empty($data['password'])) {
-        $data['password'] = Hash::make($data['password']);
-    } else {
-        unset($data['password']);
-    }
-
-    if ($request->hasFile('gambar')) {
-        if ($admin->gambar && file_exists(public_path('uploads/admin/' . $admin->gambar))) {
-            @unlink(public_path('uploads/admin/' . $admin->gambar));
+        // Jika password diisi
+        if ($request->filled('password')) {
+            $admin->password = Hash::make($request->password);
         }
 
-        $file = $request->file('gambar');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('uploads/admin'), $filename);
-        $data['gambar'] = $filename;
+        // 👈 PASTIKAN PENANGANAN FOTO INI ADA DI ADMIN PROFILE CONTROLLER JUGA
+        if ($request->hasFile('gambar')) {
+            // Hapus foto lama jika ada di folder uploads/admin
+            if ($admin->gambar && file_exists(public_path('uploads/admin/' . $admin->gambar))) {
+                @unlink(public_path('uploads/admin/' . $admin->gambar));
+            }
+
+            // Simpan ke folder yang SAMA (uploads/admin)
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/admin'), $filename);
+            $admin->gambar = $filename;
+        }
+
+        $admin->save();
+
+        return redirect()->route('admin.akun.index')->with('success', 'Profil berhasil diperbarui!');
     }
-    
-    $admin->update($data);
-    
-    return redirect()->route('admin.akun.index')->with('success', 'Akun petugas berhasil diperbarui!');
-}}
+    }

@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -10,11 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('notifikasi', function (Blueprint $table) {
-            $table->dropForeign('notifikasi_id_pengajuan_foreign');
-        });
-
-        Schema::table('notifikasi', function (Blueprint $table) {
-            $table->foreign('id_pengajuan')
+            $table->foreign('id_pengajuan', 'notifikasi_id_pengajuan_foreign')
                 ->references('id_pengajuan')
                 ->on('sponsors')
                 ->nullOnDelete();
@@ -23,12 +18,16 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('notifikasi', function (Blueprint $table) {
-            $table->dropForeign('notifikasi_id_pengajuan_foreign');
-        });
+        try {
+            Schema::table('notifikasi', function (Blueprint $table) {
+                $table->dropForeign(['id_pengajuan']);
+            });
+        } catch (\Throwable $e) {
+            // Abaikan jika tidak ada
+        }
 
         Schema::table('notifikasi', function (Blueprint $table) {
-            $table->foreign('id_pengajuan')
+            $table->foreign('id_pengajuan', 'notifikasi_id_pengajuan_foreign')
                 ->references('id_pengajuan')
                 ->on('ajukan_sponsor')
                 ->nullOnDelete();

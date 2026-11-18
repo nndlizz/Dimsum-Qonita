@@ -111,7 +111,7 @@
 
                             <i class="fas fa-user"></i>
 
-                            <span>{{ session('nama_pelanggan', 'Pelanggan') }}</span>
+                            {{ session('nama_pelanggan') ?? Auth::user()->nama ?? 'Pelanggan' }}
 
                             <i class="fas fa-chevron-down nq-panah"></i>
                         </button>
@@ -143,7 +143,7 @@
                             {{-- PROFIL --}}
                             <li class="nq-dd-nama">
                                 <strong>
-                                    {{ session('nama_pelanggan', 'Pelanggan') }}
+                                    {{ session('nama_pelanggan') ?? Auth::user()->nama ?? 'Pelanggan' }}
                                 </strong>
                                 <small>Pelanggan</small>
                             </li>
@@ -174,7 +174,7 @@
                     <a href="{{ route('login') }}"
                        class="nq-tombol nq-profil">
                         <i class="fas fa-user"></i>
-                        <span>Login</span>
+                        <span>Masuk</span>
                     </a>
 
                 @endif

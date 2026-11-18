@@ -116,16 +116,11 @@
 
     <div class="card profile-card p-4">
         <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
-            @if(!empty($admin->gambar))
-                <img
-                    src="{{ asset('storage/' . $admin->gambar) }}"
-                    alt="Foto profil admin"
-                    class="profile-avatar"
-                >
+            @if($admin->gambar)
+                <img src="{{ asset('uploads/admin/' . $admin->gambar) }}" alt="Foto Profil" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
             @else
-                <div class="profile-avatar-default">
-                    <i class="bi bi-person-fill"></i>
-                </div>
+                <!-- Gambar default jika belum ada foto -->
+                <img src="{{ asset('images/default.png') }}" alt="Default" class="rounded-circle" width="100" height="100">
             @endif
 
             <div>

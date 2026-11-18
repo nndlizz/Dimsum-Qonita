@@ -8,12 +8,15 @@ use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 
 class GoogleController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+            ->with(['prompt' => 'select_account'])
+            ->redirect();
     }
 
     public function handleGoogleCallback(Request $request)
@@ -48,8 +51,8 @@ class GoogleController extends Controller
             $request->session()->regenerate();
 
             session([
-                'pelanggan_id' => $pelanggan->id_pelanggan,
-                'id_pelanggan' => $pelanggan->id_pelanggan,
+                'pelanggan_id' => $pelanggan->id,
+                'nama_pelanggan' => $pelanggan->nama_pelanggan, // Pastikan variabel nama ini ada dan terisi
             ]);
 
             return redirect('/')
