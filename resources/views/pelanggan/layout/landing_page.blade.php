@@ -62,7 +62,7 @@
                      <span>#1 Jajanan Terfavorit di Purwakarta</span>
                   </div>
                   <h1 class="htitle">Lezat <span class="hl">Terjangkau</span><br/>Untuk setiap momen terbaikmu!</h1>
-                  <p class="hdesc">Rasakan cita rasa berani yang dibuat dari bahan-bahan premium. Mulai dari kelembutan tiap gigitan - setiap gigitsn adalah petualangan yang layak dinikmati.</p>
+                  <p class="hdesc">Rasakan cita rasa berani yang dibuat dari bahan-bahan premium. Mulai dari kelembutan tiap gigitan - setiap gigitan adalah petualangan yang layak dinikmati.</p>
                   <!-- <div class="d-flex flex-wrap gap-3 mb-2">
                      <a href="#menu" class="btn-red"><i class="fas fa-utensils"></i>Explore Menu</a> -->
                      <!-- FIX 2: Magnific popup video trigger -->
@@ -254,14 +254,14 @@
             <span class="slbl">Dokumentasi Kegiatan</span>
 
             <h2 class="stitle">
-                Gallery Kegiatan <span>Dimsum Qonita</span>
+                Gallery Kegiatan <span>Qonita Food Store</span>
             </h2>
 
             <div class="sline"></div>
 
             <p class="sdesc mx-auto" style="max-width: 550px;">
                 Berbagai momen kegiatan, produksi, kolaborasi,
-                dan perjalanan Dimsum Qonita.
+                dan perjalanan Qonita Food Store.
             </p>
         </div>
 
@@ -286,7 +286,7 @@
                         <div class="gallery-number">KEGIATAN 01</div>
                         <h5>Partisipasi Acara</h5>
                         <p>
-                            Partisipasi Dimsum Qonita dalam kegiatan
+                            Partisipasi Qonita Food Store dalam kegiatan
                             dengan menjadi sponsor dan membuka stan penjualan di Event Kampus UPI Purwakarta
                         </p>
                     </div>
@@ -301,7 +301,7 @@
                         <div class="gallery-number">KEGIATAN 02</div>
                         <h5>Kegiatan Bazar</h5>
                         <p>
-                           Keikutsertaan Dimsum Qonita dalam kegiatan
+                           Keikutsertaan Qonita Food Store dalam kegiatan
                             bazar melalui pembukaan stan makanan disalah satu Sekolah di Purwakarta.
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                         <div class="gallery-number">KEGIATAN 03</div>
                         <h5>Stan Penjualan</h5>
                         <p>
-                            Kegiatan penjualan produk Dimsum Qonita
+                            Kegiatan penjualan produk Qonita Food Store
                             di area acara indoor dengan berbagai pilihan menu.
                         </p>
                         </p>
@@ -332,7 +332,7 @@
                         <h5>Aktivitas Penjualan</h5>
                         <p>
                             Aktivitas tim dalam melayani pelanggan
-                            dan memperkenalkan produk Dimsum Qonita.
+                            dan memperkenalkan produk Qonita Food Store.
                         </p>
                     </div>
                 </div>
@@ -371,7 +371,7 @@
                         <div class="gallery-number">KEGIATAN 07</div>
                         <h5>Review Menu</h5>
                         <p>
-                            Review yang dilakukan oleh salah satu Selegram di Purwakarta "Mas Blangkon" yang mereview menu andalan dan semua jenis dimsum yang diproduksi oleh Dimsum Qonita.
+                            Review yang dilakukan oleh salah satu Selegram di Purwakarta "Mas Blangkon" yang mereview menu andalan dan semua jenis dimsum yang diproduksi oleh Qonita Food Store.
                         </p>
                     </div>
                 </div>
@@ -384,7 +384,7 @@
                         <div class="gallery-number">KEGIATAN 08</div>
                         <h5>Review Menu</h5>
                         <p>
-                            Review yang dilakukan oleh salah satu Selegram sekaligus Food Vlogger di Purwakarta "Mila" yang mereview menu andalan dan semua jenis dimsum yang diproduksi oleh Dimsum Qonita.
+                            Review yang dilakukan oleh salah satu Selegram sekaligus Food Vlogger di Purwakarta "Mila" yang mereview menu andalan dan semua jenis dimsum yang diproduksi oleh Qonita Food Store.
                         </p>
                     </div>
                 </div>
@@ -397,7 +397,7 @@
                         <div class="gallery-number">KEGIATAN 09</div>
                         <h5>Best Produk</h5>
                         <p>
-                            Menu andalan atau Menu favorit yang banyak diminati oleh konsumen DImsum Qonita.
+                            Menu andalan atau Menu favorit yang banyak diminati oleh konsumen Qonita Food Store.
                         </p>
                     </div>
                 </div>
@@ -410,7 +410,7 @@
                         <div class="gallery-number">KEGIATAN 10</div>
                         <h5>Berbagi Dimsum Qonita</h5>
                         <p>
-                            Kegiatan berbagi dimsum gratis yang dilakukan oleh Dimsum Qonita pada Bulan Ramadhan. 
+                            Kegiatan berbagi dimsum gratis yang dilakukan oleh Qonita Food Store pada Bulan Ramadhan. 
                         </p>
                     </div>
                 </div>
