@@ -22,12 +22,10 @@
     <div class="nq-bar">
 
         {{-- LOGO --}}
-        <a class="navbar-brand nq-brand" href="#hero">
-            <a class="navbar-brand nq-brand" href="{{ url('/#hero') }}">
-                <img src="{{ asset('template_admin/assets/images/logo.png') }}"
-                    alt="Logo Dimsum Qonita"
-                    class="nq-logo">
-            </a>
+        <a class="navbar-brand nq-brand" href="{{ url('/#hero') }}">
+            <img src="{{ asset('template_admin/assets/images/logo.png') }}"
+                alt="Logo Dimsum Qonita"
+                class="nq-logo">
 
             <span class="nq-brand-teks">
                 <span class="nq-brand-nama">Qoni<span>ta</span></span>
@@ -70,7 +68,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/#jam-operasional') }}">
-                    Jam Operasional
+                    Awal Mula
                 </a>
             </li>
 
@@ -221,24 +219,22 @@
     .nq-brand {
     display: flex;
     align-items: center;
-    padding: 0;
+    gap: 5px; /* Jarak logo dan tulisan */
+    text-decoration: none;
     }
 
     .nq-logo {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
         object-fit: cover;
         border-radius: 50%;
-        background: transparent;
-        border: none;
-        box-shadow: none;
-        display: block;
     }
 
-    .nq-nav .nq-brand-teks {
+    .nq-brand-teks {
         display: flex;
         flex-direction: column;
         line-height: 1.1;
+        margin-left: 0;
     }
 
     .nq-nav .nq-brand-nama {

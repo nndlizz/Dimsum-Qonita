@@ -34,13 +34,13 @@ class GoogleController extends Controller
             )->first();
 
             if (!$pelanggan) {
-                $pelanggan = Pelanggan::create([
-                    'nama_pelanggan' => $googleUser->getName()
-                        ?? $googleUser->getNickname()
-                        ?? 'Pelanggan',
-                    'email' => $googleUser->getEmail(),
-                    'password' => Hash::make(Str::random(32)),
-                ]);
+                $pelanggan = Pelanggan::firstOrCreate(
+                ['email' => $googleUser->getEmail()],
+                [
+                    'nama_pelanggan' => $googleUser->getName() ?? 'Pelanggan Google',
+                    'password' => bcrypt(Str::random(16)),
+                ]
+            );
             }
 
             Auth::login($pelanggan);
@@ -49,7 +49,8 @@ class GoogleController extends Controller
 
             session([
                 'pelanggan_id' => $pelanggan->id_pelanggan,
-                'id_pelanggan' => $pelanggan->id_pelanggan,
+                'nama_pelanggan' => $pelanggan->nama_pelanggan,
+                'email_pelanggan' => $pelanggan->email,
             ]);
 
             return redirect('/')
