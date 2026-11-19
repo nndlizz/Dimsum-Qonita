@@ -203,17 +203,17 @@
 
     <h5 class="mb-3">
         <i class="bi bi-lock me-2"></i>
-        Ubah Password
+        Ubah Kata Sandi
     </h5>
 
     <p class="text-secondary small">
-        Kosongkan jika tidak ingin mengubah password.
+        Kosongkan jika tidak ingin mengubah kata sandi.
     </p>
 </div>
 
 <div class="col-md-6">
     <label for="password_lama" class="form-label">
-        Password Lama
+        Kata Sandi Lama
     </label>
 
     <input type="password"
@@ -229,7 +229,7 @@
 
 <div class="col-md-6">
     <label for="password_baru" class="form-label">
-        Password Baru
+        Kata Sandi Baru
     </label>
 
     <input type="password"
@@ -246,7 +246,7 @@
 
 <div class="col-md-6">
     <label for="password_baru_confirmation" class="form-label">
-        Konfirmasi Password Baru
+        Konfirmasi Kata Sandi Baru
     </label>
 
     <input type="password"

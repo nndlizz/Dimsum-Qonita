@@ -39,200 +39,129 @@
             </a>
 
            
-<div class="d-flex align-items-center gap-2">
 
-    @if(session()->has('pelanggan_id'))
+<button class="navbar-toggler nq-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navmenuQonita"
+        aria-label="Buka menu">
+    <i class="fas fa-bars"></i>
+</button>
 
-        <div class="dropdown">
-            <button class="btn text-white rounded-pill px-3 py-2 dropdown-toggle d-flex align-items-center gap-2"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style="background-color: var(--primary);">
+<div class="collapse navbar-collapse nq-collapse" id="navmenuQonita">
 
-                <i class="fas fa-user-circle fa-lg"></i>
-                <span>{{ session('nama_pelanggan') }}</span>
-            </button>
+    <span class="nq-garis d-none d-xl-block"></span>
 
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
+    {{-- MENU --}}
+    <ul class="navbar-nav nq-menu">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/#hero') }}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/#category') }}">Galeri</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/#menu') }}">Menu</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/#jam-operasional') }}">Jam Operasional</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/#lokasi') }}">Lokasi</a>
+        </li>
+    </ul>
 
-               <li>
-    <a class="dropdown-item" href="{{ route('pelanggan.profil') }}">
-        <i class="bi bi-person-circle me-2"></i>
-        Profil Saya
-    </a>
-</li>
+    {{-- KANAN --}}
+    <div class="nq-kanan">
 
-                <li><hr class="dropdown-divider"></li>
+        @if ($sudahLoginNav)
 
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item py-2 text-danger">
-                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+            {{-- NOTIFIKASI --}}
+            <a href="{{ route('pelanggan.notifikasi') }}"
+               class="nq-bel"
+               title="Notifikasi">
+                <i class="fas fa-bell"></i>
 
-    @else
-
-        <a href="{{ route('login') }}" class="btn btn-outline-danger rounded-pill px-4">
-            Login
-            <span class="nq-brand-teks">
-                <span class="nq-brand-nama">Qoni<span>ta</span></span>
-                <span class="nq-brand-sub">Food Store</span>
-            </span>
-        </a>
-
-        {{-- TOGGLER --}}
-        <button class="navbar-toggler nq-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navmenuQonita"
-                aria-label="Buka menu">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <div class="collapse navbar-collapse nq-collapse" id="navmenuQonita">
-
-            <span class="nq-garis d-none d-xl-block"></span>
-
-            {{-- MENU --}}
-            <ul class="navbar-nav nq-menu">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/#hero') }}">
-                    Home
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/#category') }}">
-                    Galeri
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/#menu') }}">
-                    Menu
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/#jam-operasional') }}">
-                    Jam Operasional
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/#lokasi') }}">
-                    Lokasi
-                </a>
-            </li>
-        </ul>
-
-
-            {{-- KANAN --}}
-            <div class="nq-kanan">
-
-                @if ($sudahLoginNav)
-
-                    {{-- NOTIFIKASI --}}
-                    <a href="{{ route('pelanggan.notifikasi') }}"
-                       class="nq-bel"
-                       title="Notifikasi">
-
-                        <i class="fas fa-bell"></i>
-
-                        @if ($jumlahNotifNav > 0)
-                            <span class="nq-badge">
-                                {{ $jumlahNotifNav > 99 ? '99+' : $jumlahNotifNav }}
-                            </span>
-                        @endif
-                    </a>
-
-                    {{-- SESSION LOGIN --}}
-                    <div class="dropdown">
-
-                        <button class="nq-tombol nq-profil"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
-
-                            <i class="fas fa-user"></i>
-
-                            <span>{{ session('nama_pelanggan', 'Pelanggan') }}</span>
-
-                            <i class="fas fa-chevron-down nq-panah"></i>
-                        </button>
-
-                        <ul class="dropdown-menu dropdown-menu-end nq-dropdown">
-
-                            {{-- AJUKAN SPONSOR --}}
-                            <li>
-                                <a href="{{ route('pelanggan.sponsor.create') }}"
-                                   class="dropdown-item nq-dd-item">
-                                    <i class="fas fa-heart me-2"></i>
-                                    Ajukan Sponsor
-                                </a>
-                            </li>
-
-                            {{-- RIWAYAT SPONSOR --}}
-                            <li>
-                                <a href="{{ route('pelanggan.riwayat') }}"
-                                   class="dropdown-item nq-dd-item">
-                                    <i class="fas fa-history me-2"></i>
-                                    Riwayat Sponsor
-                                </a>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            {{-- PROFIL --}}
-                            <li class="nq-dd-nama">
-                                <strong>
-                                    {{ session('nama_pelanggan', 'Pelanggan') }}
-                                </strong>
-                                <small>Pelanggan</small>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            {{-- KELUAR --}}
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-
-                                    <button type="submit"
-                                            class="dropdown-item nq-dd-keluar">
-                                        <i class="fas fa-sign-out-alt me-2"></i>
-                                        Keluar
-                                    </button>
-                                </form>
-                            </li>
-
-                        </ul>
-                    </div>
-
-                @else
-
-                    {{-- LOGIN --}}
-                    <a href="{{ route('login') }}"
-                       class="nq-tombol nq-profil">
-                        <i class="fas fa-user"></i>
-                        <span>Login</span>
-                    </a>
-
+                @if ($jumlahNotifNav > 0)
+                    <span class="nq-badge">
+                        {{ $jumlahNotifNav > 99 ? '99+' : $jumlahNotifNav }}
+                    </span>
                 @endif
+            </a>
 
+            {{-- DROPDOWN PROFIL --}}
+            <div class="dropdown">
+                <button class="nq-tombol nq-profil"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                    <i class="fas fa-user"></i>
+                    <span>{{ session('nama_pelanggan', 'Pelanggan') }}</span>
+                    <i class="fas fa-chevron-down nq-panah"></i>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end nq-dropdown">
+
+                    <li class="nq-dd-nama">
+                        <strong>{{ session('nama_pelanggan', 'Pelanggan') }}</strong>
+                        <small>Pelanggan</small>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a href="{{ route('pelanggan.profil') }}"
+                           class="dropdown-item nq-dd-item">
+                            <i class="bi bi-person-circle me-2"></i>
+                            Profil Saya
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('pelanggan.sponsor.create') }}"
+                           class="dropdown-item nq-dd-item">
+                            <i class="fas fa-heart me-2"></i>
+                            Ajukan Sponsor
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('pelanggan.riwayat') }}"
+                           class="dropdown-item nq-dd-item">
+                            <i class="fas fa-history me-2"></i>
+                            Riwayat Sponsor
+                        </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item nq-dd-keluar">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
             </div>
-        </div>
+
+        @else
+
+            {{-- LOGIN --}}
+            <a href="{{ route('login') }}" class="nq-tombol nq-profil">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+            </a>
+
+        @endif
+
     </div>
+</div>
+</div>
 </nav>
 
 <style>

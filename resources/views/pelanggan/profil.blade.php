@@ -116,7 +116,7 @@
                     {{ $pelanggan->nama_pelanggan }}
                 </h4>
                 <p class="mb-0 text-secondary">
-                    Pelanggan Go Dimsum
+                    Pelanggan Qonita Foodstore
                 </p>
             </div>
 
@@ -160,7 +160,7 @@
             <a href="{{ route('pelanggan.profil.edit') }}"
                class="btn-profile-edit">
                 <i class="bi bi-pencil-square me-1"></i>
-                Edit Profil
+                Ubah Profil
             </a>
         </div>
 
