@@ -55,15 +55,19 @@
          ============================================================ -->
         <div class="main-wrapper">
 
-            @include('pelanggan.layout.navbar')
+    @if (!View::hasSection('hideNavbar'))
+        @include('pelanggan.layout.navbar')
+    @endif
 
-            <main class="flex-fill mt-4">
-                @yield('content')
-            </main>
+    <main class="flex-fill mt-4">
+        @yield('content')
+    </main>
 
-            @include('pelanggan.layout.footer')
+    @if (!View::hasSection('hideFooter'))
+        @include('pelanggan.layout.footer')
+    @endif
 
-        </div>
+</div>
 	  
       <!-- Floating cart -->
       <!-- <div class="cartfl"><i class="fas fa-shopping-cart"></i><span>My Cart</span><div class="ccount" id="cartCount">0</div></div> -->

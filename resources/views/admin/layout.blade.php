@@ -48,6 +48,12 @@
     <!-- Bootstrap JS: CUKUP SATU KALI -->
     <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('template_admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- SweetAlert2 -->
+
     <!-- SweetAlert2: CUKUP SATU KALI -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -60,6 +66,15 @@
     <!-- Dashboard JS -->
     <script src="{{ asset('template_admin/assets/js/dashboard.js') }}"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const desktopToggle = document.getElementById('desktop-sidebar-toggle');
+            const mobileToggle = document.getElementById('sidebar-toggle');
+
+            if (!sidebar) return;
+
+            // Toggle sidebar desktop
     <!-- Sidebar Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -67,19 +82,25 @@
             const sidebar = document.getElementById('sidebar');
             const desktopToggle = document.getElementById('desktop-sidebar-toggle');
             const mobileToggle = document.getElementById('sidebar-toggle');
-
             if (desktopToggle) {
                 desktopToggle.addEventListener('click', function () {
                     document.body.classList.toggle('sidebar-collapsed');
                 });
             }
 
+            // Toggle sidebar mobile
             if (mobileToggle) {
                 mobileToggle.addEventListener('click', function () {
                     document.body.classList.toggle('sidebar-mobile-open');
                 });
             }
 
+
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function () {
+                    document.body.classList.toggle('sidebar-mobile-open');
+                });
+            }
         });
     </script>
 

@@ -15,6 +15,8 @@ use App\Http\Controllers\Pelanggan\PelangganAuthController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Middleware\PelangganAuth;
 use App\Http\Middleware\AdminAuth;
+use App\Http\Controllers\Pelanggan\PelangganProfileController;
+
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\GoogleController;   
 
@@ -41,7 +43,10 @@ Route::get('/admin/produk/{id_produk}/edit', [ProdukController::class, 'edit'])
 Route::get('/', function () {
     $cabangs = DB::table('cabangs')->get();
 
-    return view('pelanggan.layout.landing_page', compact('cabangs'));
+    $produks = \App\Models\Produk::with(['kategori', 'cabangs'])
+        ->get();
+
+    return view('pelanggan.layout.landing_page', compact('cabangs', 'produks'));
 })->name('home');
 
 
@@ -81,6 +86,17 @@ Route::post('/register', [PelangganAuthController::class, 'register'])
 */
 
 Route::middleware(PelangganAuth::class)->group(function () {
+    // Profil Pelanggan
+    Route::get('/pelanggan/profil', [PelangganProfileController::class, 'index'])
+        ->name('pelanggan.profil');
+
+    // Edit Profil Pelanggan
+    Route::get('/pelanggan/profil/edit', [PelangganProfileController::class, 'edit'])
+        ->name('pelanggan.profil.edit');
+    
+    // Update Profil Pelanggan
+    Route::put('/pelanggan/profil', [PelangganProfileController::class, 'update'])
+    ->name('pelanggan.profil.update');
 
     // Ajukan Sponsor
     Route::get('/pelanggan/ajukan-sponsor', [
