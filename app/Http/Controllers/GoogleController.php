@@ -61,7 +61,6 @@ class GoogleController extends Controller
 
         } catch (\Exception $e) {
             report($e);
-
             return redirect('/')
                 ->with('error', 'Login Google gagal: ' . $e->getMessage());
         }
