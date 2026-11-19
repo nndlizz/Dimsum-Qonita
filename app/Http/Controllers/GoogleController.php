@@ -8,12 +8,15 @@ use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 
 class GoogleController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+            ->with(['prompt' => 'select_account'])
+            ->redirect();
     }
 
     public function handleGoogleCallback(Request $request)
@@ -58,7 +61,6 @@ class GoogleController extends Controller
 
         } catch (\Exception $e) {
             report($e);
-
             return redirect('/')
                 ->with('error', 'Login Google gagal: ' . $e->getMessage());
         }
