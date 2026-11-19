@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class NotifikasiController extends Controller
 {
-    // Menampilkan notifikasi pelanggan yang sedang login
-    public function index()
+    // Menampilkan notifikasi pelanggan
+   public function index()
 {
     $idPelanggan = session('pelanggan_id')
         ?? session('id_pelanggan')
@@ -20,7 +20,14 @@ class NotifikasiController extends Controller
             ->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    $notifikasi = Notifikasi::where('id_pelanggan', $idPelanggan)
+    // Tandai semua notifikasi pelanggan sebagai sudah dibaca
+    Notifikasi::where('id_pelanggan', $idPelanggan)
+        ->where('status_baca', false)
+        ->update(['status_baca' => true]);
+
+    // Ambil notifikasi beserta status pengajuan sponsor
+    $notifikasi = Notifikasi::with('pengajuan')
+        ->where('id_pelanggan', $idPelanggan)
         ->orderByDesc('created_at')
         ->get();
 
@@ -36,7 +43,7 @@ class NotifikasiController extends Controller
     {
         $data = $request->validate([
             'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
-            'id_pengajuan' => 'nullable|exists:ajukan_sponsor,id_pengajuan',
+            'id_pengajuan' => 'nullable|exists:sponsors,id_pengajuan',
             'judul' => 'required|string|max:150',
             'pesan' => 'required|string',
             'status_baca' => 'sometimes|boolean',
@@ -47,10 +54,9 @@ class NotifikasiController extends Controller
 
     public function show($id)
     {
-        $record = Notifikasi::where(
-            'id_pelanggan',
-            Auth::guard('pelanggan')->id()
-        )->findOrFail($id);
+        $record = Notifikasi::with('pengajuan')
+            ->where('id_pelanggan', Auth::guard('pelanggan')->id())
+            ->findOrFail($id);
 
         return response()->json($record);
     }
@@ -68,7 +74,7 @@ class NotifikasiController extends Controller
         )->findOrFail($id);
 
         $data = $request->validate([
-            'id_pengajuan' => 'nullable|exists:ajukan_sponsor,id_pengajuan',
+            'id_pengajuan' => 'nullable|exists:sponsors,id_pengajuan',
             'judul' => 'required|string|max:150',
             'pesan' => 'required|string',
             'status_baca' => 'sometimes|boolean',

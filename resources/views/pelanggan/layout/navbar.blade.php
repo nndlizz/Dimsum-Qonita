@@ -8,35 +8,24 @@
     $jumlahNotifNav = 0;
 
     if ($sudahLoginNav) {
-        try {
-            $jumlahNotifNav = \Illuminate\Support\Facades\DB::table('notifikasis')
-                ->where('id_pelanggan', $idPelangganNav)
-                ->where(function ($query) {
-                    $query->where('status_baca', 0)
-                          ->orWhereNull('status_baca');
-                })
-                ->count();
-        } catch (\Throwable $e) {
-            $jumlahNotifNav = 0;
-        }
+        $jumlahNotifNav = \Illuminate\Support\Facades\DB::table('notifikasi')
+            ->where('id_pelanggan', $idPelangganNav)
+            ->where('status_baca', false)
+            ->count();
     }
 @endphp
+
 
 
 <nav class="navbar navbar-expand-xl nq-nav" id="navQonita">
     <div class="nq-bar">
 
         {{-- LOGO --}}
-        <a class="navbar-brand nq-brand" href="#hero">
-            <a class="navbar-brand nq-brand" href="{{ url('/#hero') }}">
-                <img src="{{ asset('template_admin/assets/images/logo.png') }}"
-                    alt="Logo Dimsum Qonita"
-                    class="nq-logo">
-            </a>
-            <!-- Ajukan Sponsor -->
-            <a href="{{ route('pelanggan.sponsor.create') }}" class="nav-link nav-cta">
-               <i class="fas fa-handshake me-1"></i>Ajukan Sponsor
-            </a>
+<a class="navbar-brand nq-brand" href="{{ url('/#hero') }}">
+    <img src="{{ asset('template_admin/assets/images/logo.png') }}"
+         alt="Logo Dimsum Qonita"
+         class="nq-logo">
+</a>
 
            
 
@@ -80,8 +69,85 @@
             <a href="{{ route('pelanggan.notifikasi') }}"
                class="nq-bel"
                title="Notifikasi">
+
                 <i class="fas fa-bell"></i>
 
+                @if ($jumlahNotifNav > 0)
+                    <span class="nq-badge">
+                        {{ $jumlahNotifNav > 99 ? '99+' : $jumlahNotifNav }}
+                    </span>
+                @endif
+            </a>
+
+            {{-- DROPDOWN PROFIL --}}
+            <div class="dropdown">
+
+                <button class="nq-tombol nq-profil"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                    <i class="fas fa-user"></i>
+                    <span>{{ session('nama_pelanggan', 'Pelanggan') }}</span>
+                    <i class="fas fa-chevron-down nq-panah"></i>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end nq-dropdown">
+
+                    <li class="nq-dd-nama">
+                        <strong>{{ session('nama_pelanggan', 'Pelanggan') }}</strong>
+                        <small>Pelanggan</small>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a href="{{ route('pelanggan.profil') }}"
+                           class="dropdown-item nq-dd-item">
+                            <i class="bi bi-person-circle me-2"></i>
+                            Profil Saya
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('pelanggan.sponsor.create') }}"
+                           class="dropdown-item nq-dd-item">
+                            <i class="fas fa-heart me-2"></i>
+                            Ajukan Sponsor
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('pelanggan.riwayat') }}"
+                           class="dropdown-item nq-dd-item">
+                            <i class="fas fa-history me-2"></i>
+                            Riwayat Sponsor
+                        </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item nq-dd-keluar">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+
+        @else
+
+            {{-- LOGIN --}}
+            <a href="{{ route('login') }}"
+               class="nq-tombol nq-profil">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+            </a>
                 @if ($jumlahNotifNav > 0)
                     <span class="nq-badge">
                         {{ $jumlahNotifNav > 99 ? '99+' : $jumlahNotifNav }}
@@ -201,24 +267,22 @@
     .nq-brand {
     display: flex;
     align-items: center;
-    padding: 0;
+    gap: 5px; /* Jarak logo dan tulisan */
+    text-decoration: none;
     }
 
     .nq-logo {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
         object-fit: cover;
         border-radius: 50%;
-        background: transparent;
-        border: none;
-        box-shadow: none;
-        display: block;
     }
 
-    .nq-nav .nq-brand-teks {
+    .nq-brand-teks {
         display: flex;
         flex-direction: column;
         line-height: 1.1;
+        margin-left: 0;
     }
 
     .nq-nav .nq-brand-nama {
