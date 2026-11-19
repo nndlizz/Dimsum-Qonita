@@ -12,45 +12,40 @@ class PelangganAuthController extends Controller
 {
     public function index()
     {
-        // Ambil ID pelanggan yang sedang login (sesuaikan session login kamu)
-        $pelangganId = session('pelanggan_id'); // atau auth('pelanggan')->id()
+        $pelangganId = session('pelanggan_id');
 
-        // Ambil notifikasi khusus milik pelanggan ini
         $notifikasis = \App\Models\Notifikasi::where('id_pelanggan', $pelangganId)
-                        ->latest()
-                        ->get();
+            ->latest()
+            ->get();
 
-        return view('pelanggan.layout.landing_page', compact('notifikasis')); // atau view notifikasi khusus
+        return view('pelanggan.layout.landing_page', compact('notifikasis'));
     }
-    
-    // Menampilkan form register pelanggan
+
     public function showRegister()
     {
-        return view('pelanggan.register'); // Sesuaikan dengan nama view register kamu nanti
+        return view('pelanggan.register');
     }
 
-    // Memproses data pendaftaran pelanggan baru
     public function register(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:pelanggan,email',
-            'no_hp' => 'required|string|max:20',
+            'username' => 'required|string|min:4|max:50|alpha_dash|unique:pelanggan,username',
             'password' => [
                 'required',
                 'string',
                 Password::min(8)
-                    ->mixedCase() // Wajib huruf besar (kapital) & huruf kecil
-                    ->numbers()   // Wajib ada angka
-                    ->symbols(),  // Wajib ada simbol/tanda baca
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
             ],
         ], [
-            // Custom pesan error dalam Bahasa Indonesia
             'nama.required' => 'Nama lengkap wajib diisi.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email ini sudah terdaftar, silakan gunakan email lain atau langsung login.',
-            'no_hp.required' => 'Nomor WhatsApp / HP wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'username.min' => 'Username minimal 4 karakter.',
+            'username.max' => 'Username maksimal 50 karakter.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, tanda hubung (-), atau underscore (_).',
+            'username.unique' => 'Username ini sudah digunakan, silakan pilih username lain.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal harus 8 karakter.',
             'password.mixed' => 'Password harus mengandung minimal satu huruf kapital dan satu huruf kecil.',
@@ -60,14 +55,14 @@ class PelangganAuthController extends Controller
 
         DB::table('pelanggan')->insert([
             'nama_pelanggan' => $request->nama,
-            'email' => $request->email,
-            'no_telepon' => $request->no_hp,
+            'username' => $request->username,
+            'email' => null,
+            'no_telepon' => null,
             'password' => Hash::make($request->password),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        // Contoh di method register / store pelanggan pada Controller kamu:
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login menggunakan akun yang baru dibuat.');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login menggunakan username dan password yang baru dibuat.');
     }
 }
