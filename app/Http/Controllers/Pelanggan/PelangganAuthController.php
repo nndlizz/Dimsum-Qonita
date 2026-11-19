@@ -68,6 +68,6 @@ class PelangganAuthController extends Controller
         ]);
 
         // Contoh di method register / store pelanggan pada Controller kamu:
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan masuk menggunakan akun yang baru dibuat.');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login menggunakan akun yang baru dibuat.');
     }
 }

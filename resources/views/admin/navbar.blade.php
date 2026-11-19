@@ -14,7 +14,7 @@
             ?? session('admin_name', 'Administrator');
 
         $fotoNavbar = ($adminNavbar && !empty($adminNavbar->gambar))
-            ? asset('uploads/admin/' . $adminNavbar->gambar)
+            ? asset('storage/' . $adminNavbar->gambar)
             : asset('template_admin/assets/images/avatar.png');
     @endphp
 

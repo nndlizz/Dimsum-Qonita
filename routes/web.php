@@ -128,10 +128,10 @@ Route::middleware(AdminAuth::class)->group(function () {
             'jumlahProduk' => DB::table('produk')->count(),
             'jumlahKategori' => DB::table('kategoris')->count(),
             'totalAdmin' => DB::table('admin')->count(),
-            'sponsorDiterima' => DB::table('sponsors') 
+            'sponsorDiterima' => DB::table('ajukan_sponsor')
                 ->where('status', 'diterima')
                 ->count(),
-            'sponsorDitolak' => DB::table('sponsors') 
+            'sponsorDitolak' => DB::table('ajukan_sponsor')
                 ->where('status', 'ditolak')
                 ->count(),
         ]);
