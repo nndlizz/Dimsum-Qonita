@@ -148,7 +148,7 @@
         {{-- LOGIN --}}
         <a href="{{ route('login') }}" class="nq-tombol nq-profil">
             <i class="fas fa-user"></i>
-            <span>Login</span>
+            <span>Masuk</span>
         </a>
 
     @endif

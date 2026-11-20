@@ -84,7 +84,7 @@
                                         href="{{ route('admin.cabang.edit', $cabang->id_cabang) }}"
                                         class="btn btn-sm btn-warning mb-1"
                                     >
-                                        Edit
+                                       <i class="bi bi-pencil-square"></i>
                                     </a>
 
                                     <form
@@ -96,7 +96,7 @@
                                         @method('DELETE')
 
                                         <button type="submit" class="btn btn-sm btn-danger mb-1">
-                                            Hapus
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
                                 </td>

@@ -1,4 +1,3 @@
-
 @extends('admin.layout')
 
 @section('content')
@@ -95,7 +94,7 @@
 <div class="edit-profile-page">
     <div class="page-header mb-4">
         <div>
-            <h1 class="page-title">Edit Profil Admin</h1>
+            <h1 class="page-title">Ubah Profil Admin</h1>
             <p class="page-subtitle">Perbarui informasi akun.</p>
         </div>
 
@@ -110,7 +109,7 @@
                        class="text-decoration-none">Profil Admin</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    Edit Profil
+                    Ubah Profil
                 </li>
             </ol>
         </nav>
@@ -187,7 +186,7 @@
             <div class="mb-3">
                 <label for="alamat" class="form-label">Alamat</label>
                 <textarea id="alamat" name="alamat" rows="3"
-                          class="form-control">{{ old('alamat', $admin->alamat) }}</textarea>
+                        class="form-control">{{ old('alamat', $admin->alamat) }}</textarea>
                 @error('alamat')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -197,9 +196,28 @@
                 <label for="gambar" class="form-label">Foto Profil</label>
 
                 @if(!empty($admin->gambar))
+                    @php
+                        $rawEdit = ltrim($admin->gambar, '/');
+                        $urlEdit = \Illuminate\Support\Str::startsWith($rawEdit, ['http://', 'https://'])
+                            ? $rawEdit
+                            : (\Illuminate\Support\Str::startsWith($rawEdit, 'storage/')
+                                ? asset($rawEdit)
+                                : (str_contains($rawEdit, '/')
+                                    ? asset('storage/' . $rawEdit)
+                                    : asset('storage/admin-profiles/' . $rawEdit)));
+                    @endphp
                     <div class="mb-2">
-                        <img src="{{ asset('storage/' . $admin->gambar) }}"
+                        <img id="previewFotoEdit"
+                             src="{{ $urlEdit }}?v={{ time() }}"
                              alt="Foto profil saat ini"
+                             style="width:70px;height:70px;object-fit:cover;border-radius:50%;border:2px solid #dee2e6;"
+                             onerror="this.onerror=null;this.src='{{ asset('template_admin/assets/images/avatar.png') }}';">
+                    </div>
+                @else
+                    <div class="mb-2">
+                        <img id="previewFotoEdit"
+                             src="{{ asset('template_admin/assets/images/avatar.png') }}"
+                             alt="Foto profil default"
                              style="width:70px;height:70px;object-fit:cover;border-radius:50%;border:2px solid #dee2e6;">
                     </div>
                 @endif
@@ -227,7 +245,7 @@
 
                 <button type="submit" class="btn-profile-save">
                     <i class="bi bi-check-circle me-1"></i>
-                    Simpan Perubahan
+                    Simpan 
                 </button>
             </div>
         </form>
@@ -237,10 +255,24 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('editProfileForm');
+    const gambarInput = document.getElementById('gambar');
+    const previewImg = document.getElementById('previewFotoEdit');
+
+    if (gambarInput && previewImg) {
+        gambarInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 
     if (!form) return;
 
-    // Menampilkan error validasi dari Laravel
     @if($errors->any())
         Swal.fire({
             icon: 'error',
@@ -258,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = document.getElementById('email').value.trim();
         const nomorHp = document.getElementById('nomor_hp').value.trim();
         const jenisKelamin = document.getElementById('jenis_kelamin').value;
-        const gambarInput = document.getElementById('gambar');
         const gambar = gambarInput.files[0];
 
         let pesan = '';

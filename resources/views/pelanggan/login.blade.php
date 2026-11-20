@@ -1,4 +1,4 @@
-@extends('pelanggan.layout.app')
+﻿@extends('pelanggan.layout.app')
 
 @section('content')
 <div class="container-fluid py-5 min-vh-100 d-flex align-items-center justify-content-center" style="background-color: #fdfaf6; margin-top: -30px;">

@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Schema;
 
 class AdminAuthController extends Controller
 {
-    // 1. Menampilkan halaman form login (2 kolom tanpa layout landing page)
     public function showLogin()
     {
         return view('admin.login');
     }
 
-    // 2. Memproses login satu pintu (Admin & Pelanggan)
     public function login(Request $request)
     {
         $request->validate([
@@ -29,7 +27,6 @@ class AdminAuthController extends Controller
         $inputLogin = trim($request->input('login'));
         $password   = $request->input('password');
 
-        // 1) Cek ke tabel admin (bisa pakai email atau username jika kolomnya tersedia)
         $adminQuery = DB::table('admin')->where('email', $inputLogin);
         if (Schema::hasColumn('admin', 'username')) {
             $adminQuery->orWhere('username', $inputLogin);
@@ -38,16 +35,20 @@ class AdminAuthController extends Controller
 
         if ($admin && Hash::check($password, $admin->password)) {
             $request->session()->regenerate();
+            $request->session()->forget(['pelanggan_id', 'nama_pelanggan', 'username']);
+
+            $namaAdmin = $admin->nama_admin ?? $admin->nama ?? 'Admin';
 
             session([
-                'admin_id'   => $admin->id_admin ?? $admin->id,
-                'nama_admin' => $admin->nama_admin ?? $admin->nama ?? 'Admin',
+                'admin_id'     => $admin->id_admin ?? $admin->id,
+                'nama_admin'   => $namaAdmin,
+                'admin_name'   => $namaAdmin,
+                'admin_gambar' => $admin->gambar ?? null,
             ]);
 
             return redirect()->route('admin.dashboard');
         }
 
-        // 2) Cek ke tabel pelanggan (prioritas username, dan fallback ke email jika kolomnya ada)
         $pelangganQuery = DB::table('pelanggan');
         if (Schema::hasColumn('pelanggan', 'username') && Schema::hasColumn('pelanggan', 'email')) {
             $pelangganQuery->where(function ($q) use ($inputLogin) {
@@ -64,6 +65,7 @@ class AdminAuthController extends Controller
 
         if ($pelanggan && Hash::check($password, $pelanggan->password)) {
             $request->session()->regenerate();
+            $request->session()->forget(['admin_id', 'nama_admin', 'admin_name', 'admin_gambar']);
 
             session([
                 'pelanggan_id'   => $pelanggan->id_pelanggan ?? $pelanggan->id,
@@ -79,12 +81,13 @@ class AdminAuthController extends Controller
             ->with('error', 'Username/email atau kata sandi salah.');
     }
 
-    // 3. Logout (menghapus session admin maupun pelanggan)
     public function logout(Request $request)
     {
         $request->session()->forget([
             'admin_id',
             'nama_admin',
+            'admin_name',
+            'admin_gambar',
             'pelanggan_id',
             'nama_pelanggan',
             'username',

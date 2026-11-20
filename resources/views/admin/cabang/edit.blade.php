@@ -4,7 +4,7 @@
 <div class="container-fluid py-4">
 
     <div class="mb-4">
-        <h2 class="fw-bold mb-1">Edit Cabang</h2>
+        <h2 class="fw-bold mb-1">Ubah Cabang</h2>
         <p class="text-muted mb-0">
             Perbarui informasi dan foto toko Dimsum Qonita.
         </p>
@@ -105,7 +105,7 @@
 
                 <div class="d-flex gap-2 mt-4">
                     <button type="submit" class="btn btn-danger">
-                        Simpan Perubahan
+                        Simpan
                     </button>
 
                     <a

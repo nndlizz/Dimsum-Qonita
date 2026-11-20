@@ -6,7 +6,7 @@
             <h3 class="h3 mb-1 text-gray-800">Kelola Akun Petugas</h3>
             <p class="text-muted small mb-0">Kelola daftar akun petugas Dimsum Qonita.</p>
         </div>
-        
+
         <a href="{{ route('admin.akun.tambah') }}" class="btn text-white" style="background-color: #800000; border-color: #800000;">
             <i class="fas fa-plus"></i> + Tambah Akun
         </a>
@@ -38,6 +38,29 @@
                         </thead>
                         <tbody>
                             @foreach($admins as $admin)
+                            @php
+                                $defaultAvatar = asset('template_admin/assets/images/avatar.png');
+                                $srcGambar = null;
+
+                                if (!empty($admin->gambar)) {
+                                    $rawGambar = ltrim($admin->gambar, '/');
+
+                                    if (\Illuminate\Support\Str::startsWith($rawGambar, ['http://', 'https://'])) {
+                                        $srcGambar = $rawGambar;
+                                    } elseif (\Illuminate\Support\Str::startsWith($rawGambar, 'storage/')) {
+                                        $srcGambar = asset($rawGambar);
+                                    } elseif (str_contains($rawGambar, '/')) {
+                                        $srcGambar = asset('storage/' . $rawGambar);
+                                    } elseif (file_exists(public_path('uploads/admin/' . $rawGambar))) {
+                                        $srcGambar = asset('uploads/admin/' . $rawGambar);
+                                    } else {
+                                        $srcGambar = asset('storage/admin-profiles/' . $rawGambar);
+                                    }
+
+                                    $ver = !empty($admin->updated_at) ? strtotime($admin->updated_at) : time();
+                                    $srcGambar .= (str_contains($srcGambar, '?') ? '&' : '?') . 'v=' . $ver;
+                                }
+                            @endphp
                             <tr>
                                 <td class="fw-bold">{{ $admin->nama_admin }}</td>
                                 <td>{{ $admin->email }}</td>
@@ -50,25 +73,32 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($admin->gambar)
-                                        <img src="{{ asset('uploads/admin/' . $admin->gambar) }}" alt="Foto" width="40" height="40" class="rounded-circle object-fit-cover shadow-sm">
+                                    @if(!empty($srcGambar))
+                                        <img
+                                            src="{{ $srcGambar }}"
+                                            alt="Foto {{ $admin->nama_admin }}"
+                                            width="40"
+                                            height="40"
+                                            class="rounded-circle object-fit-cover shadow-sm"
+                                            onerror="this.onerror=null;this.src='{{ $defaultAvatar }}';"
+                                        >
                                     @else
                                         <span class="text-muted small">Tidak ada</span>
                                     @endif
                                 </td>
                                 <td>{{ $admin->jenis_kelamin ?? '-' }}</td>
                                 <td>{{ $admin->alamat ?? '-' }}</td>
-                        
-                                <!-- Kolom Aksi -->
+
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center gap-1">
                                         <a href="{{ route('admin.akun.edit', $admin->id_admin) }}" class="btn btn-sm btn-warning text-white" title="Edit">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <!-- <i class="fas fa-edit"></i> -->
+                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                         <form action="{{ route('admin.akun.hapus', $admin->id_admin) }}" method="POST" class="d-inline form-delete">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                                         </form>
                                     </div>
                                 </td>
@@ -81,14 +111,13 @@
         </div>
     </div>
 
-    {{-- CDN & Script SweetAlert2 ditaruh langsung di sini agar aman --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.form-delete').forEach(form => {
                 form.addEventListener('submit', function (e) {
-                    e.preventDefault(); 
-                    
+                    e.preventDefault();
+
                     Swal.fire({
                         title: 'Yakin ingin menghapus akun ini?',
                         text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -100,7 +129,7 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); 
+                            form.submit();
                         }
                     });
                 });
