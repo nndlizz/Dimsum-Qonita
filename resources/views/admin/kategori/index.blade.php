@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold mb-1">Kelola Kategori</h2>
-            <p class="text-muted mb-0">Kelola kategori produk Dimsum Qonita.</p>
+            <p class="text-muted mb-0">Kelola kategori produk Qonita Food Store</p>
         </div>
 
         <a href="{{ route('admin.kategori.create') }}"
@@ -64,7 +64,7 @@
                                 <td>
                                     <a href="{{ route('admin.kategori.edit', $kategori->id_kategori) }}"
                                        class="btn btn-sm btn-warning mb-1">
-                                        Edit
+                                        <i class="bi bi-pencil-square"></i>
                                     </a>
 
                                     <form action="{{ route('admin.kategori.destroy', $kategori->id_kategori) }}"
@@ -75,7 +75,7 @@
 
                                         <button type="submit"
                                                 class="btn btn-sm btn-danger mb-1">
-                                            Hapus
+                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
                                 </td>

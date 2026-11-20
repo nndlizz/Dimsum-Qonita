@@ -23,7 +23,7 @@
     <div>
         <h1 class="page-title">Tambah Produk</h1>
         <p class="page-subtitle" style="color: #6c757d;">
-            Tambahkan produk baru ke dalam sistem GoDimsum.
+            Tambahkan produk baru ke dalam Menu Qonita Food Store.
         </p>
     </div>
 
@@ -31,8 +31,8 @@
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
                 <a href="{{ url('/admin') }}"
-                   class="text-decoration-none text-muted-green">
-                    Home
+                class="text-decoration-none text-muted-green">
+                    Utama
                 </a>
             </li>
             <li class="breadcrumb-item active text-main"
@@ -197,7 +197,7 @@
 
             <button type="submit" class="btn btn-success">
                 <i class="bi bi-plus-circle me-1"></i>
-                Simpan Produk
+                Simpan 
             </button>
         </div>
 

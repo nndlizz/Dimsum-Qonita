@@ -6,7 +6,7 @@
     <div class="mb-4">
         <h2 class="fw-bold mb-1">Tambah Kategori</h2>
         <p class="text-muted mb-0">
-            Tambahkan kategori baru untuk produk Dimsum Qonita.
+            Tambahkan kategori baru untuk produk Qonita Food Store.
         </p>
     </div>
 

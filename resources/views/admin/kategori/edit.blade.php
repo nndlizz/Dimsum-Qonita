@@ -6,7 +6,7 @@
     <div class="mb-4">
         <h2 class="fw-bold mb-1">Edit Kategori</h2>
         <p class="text-muted mb-0">
-            Ubah nama kategori produk Dimsum Qonita.
+            Ubah nama kategori produk Qonita Food Store.
         </p>
     </div>
 

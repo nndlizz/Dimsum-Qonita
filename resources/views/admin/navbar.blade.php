@@ -1,4 +1,3 @@
-
 <header class="navbar-custom navbar-modern">
 
     @php
@@ -11,15 +10,32 @@
         }
 
         $namaNavbar = $adminNavbar->nama_admin
-            ?? session('admin_name', 'Administrator');
+            ?? session('nama_admin')
+            ?? session('admin_name')
+            ?? 'Administrator';
 
-        $fotoNavbar = ($adminNavbar && !empty($adminNavbar->gambar))
-            ? asset('storage/' . $adminNavbar->gambar)
-            : asset('template_admin/assets/images/avatar.png');
+        $defaultAvatarNavbar = asset('template_admin/assets/images/avatar.png');
+        $fotoNavbar = $defaultAvatarNavbar;
+
+        if ($adminNavbar && !empty($adminNavbar->gambar)) {
+            $rawGambar = ltrim($adminNavbar->gambar, '/');
+
+            if (\Illuminate\Support\Str::startsWith($rawGambar, ['http://', 'https://'])) {
+                $fotoNavbar = $rawGambar;
+            } elseif (\Illuminate\Support\Str::startsWith($rawGambar, 'storage/')) {
+                $fotoNavbar = asset($rawGambar);
+            } elseif (str_contains($rawGambar, '/')) {
+                $fotoNavbar = asset('storage/' . $rawGambar);
+            } else {
+                $fotoNavbar = asset('storage/admin-profiles/' . $rawGambar);
+            }
+
+            $ver = !empty($adminNavbar->updated_at) ? strtotime($adminNavbar->updated_at) : time();
+            $fotoNavbar .= (str_contains($fotoNavbar, '?') ? '&' : '?') . 'v=' . $ver;
+        }
     @endphp
 
-    {{-- SESSION ADMIN DI KANAN --}}
-    <div class="dropdown navbar-admin-dropdown">
+    <div class="dropdown navbar-admin-dropdown" id="adminNavbarDropdown">
 
         <button class="navbar-profile-btn"
                 type="button"
@@ -30,7 +46,8 @@
 
             <img src="{{ $fotoNavbar }}"
                  alt="Foto Profil Admin"
-                 class="navbar-profile-img">
+                 class="navbar-profile-img"
+                 onerror="this.onerror=null;this.src='{{ $defaultAvatarNavbar }}';">
 
             <div class="profile-info d-none d-md-flex">
                 <span class="profile-name">{{ $namaNavbar }}</span>
@@ -40,10 +57,12 @@
             <i class="bi bi-chevron-down profile-caret"></i>
         </button>
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile">
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile" aria-labelledby="profile-dropdown">
 
             <li class="profile-dropdown-header">
-                <img src="{{ $fotoNavbar }}" alt="Foto Admin">
+                <img src="{{ $fotoNavbar }}"
+                     alt="Foto Admin"
+                     onerror="this.onerror=null;this.src='{{ $defaultAvatarNavbar }}';">
 
                 <div>
                     <strong>{{ $namaNavbar }}</strong>
@@ -53,7 +72,6 @@
 
             <li><hr class="dropdown-divider"></li>
 
-            {{-- PROFIL --}}
             <li>
                 <a class="dropdown-item profile-item"
                    href="{{ route('admin.profil') }}">
@@ -62,7 +80,6 @@
                 </a>
             </li>
 
-            {{-- LOGOUT --}}
             <li>
                 <form id="logout-form"
                       action="{{ route('logout') }}"
@@ -83,39 +100,29 @@
 </header>
 
 <style>
-    
-/* NAVBAR */
 header.navbar-custom.navbar-modern {
     position: sticky;
     top: 0;
     z-index: 1050;
-
-    /* Full area dashboard */
     width: auto;
     max-width: none;
     flex-shrink: 0;
     box-sizing: border-box;
-
-    /* Mengimbangi padding main-wrapper */
     margin-top: -2rem;
     margin-left: -2.5rem;
     margin-right: -2.5rem;
     margin-bottom: 2rem;
-
     height: 70px;
     padding: 0 28px;
-
     background: #fff;
     border-bottom: 1px solid #eef0f4;
     box-shadow: 0 3px 15px rgba(30,35,90,.04);
-
     display: flex;
     align-items: center;
     justify-content: flex-end;
     overflow: visible;
 }
 
-/* SESSION ADMIN */
 .navbar-admin-dropdown {
     margin-left: auto !important;
     position: relative;
@@ -123,7 +130,6 @@ header.navbar-custom.navbar-modern {
     flex-shrink: 0;
 }
 
-/* BUTTON PROFILE */
 .navbar-profile-btn {
     display: flex;
     align-items: center;
@@ -142,7 +148,6 @@ header.navbar-custom.navbar-modern {
     border-color: #edf0f7;
 }
 
-/* FOTO */
 .navbar-profile-img {
     width: 42px;
     height: 42px;
@@ -151,7 +156,6 @@ header.navbar-custom.navbar-modern {
     border: 2px solid #e8ecfa;
 }
 
-/* NAMA */
 .profile-info {
     display: flex;
     flex-direction: column;
@@ -176,7 +180,6 @@ header.navbar-custom.navbar-modern {
     color: #8a92a6;
 }
 
-/* DROPDOWN */
 .dropdown-menu-profile {
     width: 240px;
     padding: 10px;
@@ -187,7 +190,13 @@ header.navbar-custom.navbar-modern {
     z-index: 1070;
 }
 
-/* HEADER DROPDOWN */
+.dropdown-menu-profile.show {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 100%;
+}
+
 .profile-dropdown-header {
     display: flex;
     align-items: center;
@@ -220,7 +229,6 @@ header.navbar-custom.navbar-modern {
     font-size: 11px;
 }
 
-/* MENU */
 .profile-item {
     display: flex;
     align-items: center;
@@ -242,7 +250,6 @@ header.navbar-custom.navbar-modern {
     color: #435ebe;
 }
 
-/* LOGOUT */
 .logout-item {
     color: #dc3545;
     width: 100%;
@@ -257,7 +264,6 @@ header.navbar-custom.navbar-modern {
     color: #dc3545;
 }
 
-/* MOBILE */
 @media (max-width: 576px) {
     .navbar-modern {
         padding: 0 14px;
@@ -269,12 +275,37 @@ header.navbar-custom.navbar-modern {
         height: 38px;
     }
 }
-
-
 </style>
 
 <script>
-    function confirmLogout() {
+document.addEventListener('DOMContentLoaded', function () {
+    const wrapper = document.getElementById('adminNavbarDropdown');
+    const btn = document.getElementById('profile-dropdown');
+    const menu = wrapper ? wrapper.querySelector('.dropdown-menu-profile') : null;
+
+    if (btn && menu) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const willOpen = !menu.classList.contains('show');
+            menu.classList.toggle('show', willOpen);
+            btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+
+        document.addEventListener('click', function (e) {
+            if (wrapper && !wrapper.contains(e.target)) {
+                menu.classList.remove('show');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});
+
+function confirmLogout() {
+    const form = document.getElementById('logout-form');
+
+    if (typeof Swal !== 'undefined') {
         Swal.fire({
             title: 'Yakin ingin logout?',
             text: 'Kamu harus login kembali untuk mengakses halaman admin.',
@@ -286,9 +317,12 @@ header.navbar-custom.navbar-modern {
             cancelButtonText: 'Batal',
             reverseButtons: true
         }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('logout-form').submit();
+            if (result.isConfirmed && form) {
+                form.submit();
             }
         });
+    } else if (form && confirm('Yakin ingin logout?')) {
+        form.submit();
     }
+}
 </script>

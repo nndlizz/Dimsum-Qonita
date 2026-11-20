@@ -4,25 +4,43 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class AdminProfileController extends Controller
 {
-    public function index()
+    private function getAuthenticatedAdmin()
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
+        $adminId = session('admin_id');
+
+        if (!$adminId) {
+            return null;
         }
 
-        $admin = DB::table('admin')
-            ->where('id_admin', session('admin_id'))
+        return DB::table('admin')
+            ->where('id_admin', $adminId)
             ->first();
+    }
+
+    private function clearAdminSession(): void
+    {
+        session()->forget(['admin_id', 'nama_admin', 'admin_name', 'admin_gambar']);
+    }
+
+    private function loginRedirectRoute(): string
+    {
+        return Route::has('login') ? 'login' : 'admin.login';
+    }
+
+    public function index()
+    {
+        $admin = $this->getAuthenticatedAdmin();
 
         if (!$admin) {
-            session()->forget(['admin_id', 'admin_name']);
+            $this->clearAdminSession();
 
-            return redirect()->route('admin.login');
+            return redirect()->route($this->loginRedirectRoute());
         }
 
         return view('admin.profil', compact('admin'));
@@ -30,18 +48,12 @@ class AdminProfileController extends Controller
 
     public function edit()
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $admin = DB::table('admin')
-            ->where('id_admin', session('admin_id'))
-            ->first();
+        $admin = $this->getAuthenticatedAdmin();
 
         if (!$admin) {
-            session()->forget(['admin_id', 'admin_name']);
+            $this->clearAdminSession();
 
-            return redirect()->route('admin.login');
+            return redirect()->route($this->loginRedirectRoute());
         }
 
         return view('admin.edit-profil', compact('admin'));
@@ -49,18 +61,12 @@ class AdminProfileController extends Controller
 
     public function update(Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $admin = DB::table('admin')
-            ->where('id_admin', session('admin_id'))
-            ->first();
+        $admin = $this->getAuthenticatedAdmin();
 
         if (!$admin) {
-            session()->forget(['admin_id', 'admin_name']);
+            $this->clearAdminSession();
 
-            return redirect()->route('admin.login');
+            return redirect()->route($this->loginRedirectRoute());
         }
 
         $validated = $request->validate([
@@ -100,19 +106,18 @@ class AdminProfileController extends Controller
 
         $pathGambarBaru = null;
 
-        // Simpan foto baru jika admin mengunggahnya.
         if ($request->hasFile('gambar')) {
             $pathGambarBaru = $request->file('gambar')
                 ->store('admin-profiles', 'public');
         }
 
         $dataUpdate = [
-            'nama_admin' => $validated['nama_admin'],
-            'email' => $validated['email'],
-            'nomor_hp' => $validated['nomor_hp'] ?? null,
+            'nama_admin'    => $validated['nama_admin'],
+            'email'         => $validated['email'],
+            'nomor_hp'      => $validated['nomor_hp'] ?? null,
             'jenis_kelamin' => $validated['jenis_kelamin'] ?? null,
-            'alamat' => $validated['alamat'] ?? null,
-            'updated_at' => now(),
+            'alamat'        => $validated['alamat'] ?? null,
+            'updated_at'    => now(),
         ];
 
         if ($pathGambarBaru !== null) {
@@ -123,19 +128,27 @@ class AdminProfileController extends Controller
             ->where('id_admin', $admin->id_admin)
             ->update($dataUpdate);
 
-        // Hapus foto lama setelah foto baru berhasil disimpan ke database.
-        if (
-            $pathGambarBaru !== null &&
-            !empty($admin->gambar) &&
-            Storage::disk('public')->exists($admin->gambar)
-        ) {
-            Storage::disk('public')->delete($admin->gambar);
+        if ($pathGambarBaru !== null && !empty($admin->gambar)) {
+            if (Storage::disk('public')->exists($admin->gambar)) {
+                Storage::disk('public')->delete($admin->gambar);
+            }
+
+            $legacyFile = public_path('uploads/admin/' . basename($admin->gambar));
+            if (file_exists($legacyFile)) {
+                @unlink($legacyFile);
+            }
         }
 
-        // Perbarui nama admin yang ditampilkan pada navbar.
-        session([
+        $sessionUpdate = [
+            'nama_admin' => $validated['nama_admin'],
             'admin_name' => $validated['nama_admin'],
-        ]);
+        ];
+
+        if ($pathGambarBaru !== null) {
+            $sessionUpdate['admin_gambar'] = $pathGambarBaru;
+        }
+
+        session($sessionUpdate);
 
         return redirect()
             ->route('admin.profil')

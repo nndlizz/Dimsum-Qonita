@@ -1,4 +1,3 @@
-
 @extends('admin.layout')
 
 @section('content')
@@ -67,7 +66,6 @@
         opacity: 1;
     }
 
-    /* Tombol Edit Profil mengikuti warna login */
     .btn-profile-edit {
         background: #820000;
         color: #fff;
@@ -117,10 +115,21 @@
     <div class="card profile-card p-4">
         <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
             @if(!empty($admin->gambar))
+                @php
+                    $rawProfil = ltrim($admin->gambar, '/');
+                    $urlProfil = \Illuminate\Support\Str::startsWith($rawProfil, ['http://', 'https://'])
+                        ? $rawProfil
+                        : (\Illuminate\Support\Str::startsWith($rawProfil, 'storage/')
+                            ? asset($rawProfil)
+                            : (str_contains($rawProfil, '/')
+                                ? asset('storage/' . $rawProfil)
+                                : asset('storage/admin-profiles/' . $rawProfil)));
+                @endphp
                 <img
-                    src="{{ asset('storage/' . $admin->gambar) }}"
+                    src="{{ $urlProfil }}?v={{ time() }}"
                     alt="Foto profil admin"
                     class="profile-avatar"
+                    onerror="this.onerror=null;this.src='{{ asset('template_admin/assets/images/avatar.png') }}';"
                 >
             @else
                 <div class="profile-avatar-default">
@@ -187,7 +196,7 @@
             <a href="{{ route('admin.profil.edit') }}"
                class="btn-profile-edit">
                 <i class="bi bi-pencil-square me-1"></i>
-                Edit Profil
+                Ubah Profil
             </a>
         </div>
     </div>

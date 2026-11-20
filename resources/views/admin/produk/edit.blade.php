@@ -19,7 +19,7 @@
 
     <div class="mb-4">
         <h2 class="fw-bold mb-1">Edit Produk</h2>
-        <p class="text-muted mb-0">Ubah informasi produk Dimsum Qonita.</p>
+        <p class="text-muted mb-0">Ubah informasi produk Qonita Food Store</p>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -118,7 +118,7 @@
                                 >
 
                                 <label class="form-check-label"
-                                       for="cabang_{{ $cabang->id_cabang }}">
+                                    for="cabang_{{ $cabang->id_cabang }}">
                                     {{ $cabang->nama_cabang }}
                                 </label>
                             </div>
@@ -171,7 +171,7 @@
 
                 <div class="d-flex gap-2 mt-4">
                     <button type="submit" class="btn btn-danger">
-                        Simpan Perubahan
+                        Simpan
                     </button>
 
                     <a href="{{ route('admin.produk.index') }}"

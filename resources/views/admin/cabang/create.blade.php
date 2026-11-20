@@ -6,7 +6,7 @@
     <div class="mb-4">
         <h2 class="fw-bold mb-1">Tambah Cabang</h2>
         <p class="text-muted mb-0">
-            Tambahkan data dan foto toko Dimsum Qonita.
+            Tambahkan data dan foto toko Qonita Food Store.
         </p>
     </div>
 
@@ -32,7 +32,7 @@
                         id="nama_cabang"
                         class="form-control @error('nama_cabang') is-invalid @enderror"
                         value="{{ old('nama_cabang') }}"
-                        placeholder="Contoh: Dimsum Qonita Purwakarta"
+                        placeholder="Contoh: Kaum Qonita Purwakarta"
                         maxlength="255"
                         required
                     >
@@ -86,7 +86,7 @@
 
                 <div class="d-flex gap-2 mt-4">
                     <button type="submit" class="btn btn-danger">
-                        Simpan Cabang
+                        Simpan 
                     </button>
 
                     <a
